@@ -5,7 +5,7 @@ const Hero = () => {
   return (
     <section className="hero">
       <div className="hero-content">
-        <h1>See the World Through a New Lens</h1>
+        <h1>See the World Through a New<br/>Lens</h1>
         <p>
           EarthLens is an AI-powered platform that empowers you to report environmental issues, 
           gain AI-generated insights, and take meaningful action for a sustainable future.
