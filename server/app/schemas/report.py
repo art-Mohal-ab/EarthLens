@@ -1,5 +1,4 @@
 from marshmallow import Schema, fields, validate, validates, ValidationError, post_load
-from models.report import Report
 
 class ReportCreateSchema(Schema):
     title = fields.Str(
