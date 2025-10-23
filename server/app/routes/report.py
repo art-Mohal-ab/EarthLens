@@ -1,10 +1,10 @@
 from flask import Blueprint, request, jsonify, send_from_directory
 from marshmallow import ValidationError
 from app.middleware.auth import auth_required
-from models.report import Report
-from models.tag import Tag
+from app.models.report import Report
+# from models.tag import Tag
 from app.schemas.report import report_create_schema, report_update_schema, report_schema, report_filter_schema
-from services.ai_service import ai_service
+from app.services.ai_service import ai_service
 from database import db
 from datetime import datetime
 import os
@@ -22,50 +22,68 @@ def allowed_file(filename):
 def uploaded_file(filename):
     return send_from_directory('uploads', filename)
 
+@reports_bp.route('', methods=['GET'])
+def get_reports():
+    try:
+        from app.models.report import Report
+        reports = Report.get_public_reports(limit=10)
+        return jsonify({
+            'reports': [report.to_dict(include_comments=False) for report in reports],
+            'total': len(reports)
+        }), 200
+    except Exception as e:
+        return jsonify({'error': 'Failed to get reports', 'message': str(e)}), 500
+
 @reports_bp.route('', methods=['POST'])
 @auth_required
 def create_report(current_user):
-    """Create new environmental report with AI analysis"""
     try:
-        # Handle file upload
+
         image_url = None
         if 'image' in request.files:
             file = request.files['image']
-            if file and allowed_file(file.filename):
+            if file and file.filename and allowed_file(file.filename):
                 filename = secure_filename(file.filename)
                 upload_folder = 'uploads'
                 os.makedirs(upload_folder, exist_ok=True)
                 file.save(os.path.join(upload_folder, filename))
                 image_url = f"/uploads/{filename}"
 
-        # Get form data
-        if request.content_type.startswith('multipart/form-data'):
-            data = request.form.to_dict(flat=True)
+
+        if request.content_type and request.content_type.startswith('multipart/form-data'):
+            data = dict(request.form)
             if 'tags' in request.form:
                 data['tags'] = request.form.getlist('tags')
         else:
             data = request.get_json() or {}
 
-        # Validate input
-        validated_data = report_create_schema.load(data)
 
-        # Create report
+        validated_data = report_create_schema.load(data)
+        if not isinstance(validated_data, dict):
+            validated_data = {}
+
+
         report = Report(
             title=validated_data.get('title'),
             description=validated_data.get('description'),
             user_id=current_user.id,
             location=validated_data.get('location'),
             latitude=validated_data.get('latitude'),
-            longitude=validated_data.get('longitude'),
-            is_public=validated_data.get('is_public', True),
-            image_url=image_url
+            longitude=validated_data.get('longitude')
         )
+        
 
-        # Handle tags
-        for tag_name in validated_data.get('tags', []):
-            report.tags.append(Tag.get_or_create(tag_name))
+        report.is_public = validated_data.get('is_public', True)
+        report.image_url = image_url
 
-        # AI Analysis
+
+        # if 'tags' in validated_data:
+        #     from app.models.tag import Tag
+        #     for tag_name in validated_data.get('tags', []):
+        #         tag = Tag.get_or_create(tag_name)
+        #         report.tags.append(tag)
+
+
         try:
             classification = ai_service.classify_environmental_issue(
                 title=report.title,
