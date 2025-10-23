@@ -9,7 +9,7 @@ const Navbar = () => {
         <img src="/logo.png" alt="Earthlens Logo" className="logo-img" />
         <nav className='navbar'>
             <a href="/">Home</a>
-            <a href="/">About</a>
+            <a href="/about">About</a>
             <a href="/">Contact</a>
         </nav>
     </header>
