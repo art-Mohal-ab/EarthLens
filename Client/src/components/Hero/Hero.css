@@ -3,7 +3,7 @@
 }
 
 .hero {
-  height: 896px;
+  height: 650px;
   background-size: cover;
   background-position: center;
   display: flex;
@@ -36,5 +36,5 @@ font-style: semi bold;
 }
 
 .hero p{
-
+font-weight: 100px;
 }
