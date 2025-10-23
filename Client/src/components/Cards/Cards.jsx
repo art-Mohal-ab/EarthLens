@@ -9,13 +9,13 @@ const Cards = () => {
       link: "/report",
     },
     {
-      title: "Community Projects",
-      text: "Explore ongoing green projects in your area.",
+      title: "Gain Insight",
+      text: "Receive AI-generated insights and understand the impact of reported issues.",
       link: "/projects",
     },
     {
-      title: "Eco Tips",
-      text: "Learn simple habits to help protect the planet.",
+      title: "Take action",
+      text: "Get personalized recommendations for actions you can take to address environmental challenges.",
       link: "/eco-tips",
     },
   ];
