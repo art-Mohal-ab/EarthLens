@@ -1,9 +1,9 @@
 from flask import Blueprint, request, jsonify, send_from_directory
 from marshmallow import ValidationError
-from middleware.auth import auth_required
+from app.middleware.auth import auth_required
 from models.report import Report
 from models.tag import Tag
-from app.schemas.report import report_create_schema
+from app.schemas.report import report_create_schema, report_update_schema, report_schema, report_filter_schema
 from services.ai_service import ai_service
 from database import db
 from datetime import datetime
@@ -27,36 +27,32 @@ def uploaded_file(filename):
 def create_report(current_user):
     """Create new environmental report with AI analysis"""
     try:
-        # Handle file upload if present
+        # Handle file upload
         image_url = None
         if 'image' in request.files:
             file = request.files['image']
-            if file and file.filename and allowed_file(file.filename):
+            if file and allowed_file(file.filename):
                 filename = secure_filename(file.filename)
                 upload_folder = 'uploads'
                 os.makedirs(upload_folder, exist_ok=True)
-                file_path = os.path.join(upload_folder, filename)
-                file.save(file_path)
+                file.save(os.path.join(upload_folder, filename))
                 image_url = f"/uploads/{filename}"
 
         # Get form data
         if request.content_type.startswith('multipart/form-data'):
-            data = dict(request.form)
+            data = request.form.to_dict(flat=True)
             if 'tags' in request.form:
                 data['tags'] = request.form.getlist('tags')
         else:
             data = request.get_json() or {}
 
         # Validate input
-        try:
-            validated_data = report_create_schema.load(data)
-        except ValidationError as err:
-            return jsonify({'error': 'Validation failed', 'details': err.messages}), 400
+        validated_data = report_create_schema.load(data)
 
         # Create report
         report = Report(
-            title=validated_data['title'],
-            description=validated_data['description'],
+            title=validated_data.get('title'),
+            description=validated_data.get('description'),
             user_id=current_user.id,
             location=validated_data.get('location'),
             latitude=validated_data.get('latitude'),
@@ -64,12 +60,10 @@ def create_report(current_user):
             is_public=validated_data.get('is_public', True),
             image_url=image_url
         )
-        report.save()
 
         # Handle tags
         for tag_name in validated_data.get('tags', []):
-            tag = Tag.get_or_create(tag_name)
-            report.tags.append(tag)
+            report.tags.append(Tag.get_or_create(tag_name))
 
         # AI Analysis
         try:
@@ -92,13 +86,15 @@ def create_report(current_user):
         except Exception as ai_error:
             print(f"AI processing failed: {ai_error}")
 
-        report.save()
+        report.save()  # Save once at the end
 
         return jsonify({
             'message': 'Report created successfully',
             'report': report.to_dict(include_comments=False)
         }), 201
 
+    except ValidationError as err:
+        return jsonify({'error': 'Validation failed', 'details': err.messages}), 400
     except Exception as e:
         db.session.rollback()
         return jsonify({'error': 'Failed to create report', 'message': str(e)}), 500
