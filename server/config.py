@@ -4,28 +4,22 @@ import os
 class Config:
     """Base configuration shared across all environments."""
 
-    # Flask settings
     SECRET_KEY = os.getenv("SECRET_KEY", "default_secret_key")
     SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_URI", "sqlite:///db.sqlite3")
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
-    # AI / GPT settings
     OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
     GPT_MODEL = os.getenv("GPT_MODEL", "gpt-4-turbo")
     GPT_TEMPERATURE = float(os.getenv("GPT_TEMPERATURE", 0.7))
     GPT_MAX_TOKENS = int(os.getenv("GPT_MAX_TOKENS", 500))
 
-    # CORS / Frontend
     FRONTEND_URL = os.getenv("FRONTEND_URL", "http://127.0.0.1:5173/")
     CORS_ORIGINS = [FRONTEND_URL]
 
-    # Logging
     LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO")
 
-    # App info
     APP_NAME = "EarthLens AI Backend"
     VERSION = "1.0.0"
-
 
 class DevelopmentConfig(Config):
     """Configuration for local development."""
@@ -37,7 +31,7 @@ class DevelopmentConfig(Config):
 class ProductionConfig(Config):
     """Configuration for production deployment."""
     DEBUG = False
-    SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_URI")  # must be set in environment
+    SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_URI")  
     LOG_LEVEL = "INFO"
 
 
