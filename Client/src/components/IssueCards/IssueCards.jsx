@@ -26,7 +26,7 @@ const IssueCards = () => {
 
   return (
     <section className="issuecards-section">
-      <h2 className="issuecards-title">Environmental Issues</h2>
+      <h2 className="issuecards-title"></h2>
       <div className="issuecards-container">
         {issues.map((issue, index) => (
           <div key={index} className="issue-card">

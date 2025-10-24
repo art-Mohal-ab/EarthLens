@@ -6,6 +6,11 @@ import Cards from "./components/Cards/Cards";
 import IssueCards from "./components/IssueCards/IssueCards";
 import Footer from "./components/Footer/Footer";
 import Login from "./pages/Login";
+import LandingPage from './pages/LandingPage';
+import Signup from "./pages/Signup";
+
+
+const noFooterRoutes = ["/login"];
 
 const App = () => {
   return (
@@ -13,24 +18,19 @@ const App = () => {
       <div className="app">
         <Navbar />
         <main>
+        <main>
           <Routes>
-            <Route 
-              path="/" 
-              element={
-                <>
-                  <Hero />
-                  <Cards />
-                  <IssueCards />
-                </>
-              } 
-            />
+            <Route path="/" element={<LandingPage />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/Signup" element={<Signup />} />
           </Routes>
+        </main>
         </main>
         <Footer />
       </div>
     </Router>
   );
 };
+
 
 export default App;

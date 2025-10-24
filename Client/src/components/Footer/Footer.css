@@ -1,3 +1,4 @@
+
 body {
   display: flex;
   flex-direction: column;
@@ -10,7 +11,6 @@ body {
 }
 
 .footer {
-  position: fixed;
   height: 140px;
   bottom: 0;
   left: 0;
