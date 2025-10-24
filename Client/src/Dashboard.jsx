@@ -18,7 +18,6 @@ function Dashboard() {
     <div className="dashboard">
       <aside className="sidebar">
         <div className="logo">EARTHLENS</div>
-        <button onClick={handleHome}>Home</button>
         <button>Dashboard</button>
         <button>Report</button>
         <button>My Reports</button>

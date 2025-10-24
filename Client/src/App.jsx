@@ -11,7 +11,8 @@ import About from "./About";
 
 const AppContent = () => {
   const location = useLocation();
-  const hideNavFooter = ['/login', '/join'].includes(location.pathname);
+  const hideNavFooter = ['/login', '/join', '/dashboard'].includes(location.pathname);
+  const hideFooter = ['/login', '/join', '/dashboard'].includes(location.pathname);
 
   return (
     <div className="app">
@@ -26,7 +27,7 @@ const AppContent = () => {
           <Route path="/about" element={<About />} />
         </Routes>
       </main>
-      {!hideNavFooter && <Footer />}
+      {!hideFooter && <Footer />}
     </div>
   );
 };

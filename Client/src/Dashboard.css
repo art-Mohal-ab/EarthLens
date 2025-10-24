@@ -16,6 +16,8 @@ body {
 .dashboard {
   display: flex;
   min-height: 100vh;
+  width: 100%;
+  position: relative;
 }
 
 .sidebar {
@@ -23,6 +25,11 @@ body {
   padding: 28px 20px;
   border-right: 1px solid #e6e6e6;
   background: #fff;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  overflow-y: auto;
 }
 
 .sidebar .logo {
@@ -50,9 +57,11 @@ body {
 }
 
 .main {
-  flex: 1;
-  padding: 40px 60px;
+  margin-left: 240px;
+  padding: 20px;
   background: #fff;
+  min-height: 100vh;
+  width: calc(100vw - 240px);
 }
 
 .main h1 {
@@ -72,26 +81,31 @@ body {
   overflow: hidden;
   display: flex;
   flex-direction: row;
-  height: 300px;
+  height: 250px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  width: 100%;
 }
 
 .image-section {
-  flex: 1;
+  flex: 0 0 40%;
+  min-width: 200px;
 }
 
 .image-section img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  display: block;
 }
 
 .text-section {
   flex: 1;
-  padding: 18px;
+  padding: 20px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-start;
+  gap: 10px;
 }
 
 .text-section h3 {
