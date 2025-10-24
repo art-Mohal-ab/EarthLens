@@ -5,7 +5,7 @@ const Footer = () => {
     return ( <footer className="footer">
           <div className="footer-container">
         <div>
-          <h2 className="footer-logo">EarthLens</h2>
+          <a href="/" className="footer-logo">EarthLens</a>
           <p className="footer-text">Seeing the world through a greener lens.</p>
         </div>
 
@@ -23,9 +23,15 @@ const Footer = () => {
           <p>Email: earthlens@gmail.com</p>
           <p>Phone: +254 700 000 000</p>
           <div className="footer-socials">
-            <img src="/assets/facebook.jpeg" alt="Facebook" />
-            <img src="/insta.jpeg" alt="Instagram" />
-            <img src="/twitter.jpeg" alt="Twitter" />
+            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">
+              <img src="https://cdn-icons-png.flaticon.com/512/174/174855.png" alt="Instagram" />
+            </a>
+            <a href="https://twitter.com" target="_blank" rel="noopener noreferrer">
+              <img src="https://cdn-icons-png.flaticon.com/512/733/733579.png" alt="Twitter" />
+            </a>
+            <a href="https://github.com" target="_blank" rel="noopener noreferrer">
+              <img src="https://cdn-icons-png.flaticon.com/512/733/733553.png" alt="GitHub" />
+            </a>
           </div>
         </div>
       </div>

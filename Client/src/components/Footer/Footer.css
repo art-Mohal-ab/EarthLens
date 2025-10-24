@@ -1,9 +1,17 @@
 
 body {
+  margin: 0;
+  padding: 0;
+}
+
+.app {
   display: flex;
   flex-direction: column;
-  min-height: 100vh; 
-  margin: 0; 
+  min-height: 100vh;
+}
+
+.app main {
+  flex: 1;
 }
 
 .hero {
@@ -11,15 +19,13 @@ body {
 }
 
 .footer {
-  height: 140px;
-  bottom: 0;
-  left: 0;
   width: 100%;
   background: #106111;
   color: white;
-  padding: 0.5rem;
+  padding: 1rem 0.5rem;
   text-align: center;
-  z-index: 1000; 
+  margin-top: auto;
+  margin-bottom: 0;
 }
 
 .footer-container {
@@ -36,6 +42,12 @@ body {
   font-weight: bold;
   color: white;
   margin-bottom: 0.3rem;
+  text-decoration: none;
+  display: block;
+}
+
+.footer-logo:hover {
+  color: #e8f5e8;
 }
 
 .footer-text {
@@ -71,16 +83,31 @@ body {
   color: white;
 }
 
+.footer-socials {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.footer-socials a {
+  display: inline-block;
+  transition: opacity 0.3s ease;
+}
+
+.footer-socials a:hover {
+  opacity: 0.7;
+}
+
 .footer-socials img {
   width: 25px;
   height: 25px;
-  margin-right: 8px;
 }
 
 .footer-bottom {
   border-top: 1px solid rgba(255, 255, 255, 0.2);
   margin-top: 1rem;
   padding-top: 0.5rem;
+  padding-bottom: 0;
   color: #e8f5e8;
   text-align: center;
   font-size: 0.8rem;

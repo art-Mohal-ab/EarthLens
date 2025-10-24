@@ -6,17 +6,16 @@ import './LandingPage.css';
 
 const LandingPage = () => {
   return (
-    <div>
+    <main className="landing-page">
       <Hero />
       <Cards />
       <IssueCards />
-      
       <section className="hero hero2">
         <div className="hero-content">
           <h1>Together, We Build Climate Resilience</h1>
         </div>
       </section>
-    </div>
+    </main>
   );
 };
 

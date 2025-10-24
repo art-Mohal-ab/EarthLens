@@ -6,10 +6,6 @@ import "./Dashboard.css";
 function Dashboard() {
   const navigate = useNavigate();
 
-  const handleHome = () => {
-    navigate("/");
-  };
-
   const handleSignOut = () => {
     navigate("/");
   };
