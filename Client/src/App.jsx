@@ -8,6 +8,7 @@ import Footer from "./components/Footer/Footer";
 import Login from "./pages/Login";
 import LandingPage from './pages/LandingPage';
 import Signup from "./pages/Signup";
+import Contact from "./pages/Contact";
 
 
 const noFooterRoutes = ["/login"];
@@ -23,6 +24,7 @@ const App = () => {
             <Route path="/" element={<LandingPage />} />
             <Route path="/login" element={<Login />} />
             <Route path="/Signup" element={<Signup />} />
+             <Route path="/contact" element={<Contact />} />
           </Routes>
         </main>
         </main>
