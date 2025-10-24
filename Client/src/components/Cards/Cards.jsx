@@ -24,10 +24,10 @@ const Cards = () => {
     <section className="cards-section">
       <div className="cards-container">
         {cardData.map((card, index) => (
-          <a key={`card-${index}-${card.title}`} href={card.link} className="card">
+          <div key={index} className="card">
             <h3>{card.title}</h3>
             <p>{card.text}</p>
-          </a>
+          </div>
         ))}
       </div>
     </section>

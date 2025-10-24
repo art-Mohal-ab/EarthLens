@@ -16,7 +16,7 @@
 }
 
 .card {
-  background: #1f8a2e; 
+  background: #1f8a2e;
   color: white;
   text-decoration: none;
   padding: 2rem;
@@ -26,12 +26,11 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   outline: none;
   cursor: pointer;
-  transition: transform 0.2s ease;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  height: 200px;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  background: #106111;
 }
 
 .card h3 {
