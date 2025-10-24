@@ -1,6 +1,7 @@
 import React from 'react'
 import './Footer.css'
 
+
 const Footer = () => {
     return ( <footer className="footer">
           <div className="footer-container">
@@ -23,9 +24,9 @@ const Footer = () => {
           <p>Email: earthlens@gmail.com</p>
           <p>Phone: +254 700 000 000</p>
           <div className="footer-socials">
-            <img src="/assets/facebook.jpeg" alt="Facebook" />
-            <img src="/insta.jpeg" alt="Instagram" />
-            <img src="/twitter.jpeg" alt="Twitter" />
+            <img src="/assets/facebook.png" alt="Facebook" />
+            <img src="/assets/insta.png" alt="Instagram" />
+            <img src="/assets/twitter.png" alt="Twitter" />
           </div>
         </div>
       </div>
