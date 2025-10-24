@@ -28,11 +28,6 @@
   cursor: pointer;
 }
 
-.card:hover {
-  transform: translateY(-5px);
-  background: #106111;
-}
-
 .card h3 {
   margin: 0 0 auto 0;
   font-size: 1.4rem;
