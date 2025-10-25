@@ -1,7 +1,7 @@
 /* CardStyles.css - import this into the component */
 .cards-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   gap: 1rem;
   padding: 1rem;
 }
@@ -14,13 +14,13 @@
   justify-content: center;        /* vertical center */
   align-items: center;            /* horizontal center */
   text-align: center;
-  background-color: #2f8f3a;      /* nice medium green, change if you want */
+  background-color: #106111;      /* footer green */
   color: #ffffff;                 /* white text */
-  padding: 1rem;
+  padding: 0.8rem;
   border-radius: 8px;             /* subtle rounding */
   box-shadow: 0 6px 18px rgba(0,0,0,0.12);
   transition: transform 180ms ease, box-shadow 180ms ease;
-  min-height: 180px;              /* fallback for old browsers not supporting aspect-ratio */
+  min-height: 150px;              /* fallback for old browsers not supporting aspect-ratio */
   overflow: hidden;
 }
 
@@ -36,21 +36,21 @@
 /* Title / body styling */
 .card-title {
   margin: 0;
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: 700;
   letter-spacing: 0.2px;
 }
 
 .card-body {
   margin-top: 0.5rem;
-  font-size: 0.92rem;
+  font-size: 0.85rem;
   line-height: 1.3;
   opacity: 0.95;
-  padding: 0 0.6rem;
+  padding: 0 0.4rem;
 }
 
 /* Accessibility: ensure good contrast at small sizes */
 @media (max-width: 420px) {
-  .card-title { font-size: 1rem; }
-  .card-body { font-size: 0.88rem; }
+  .card-title { font-size: 0.9rem; }
+  .card-body { font-size: 0.8rem; }
 }
