@@ -8,17 +8,17 @@ import treesImg from "../../assets/forest.png";
 const IssueCards = () => {
   const issues = [
     {
-      title: "Illegal Dumping",
+      title: "Plastic Pollution in the River",
       text: "Report unauthorized waste disposal and keep our environment clean.",
       img: wasteImg,
     },
     {
-      title: "Air Pollution",
+      title: "Industrial Air Pollution",
       text: "Identify areas suffering from industrial or traffic pollution.",
       img: pollutionImg,
     },
     {
-      title: "Deforestation",
+      title: "Deforestation in Karura Forest",
       text: "Help track forest loss and report areas needing replanting.",
       img: treesImg,
     },
@@ -26,7 +26,6 @@ const IssueCards = () => {
 
   return (
     <section className="issuecards-section">
-      <h2 className="issuecards-title"></h2>
       <div className="issuecards-container">
         {issues.map((issue, index) => (
           <div key={index} className="issue-card">

@@ -1,7 +1,7 @@
 
 .hero {
   width: 100%;
-  height: 100vh; 
+  height: 100vh;
   background-size: cover;
   background-position: center;
   display: flex;
@@ -11,9 +11,25 @@
 
 
 .hero2 {
-  background-image: url("../assets/Hero2.png"); 
+  background-image: url("../assets/Hero2.png");
   background-size: cover;
   background-position: center;
+}
+
+.how-earthlens-works {
+  padding: 2rem 1rem;
+  background: linear-gradient(45deg, #ffebee 25%, transparent 25%), linear-gradient(-45deg, #ffebee 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #ffebee 75%), linear-gradient(-45deg, transparent 75%, #ffebee 75%);
+  background-size: 20px 20px;
+  background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+  text-align: center;
+}
+
+.how-earthlens-works h2 {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #1B5E20;
+  margin-bottom: 2rem;
+  font-family: 'Poppins', sans-serif;
 }
 
 .hero-content {

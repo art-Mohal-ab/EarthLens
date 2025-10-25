@@ -8,8 +8,11 @@ const LandingPage = () => {
   return (
     <main className="landing-page">
       <Hero />
-      <Cards />
-      <IssueCards />
+      <section className="how-earthlens-works">
+        <h2>How EarthLens Works</h2>
+        <Cards />
+        <IssueCards />
+      </section>
       <section className="hero hero2">
         <div className="hero-content">
           <h1>Together, We Build Climate Resilience</h1>

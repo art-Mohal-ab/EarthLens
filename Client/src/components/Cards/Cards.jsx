@@ -3,9 +3,9 @@ import React from "react";
 import "./CardStyles.css";
 
 const cards = [
-  { title: "Illegal Dumping", body: "Report unauthorized waste disposal and keep our environment clean." },
-  { title: "Air Pollution", body: "Identify areas suffering from industrial or traffic pollution." },
-  { title: "Deforestation", body: "Help track forest loss and report areas needing replanting." }
+  { title: "Report Issues", body: "Report unauthorized waste disposal and keep our environment clean." },
+  { title: "Gain Insights", body: "Identify areas suffering from industrial or traffic pollution." },
+  { title: "Take Action", body: "Help track forest loss and report areas needing replanting." }
 ];
 
 export default function Cards() {

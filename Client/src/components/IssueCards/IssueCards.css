@@ -1,51 +1,62 @@
 .issuecards-section {
-  padding: 4rem 1rem;
+  padding: 2rem 1rem;
   text-align: center;
   background: #ffffff;
 }
 
-.issuecards-title {
-  font-size: 2rem;
-  color: #0f3d0f;
-  margin-bottom: 2rem;
-}
-
 .issuecards-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 2rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .issue-card {
-  background: #1c8b1c;
+  background: #1B5E20;
   color: white;
-  border-radius: 12px;
-  width: 280px;
-  padding: 1.5rem;
+  border-radius: 16px;
+  padding: 1rem;
   text-align: center;
   cursor: pointer;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+  transition: transform 180ms ease, box-shadow 180ms ease;
+  font-family: 'Poppins', sans-serif;
+  aspect-ratio: 1 / 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .issue-card:hover {
-  background: #157315;
-  transform: translateY(-5px);
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.16);
 }
 
 .issue-img {
   width: 100%;
-  height: 160px;
+  height: 120px;
   object-fit: cover;
-  border-radius: 10px;
+  border-radius: 12px;
   margin-bottom: 1rem;
 }
 
 .issue-card h3 {
   margin-bottom: 0.5rem;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
+  font-weight: 700;
 }
 
 .issue-card p {
-  font-size: 0.9rem;
-  line-height: 1.4;
+  font-size: 0.85rem;
+  line-height: 1.3;
+  opacity: 0.95;
+}
+
+/* Responsive: stack on smaller screens */
+@media (max-width: 768px) {
+  .issuecards-container {
+    grid-template-columns: 1fr;
+  }
 }
