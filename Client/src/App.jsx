@@ -7,6 +7,7 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Dashboard from './Dashboard';
 import About from './About';
+import Contact from './pages/Contact';
 
 const AppContent = () => {
   const location = useLocation();
@@ -16,14 +17,15 @@ const AppContent = () => {
     <div>
       {!hideNavFooter && <Navbar />}
       <main>
-        <Routes>
-          <Route path="/" element={<LandingPage />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/join" element={<Signup />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/about" element={<About />} />
-        </Routes>
+          <Routes>
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/join" element={<Signup />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/contact" element={<Contact />} />
+          </Routes>
       </main>
       {!hideNavFooter && <Footer />}
     </div>
