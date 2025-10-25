@@ -28,7 +28,7 @@ const Login = () => {
         </form>
 
         <p className="signup-text">
-          New here? <Link to="/signup" className="signup-link">Create an account</Link>
+          New here? <Link to="/join" className="signup-link">Create an account</Link>
         </p>
       </div>
     </div>
