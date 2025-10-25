@@ -1,5 +1,6 @@
-# TODO: Implement EarthLens Dashboard Page
+# TODO: Update Cards Component Appearance
 
-- [x] Create EarthLensPage.jsx in Client/src/ with the provided JSX code
-- [x] Create EarthLensPage.css in Client/src/ with the provided CSS code
-- [x] Update App.jsx to import and render EarthLensPage component instead of current content
+- [x] Install react-icons library for environmental-themed icons
+- [x] Update Cards.jsx to include icons for each issue type and add unique class names for styling
+- [x] Modify Cards.css to assign unique background colors and enhance layout for each card type
+- [x] Test the updated cards for appearance and functionality

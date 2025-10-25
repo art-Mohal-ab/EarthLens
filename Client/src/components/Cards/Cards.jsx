@@ -1,21 +1,22 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import "./Cards.css";
 
 const Cards = () => {
   const cardData = [
     {
-      title: "Report Issue",
-      text: "Capture and report environmental issues around you.",
+      title: "Illegal Dumping",
+      text: "Report unauthorized waste disposal and keep our environment clean.",
       link: "/report",
     },
     {
-      title: "Gain Insight",
-      text: "Receive AI-generated insights and understand the impact of reported issues.",
+      title: "Air Pollution",
+      text: "Identify areas suffering from industrial or traffic pollution.",
       link: "/projects",
     },
     {
-      title: "Take action",
-      text: "Get personalized recommendations for actions you can take to address environmental challenges.",
+      title: "Deforestation",
+      text: "Help track forest loss and report areas needing replanting.",
       link: "/eco-tips",
     },
   ];
@@ -24,10 +25,10 @@ const Cards = () => {
     <section className="cards-section">
       <div className="cards-container">
         {cardData.map((card, index) => (
-          <div key={index} className="card">
+          <Link key={index} to={card.link} className="card">
             <h3>{card.title}</h3>
             <p>{card.text}</p>
-          </div>
+          </Link>
         ))}
       </div>
     </section>
