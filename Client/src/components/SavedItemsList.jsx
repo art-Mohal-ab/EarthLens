@@ -29,9 +29,6 @@ const SavedItemsList = ({ savedItems, onRemoveItem, loading, error }) => {
               </p>
               <p className="saved-item-description">{item.description}</p>
               <div className="saved-item-actions">
-                <button className="view-btn" onClick={() => window.open(`/report/${item.id}`, '_blank')}>
-                  View
-                </button>
                 <button className="remove-btn" onClick={() => onRemoveItem(item.id)}>
                   Remove
                 </button>
