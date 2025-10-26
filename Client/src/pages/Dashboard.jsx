@@ -1,10 +1,110 @@
-// Dashboard.jsx
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import ReportList from "../components/ReportList";
+import FilterBar from "../components/FilterBar";
 import "../styles/Dashboard.css";
 
 function Dashboard() {
   const navigate = useNavigate();
+  const [reports, setReports] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [filters, setFilters] = useState({});
+
+  useEffect(() => {
+    fetchReports();
+  }, [filters]);
+
+  const fetchReports = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+
+      // Mock data
+      const mockReports = [
+        {
+          id: 1,
+          title: "Illegal Dumping Near River",
+          description: "Large amounts of plastic waste dumped near the riverbank affecting water quality and wildlife.",
+          location: "Nairobi, Kenya",
+          ai_category: "Waste Management",
+          created_at: "2025-10-10T00:00:00Z",
+          image_url: "/RIVER.png",
+          user: { username: "Sarah Mwangi" }
+        },
+        {
+          id: 2,
+          title: "Air Pollution from Factory",
+          description: "Visible smoke emissions from nearby factory affecting air quality in residential area.",
+          location: "Kisumu, Kenya",
+          ai_category: "Air Pollution",
+          created_at: "2025-10-14T00:00:00Z",
+          image_url: "/AIR.png",
+          user: { username: "John Ouma" }
+        },
+        {
+          id: 3,
+          title: "Flooding in Residential Area",
+          description: "Poor drainage causing severe flooding during rainy season affecting multiple homes.",
+          location: "Mombasa, Kenya",
+          ai_category: "Flooding",
+          created_at: "2025-10-13T00:00:00Z",
+          image_url: "/4.png",
+          user: { username: "Grace Kimani" }
+        },
+        {
+          id: 4,
+          title: "Illegal Poaching of Animals",
+          description: "Poaching harms wildlife, disrupts ecosystems, and endangers species survival.",
+          location: "Nairobi, Kenya",
+          ai_category: "Poaching",
+          created_at: "2025-10-10T00:00:00Z",
+          image_url: "/ANIMAL.png",
+          user: { username: "Mary Akinyi" }
+        }
+      ];
+
+      // Apply filters
+      let filteredReports = mockReports;
+      if (filters.location) {
+        filteredReports = filteredReports.filter(report =>
+          report.location.toLowerCase().includes(filters.location.toLowerCase())
+        );
+      }
+      if (filters.category) {
+        filteredReports = filteredReports.filter(report =>
+          report.ai_category === filters.category
+        );
+      }
+      if (filters.dateFrom) {
+        filteredReports = filteredReports.filter(report =>
+          new Date(report.created_at) >= new Date(filters.dateFrom)
+        );
+      }
+      if (filters.dateTo) {
+        filteredReports = filteredReports.filter(report =>
+          new Date(report.created_at) <= new Date(filters.dateTo)
+        );
+      }
+
+      setReports(filteredReports);
+    } catch (err) {
+      console.error('Error fetching reports:', err);
+      setError('Failed to load reports');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleFilterChange = (newFilters) => {
+    setFilters(newFilters);
+  };
+
+
+
+  const handleViewDetails = (reportId) => {
+    navigate(`/report/${reportId}`);
+  };
 
   const handleHome = () => {
     navigate("/");
@@ -19,6 +119,7 @@ function Dashboard() {
   };
 
   const handleSignOut = () => {
+    localStorage.removeItem('token');
     navigate("/");
   };
 
@@ -37,69 +138,16 @@ function Dashboard() {
 
       <main className="main">
         <h1>Recent Reports</h1>
-        <section className="cards">
-          <article className="card">
-            <div className="image-section">
-              <img src="/RIVER.png" alt="Illegal Dumping Near River" />
-            </div>
-            <div className="text-section">
-              <h3>Illegal Dumping Near River</h3>
-              <p>
-                <span className="info-box">Waste Management</span> <span className="info-box">Nairobi, Kenya</span> <span className="info-box">10/10/2025</span><br />
-                Large amounts of plastic waste dumped near the riverbank affecting water quality and wildlife.<br />
-                Reported by Sarah Mwangi
-              </p>
-              <a className="details" href="#">View details →</a>
-            </div>
-          </article>
-
-
-
-          <article className="card">
-            <div className="image-section">
-              <img src="/AIR.png" alt="Air Pollution from Factory" />
-            </div>
-            <div className="text-section">
-              <h3>Air Pollution from Factory</h3>
-              <p>
-                <span className="info-box">Air Pollution</span> <span className="info-box">Kisumu, Kenya</span> <span className="info-box">10/14/2025</span><br />
-                Visible smoke emissions from nearby factory affecting air quality in residential area.<br />
-                Reported by John Ouma
-              </p>
-              <a className="details" href="#">View details →</a>
-            </div>
-          </article>
-
-          <article className="card">
-            <div className="image-section">
-              <img src="/4.png" alt="Flooding in Residential Area" />
-            </div>
-            <div className="text-section">
-              <h3>Flooding in Residential Area</h3>
-              <p>
-                <span className="info-box">Flooding</span> <span className="info-box">Mombasa, Kenya</span> <span className="info-box">10/13/2025</span><br />
-                Poor drainage causing severe flooding during rainy season affecting multiple homes.<br />
-                Reported by Grace Kimani
-              </p>
-              <a className="details" href="#">View details →</a>
-            </div>
-          </article>
-
-          <article className="card">
-            <div className="image-section">
-              <img src="/ANIMAL.png" alt="Illegal Poaching of Animals" />
-            </div>
-            <div className="text-section">
-              <h3>Illegal Poaching of Animals</h3>
-              <p>
-                <span className="info-box">Poaching</span> <span className="info-box">Nairobi, Kenya</span> <span className="info-box">10/10/2025</span><br />
-                Poaching harms wildlife, disrupts ecosystems, and endangers species survival.<br />
-                Reported by Mary Akinyi
-              </p>
-              <a className="details" href="#">View details →</a>
-            </div>
-          </article>
-        </section>
+        <FilterBar
+          filters={filters}
+          onFilterChange={handleFilterChange}
+        />
+        <ReportList
+          reports={reports}
+          onViewDetails={handleViewDetails}
+          loading={loading}
+          error={error}
+        />
       </main>
     </div>
   );
