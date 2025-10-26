@@ -28,6 +28,43 @@
     margin-left: -5%;
 }
 
+.navbar {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-left: auto;
+}
+
+.nav-button{
+    font-family: jost;
+    position: relative;
+    font-size: 14px;
+    color: rgb(0, 0, 0);
+    font-weight: 500;
+    margin-left: 5px;
+    background: white;
+    border: 1px solid #ccc;
+    padding: 4px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.nav-button:hover {
+    background: #f5f5f5;
+}
+
+.sign-out-button {
+    background: #106111;
+    color: white;
+    border: 1px solid #106111;
+}
+
+.sign-out-button:hover {
+    background: #0d4f0e;
+}
+
+
+
 .navbar a{
     font-family: jost;
     position: relative;
@@ -35,7 +72,6 @@
     color: rgb(0, 0, 0);
     font-weight: 500;
     margin-left: 40px;
-    
 }
 
 
