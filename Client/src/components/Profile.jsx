@@ -51,28 +51,6 @@ const Profile = () => {
             <div className="divider"></div>
           </div>
 
-          {/* Activity Summary */}
-          <div className="activity-summary-card">
-            <h2 className="section-subtitle">Activity Summary</h2>
-            <p className="summary-description">Your environmental impact and contributions</p>
-
-            <div className="stats-container">
-              <div className="stat-item">
-                <div className="stat-number">{userData.reportsSubmitted}</div>
-                <div className="stat-label">Reports Submitted</div>
-              </div>
-              <div className="stat-item">
-                <div className="stat-number">{userData.commentsMade}</div>
-                <div className="stat-label">Comments Made</div>
-              </div>
-            </div>
-
-            <div className="top-category-card">
-              <h4 className="category-title">{userData.topCategory}</h4>
-              <p className="category-subtitle">Top Category</p>
-            </div>
-          </div>
-
           {/* User Info Card */}
           <div className="user-info-card">
             <div className="user-avatar">
@@ -96,6 +74,28 @@ const Profile = () => {
 
         {/* Right Column */}
         <div className="profile-right">
+          {/* Activity Summary */}
+          <div className="activity-summary-card">
+            <h2 className="section-subtitle">Activity Summary</h2>
+            <p className="summary-description">Your environmental impact and contributions</p>
+
+            <div className="stats-container">
+              <div className="stat-item">
+                <div className="stat-number">{userData.reportsSubmitted}</div>
+                <div className="stat-label">Reports Submitted</div>
+              </div>
+              <div className="stat-item">
+                <div className="stat-number">{userData.commentsMade}</div>
+                <div className="stat-label">Comments Made</div>
+              </div>
+            </div>
+
+            <div className="top-category-card">
+              <h4 className="category-title">{userData.topCategory}</h4>
+              <p className="category-subtitle">Top Category</p>
+            </div>
+          </div>
+
           {/* Recent Activity */}
           <div className="recent-activity-card">
             <h2 className="section-subtitle">Recent Activity</h2>
