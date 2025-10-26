@@ -40,17 +40,6 @@ const Profile = () => {
       <div className="profile-content">
         {/* Left Column */}
         <div className="profile-left">
-          {/* Overview Section */}
-          <div className="overview-section">
-            <h2 className="section-subtitle">Overview</h2>
-            <div className="overview-actions">
-              <button className="action-btn active">Overview</button>
-              <button className="action-btn">Edit Profile</button>
-              <button className="action-btn">Security</button>
-            </div>
-            <div className="divider"></div>
-          </div>
-
           {/* User Info Card */}
           <div className="user-info-card">
             <div className="user-avatar">
@@ -63,17 +52,25 @@ const Profile = () => {
                 <span className="badge-text">Joined {userData.joinDate}</span>
               </div>
             </div>
-          </div>
-
-          {/* Impact Score */}
-          <div className="impact-score-card">
-            <h3 className="score-title">Impact Score</h3>
-            <div className="score-value">{userData.impactScore}</div>
+            <div className="impact-score-section">
+              <h3 className="score-title">Impact Score</h3>
+              <div className="score-value">{userData.impactScore}</div>
+            </div>
           </div>
         </div>
 
         {/* Right Column */}
         <div className="profile-right">
+          {/* Overview Section */}
+          <div className="overview-section">
+            <h2 className="section-subtitle">Overview</h2>
+            <div className="overview-actions">
+              <button className="action-btn active">Overview</button>
+              <button className="action-btn">Edit Profile</button>
+              <button className="action-btn">Security</button>
+            </div>
+            <div className="divider"></div>
+          </div>
           {/* Activity Summary */}
           <div className="activity-summary-card">
             <h2 className="section-subtitle">Activity Summary</h2>
