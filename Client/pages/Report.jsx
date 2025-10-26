@@ -81,7 +81,7 @@ const Report = () => {
   return (
     <div className="container">
       <header>
-        <h1>Share Your Story</h1>
+        <h1>Report Environmental Issues</h1>
         <p className="subtitle">
           Empower your community by reporting environmental issues. Your narrative helps raise
           awareness and drive action for a healthier planet.
@@ -131,7 +131,7 @@ const Report = () => {
           </div>
 
           <div className="form-section">
-            <h2 className="section-title">Visualize Your Story</h2>
+            <h2 className="section-title">Add Evidence</h2>
 
             <div className="form-group">
               <div
@@ -141,19 +141,19 @@ const Report = () => {
                 onDragLeave={handleDragLeave}
                 onDrop={handleDrop}
               >
-                <div className="upload-icon">📷</div>
                 <div className="upload-text">
                   {formData.file
                     ? `File selected: ${formData.file.name}`
-                    : 'Drag and drop your photo or video here, or click to upload'
+                    : 'Upload photo evidence'
                   }
                 </div>
-                <div className="upload-hint">Bring your warnings to life with visual evidence</div>
+                <div className="upload-hint">Click to browse or drag images here</div>
+                <button type="button" className="upload-btn">Upload Media</button>
                 <input
                   type="file"
                   id="fileInput"
                   onChange={handleFileSelect}
-                  accept="image/*,video/*"
+                  accept="image/*"
                   style={{ display: 'none' }}
                 />
               </div>
