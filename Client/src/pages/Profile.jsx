@@ -2,14 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar/Navbar';
 import ProfileCard from '../components/ProfileCard';
-import SavedItemsList from '../components/SavedItemsList';
 import api from '../services/api';
 import '../styles/Profile.css';
 
 const Profile = () => {
   const navigate = useNavigate();
   const [userData, setUserData] = useState(null);
-  const [savedItems, setSavedItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [activeTab, setActiveTab] = useState('overview');
@@ -38,19 +36,7 @@ const Profile = () => {
         ]
       };
 
-      const mockSavedItems = [
-        {
-          id: 1,
-          title: "Illegal Dumping Near River",
-          description: "Large amounts of plastic waste dumped near the riverbank affecting water quality and wildlife.",
-          location: "Nairobi, Kenya",
-          created_at: "2025-10-10T00:00:00Z",
-          image_url: "/RIVER.png"
-        }
-      ];
-
       setUserData(mockUserData);
-      setSavedItems(mockSavedItems);
     } catch (err) {
       console.error('Error fetching profile:', err);
       setError('Failed to load profile');
@@ -63,15 +49,7 @@ const Profile = () => {
     setActiveTab('edit');
   };
 
-  const handleRemoveSavedItem = async (itemId) => {
-    try {
-      // Mock removal - just update local state
-      setSavedItems(savedItems.filter(item => item.id !== itemId));
-    } catch (err) {
-      console.error('Error removing saved item:', err);
-      alert('Failed to remove saved item');
-    }
-  };
+
 
   const handleHome = () => {
     navigate("/");
@@ -189,13 +167,7 @@ const Profile = () => {
                   </div>
                 </div>
 
-                {/* Saved Items */}
-                <SavedItemsList
-                  savedItems={savedItems}
-                  onRemoveItem={handleRemoveSavedItem}
-                  loading={false}
-                  error={null}
-                />
+
               </>
             )}
 
