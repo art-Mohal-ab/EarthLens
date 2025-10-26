@@ -1,13 +1,21 @@
 // Dashboard.jsx
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import "./Dashboard.css";
+import "../styles/Dashboard.css";
 
 function Dashboard() {
   const navigate = useNavigate();
 
   const handleHome = () => {
     navigate("/");
+  };
+
+  const handleMyReports = () => {
+    navigate("/my-reports");
+  };
+
+  const handleProfile = () => {
+    navigate("/profile");
   };
 
   const handleSignOut = () => {
@@ -21,9 +29,9 @@ function Dashboard() {
         <button onClick={handleHome}>Home</button>
         <button>Dashboard</button>
         <button>Report</button>
-        <button>My Reports</button>
+        <button onClick={handleMyReports}>My Reports</button>
         <button>Green Action</button>
-        <button>Profile</button>
+        <button onClick={handleProfile}>Profile</button>
         <button onClick={handleSignOut}>Sign out</button>
       </aside>
 

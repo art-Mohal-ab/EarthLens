@@ -1,9 +1,10 @@
 import React from "react"
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
 import Dashboard from "./pages/Dashboard"
-import HomePage from "./HomePage"
+import HomePage from "./pages/HomePage"
 import About from "./About"
-import Profile from "./components/Profile"
+import Profile from "./pages/Profile"
+import MyReportspage from "./pages/MyReportspage"
 
 const App = () => {
   return(
@@ -13,6 +14,7 @@ const App = () => {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/about" element={<About />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/my-reports" element={<MyReportspage />} />
       </Routes>
     </Router>
   )
