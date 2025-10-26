@@ -52,9 +52,9 @@
 }
 
 .action-btn {
-  background: #2c7744;
-  color: white;
-  border: none;
+  background: white;
+  color: #106111;
+  border: 1px solid #106111;
   padding: 8px 16px;
   border-radius: 6px;
   font-size: 0.9rem;
@@ -62,7 +62,7 @@
 }
 
 .action-btn:hover {
-  background: #236338;
+  background: #f0f0f0;
 }
 
 .divider {
