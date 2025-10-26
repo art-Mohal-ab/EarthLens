@@ -85,10 +85,7 @@ const Profile = () => {
               </div>
             </div>
 
-            <div className="top-category-card">
-              <h4 className="category-title">{userData.topCategory}</h4>
-              <p className="category-subtitle">Top Category</p>
-            </div>
+
           </div>
 
           {/* Recent Activity */}
@@ -96,6 +93,12 @@ const Profile = () => {
             <h2 className="section-subtitle">Recent Activity</h2>
 
             <div className="activity-list">
+              <div className="activity-item">
+                <div className="activity-content">
+                  <p className="activity-text">{userData.topCategory}</p>
+                  <span className="activity-time">Top Category</span>
+                </div>
+              </div>
               {userData.recentActivities.map((activity, index) => (
                 <div key={index} className="activity-item">
                   <div className="activity-content">
