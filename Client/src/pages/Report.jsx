@@ -55,17 +55,14 @@ const Report = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Basic validation
     if (!formData.summary || !formData.description || !formData.location) {
       alert('Please fill in all required fields.');
       return;
     }
 
-    // In a real application, you would send this data to a server
     console.log('Form submitted:', formData);
     alert('Thank you for your report! Your submission helps protect our environment.');
 
-    // Reset form
     setFormData({
       summary: '',
       description: '',
