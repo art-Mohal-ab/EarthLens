@@ -20,7 +20,6 @@ function Dashboard() {
       setLoading(true);
       setError(null);
 
-      // Mock data
       const mockReports = [
         {
           id: 1,
@@ -64,7 +63,6 @@ function Dashboard() {
         }
       ];
 
-      // Apply filters
       let filteredReports = mockReports;
       if (filters.location) {
         filteredReports = filteredReports.filter(report =>

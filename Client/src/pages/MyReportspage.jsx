@@ -23,7 +23,6 @@ const ReportsPage = () => {
       setLoading(true);
       setError(null);
 
-      // Mock data for user reports
       const mockUserReports = [
         {
           id: 1,
@@ -70,8 +69,7 @@ const ReportsPage = () => {
   };
 
   const getCurrentUserId = () => {
-    // TODO: Get from auth context/state management
-    return 1; // Placeholder
+    return 1;
   };
 
   const handleEditReport = (report) => {
@@ -93,7 +91,6 @@ const ReportsPage = () => {
   const handleDeleteReport = async (reportId) => {
     if (window.confirm('Are you sure you want to delete this report?')) {
       try {
-        // Mock deletion - just update local state
         setReports(reports.filter(report => report.id !== reportId));
       } catch (err) {
         console.error('Error deleting report:', err);
@@ -114,7 +111,7 @@ const ReportsPage = () => {
   };
 
   const handleReport = () => {
-    navigate("/dashboard"); // Assuming report functionality is under dashboard
+    navigate("/dashboard");
   };
 
   const handleMyReports = () => {
@@ -122,7 +119,7 @@ const ReportsPage = () => {
   };
 
   const handleGreenAction = () => {
-    navigate("/dashboard"); // Placeholder, adjust if route exists
+    navigate("/dashboard");
   };
 
   const handleProfile = () => {

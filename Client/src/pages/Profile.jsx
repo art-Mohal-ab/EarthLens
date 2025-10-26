@@ -21,7 +21,6 @@ const Profile = () => {
       setLoading(true);
       setError(null);
 
-      // Mock data for profile
       const mockUserData = {
         username: "Karani Lau",
         email: "karanilau@gmail.com",
@@ -60,7 +59,7 @@ const Profile = () => {
   };
 
   const handleReport = () => {
-    navigate("/dashboard"); // Assuming report functionality is under dashboard
+    navigate("/dashboard");
   };
 
   const handleMyReports = () => {
@@ -68,7 +67,7 @@ const Profile = () => {
   };
 
   const handleGreenAction = () => {
-    navigate("/dashboard"); // Placeholder, adjust if route exists
+    navigate("/dashboard");
   };
 
   const handleProfile = () => {

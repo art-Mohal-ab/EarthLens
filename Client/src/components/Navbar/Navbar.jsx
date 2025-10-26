@@ -11,7 +11,7 @@ const Navbar = () => {
     };
 
     const handleReport = () => {
-        navigate("/dashboard"); // Assuming report functionality is under dashboard
+        navigate("/dashboard");
     };
 
     const handleMyReports = () => {
@@ -19,7 +19,7 @@ const Navbar = () => {
     };
 
     const handleGreenAction = () => {
-        navigate("/dashboard"); // Placeholder, adjust if route exists
+        navigate("/dashboard");
     };
 
     const handleProfile = () => {
