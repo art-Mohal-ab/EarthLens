@@ -63,13 +63,11 @@ const Profile = () => {
         <div className="profile-right">
           {/* Overview Section */}
           <div className="overview-section">
-            <h2 className="section-subtitle">Overview</h2>
             <div className="overview-actions">
               <button className="action-btn active">Overview</button>
               <button className="action-btn">Edit Profile</button>
               <button className="action-btn">Security</button>
             </div>
-            <div className="divider"></div>
           </div>
           {/* Activity Summary */}
           <div className="activity-summary-card">
