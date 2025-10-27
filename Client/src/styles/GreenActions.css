@@ -1,32 +1,57 @@
-.greenaction-container {
-  font-family: "Poppins", sans-serif;
+.green-actions-container {
+  font-family: "Jost", sans-serif;
   background-color: #f9fafb;
-  color: #ffffff;
-  padding-bottom: 60px;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
 }
 
-/* Hero Section */
-.hero-section {
-  background: url("../Greenaction.png")
-    center/cover no-repeat;
+/* Hero Header */
+.green-actions-header {
+  background: url("../Greenaction.png") center/cover no-repeat;
   text-align: center;
-  padding: 120px 20px;
+  padding: 120px 0;
   color: white;
-}
-
-.hero-section h1 {
-  font-size: 2.5rem;
-  font-weight: 700;
-  margin-bottom: 10px;
-  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);
-}
-
-.hero-section p {
-  font-size: 1rem;
-  max-width: 600px;
+  position: static;
+  width: 1406px;
+  height: 687.44px;
   margin: 0 auto;
-  line-height: 1.5;
-  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);
+}
+
+.green-actions-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1406px;
+  height: 687.44px;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 0;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  color: #FFFFFF;
+}
+
+.hero-content h1 {
+  font-size: 50px;
+  font-weight: 700;
+  margin-bottom: 40px;
+  color: #FFFFFF;
+  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.8);
+  line-height: 1.2;
+}
+
+.hero-content p {
+  font-size: 24px;
+  font-weight: 400;
+  max-width: 800px;
+  margin: 0 auto;
+  line-height: 1.6;
+  color: #FFFFFF;
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.8);
 }
 
 /* Filter Bar */
@@ -98,14 +123,14 @@
 
 .description {
   font-size: 0.8rem;
-  color: white !important;
+  color: white;
   margin-bottom: 12px;
   line-height: 1.4;
 }
 
 .benefit {
   font-size: 0.5rem;
-  color: white !important;
+  color: white;
   margin-bottom: 40px;
   font-weight: 500;
 }
@@ -114,8 +139,8 @@
   position: absolute;
   bottom: 20px;
   right: 25px;
-  background-color: #d7f9e9;
-  color: #02c952;
+  background-color: #F1FFE9;
+  color: #106111;
   border: none;
   border-radius: 8px;
   padding: 8px 16px;
