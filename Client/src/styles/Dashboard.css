@@ -23,6 +23,10 @@ body {
   padding: 28px 20px;
   border-right: 1px solid #e6e6e6;
   background: #fff;
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100vh;
 }
 
 .sidebar .logo {
@@ -53,6 +57,7 @@ body {
   flex: 1;
   padding: 40px 60px;
   background: #fff;
+  margin-left: 240px;
 }
 
 .main h1 {

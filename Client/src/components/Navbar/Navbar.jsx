@@ -59,7 +59,6 @@ const Navbar = () => {
                 </>
             ) : (
                 <>
-                    <a href="/">Home</a>
                     <a href="/about">About</a>
                     <a href="/">Contact</a>
                     <a href="/join">Join Now</a>

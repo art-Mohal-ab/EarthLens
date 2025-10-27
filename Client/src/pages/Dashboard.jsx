@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import ReportList from "../components/ReportList";
 import FilterBar from "../components/FilterBar";
+import EditReportModal from "../components/EditReportModal";
 import "../styles/Dashboard.css";
 
 function Dashboard() {
@@ -10,6 +11,8 @@ function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [filters, setFilters] = useState({});
+  const [selectedReport, setSelectedReport] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     fetchReports();
@@ -101,15 +104,39 @@ function Dashboard() {
 
 
   const handleViewDetails = (reportId) => {
-    navigate(`/report/${reportId}`);
+    const report = reports.find(r => r.id === reportId);
+    setSelectedReport(report);
+    setIsModalOpen(true);
+  };
+
+  const handleSaveReport = async (reportId, updatedData) => {
+    console.log('Saving report:', reportId, updatedData);
+    setReports(prev => prev.map(r => r.id === reportId ? { ...r, ...updatedData } : r));
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedReport(null);
   };
 
   const handleHome = () => {
     navigate("/");
   };
 
+  const handleDashboard = () => {
+    navigate("/dashboard");
+  };
+
+  const handleReport = () => {
+    navigate("/dashboard");
+  };
+
   const handleMyReports = () => {
     navigate("/my-reports");
+  };
+
+  const handleGreenAction = () => {
+    navigate("/dashboard");
   };
 
   const handleProfile = () => {
@@ -126,10 +153,10 @@ function Dashboard() {
       <aside className="sidebar">
         <div className="logo">EARTHLENS</div>
         <button onClick={handleHome}>Home</button>
-        <button>Dashboard</button>
-        <button>Report</button>
+        <button onClick={handleDashboard}>Dashboard</button>
+        <button onClick={handleReport}>Report</button>
         <button onClick={handleMyReports}>My Reports</button>
-        <button>Green Action</button>
+        <button onClick={handleGreenAction}>Green Action</button>
         <button onClick={handleProfile}>Profile</button>
         <button onClick={handleSignOut}>Sign out</button>
       </aside>
@@ -147,6 +174,13 @@ function Dashboard() {
           error={error}
         />
       </main>
+
+      <EditReportModal
+        report={selectedReport}
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+        onSave={handleSaveReport}
+      />
     </div>
   );
 }
