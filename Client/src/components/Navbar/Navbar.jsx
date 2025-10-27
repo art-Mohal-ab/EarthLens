@@ -33,6 +33,7 @@ const Navbar = () => {
     }
 
     const isProfilePage = location.pathname === '/profile'
+    const isAboutPage = location.pathname === '/about'
 
     return (
     <header className="header">
@@ -47,6 +48,14 @@ const Navbar = () => {
                     <a onClick={handleGreenAction} className="profile-nav" style={{cursor: 'pointer'}}>Green Action</a>
                     <a onClick={handleProfile} className="profile-nav" style={{cursor: 'pointer'}}>Profile</a>
                     <a onClick={handleSignOut} className="profile-nav sign-out-btn" style={{cursor: 'pointer'}}>Sign out</a>
+                </>
+            ) : isAboutPage ? (
+                <>
+                    <a href="/">Home</a>
+                    <a href="/dashboard">Features</a>
+                    <a href="/about">About Us</a>
+                    <a href="/">Contact Us</a>
+                    <a href="/join">Join Now</a>
                 </>
             ) : (
                 <>
