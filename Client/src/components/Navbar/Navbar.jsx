@@ -1,16 +1,18 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import './Navbar.css'
 
 
 const Navbar = () => {
-    return ( 
+    return (
     <header className="header">
-        <a href="/" className='logo'>Earth<br/>lens</a>
+        <Link to="/" className='logo'>Earth<br/>lens</Link>
         <img src="/logo.png" alt="Earthlens Logo" className="logo-img" />
         <nav className='navbar'>
-            <a href="/">Home</a>
-            <a href="/">About</a>
-            <a href="/">Contact</a>
+            <Link to="/">Home</Link>
+            <Link to="/about">About</Link>
+            <Link to="/contact">Contact</Link>
+            <Link to="/join">Join Now</Link>
         </nav>
     </header>
    )

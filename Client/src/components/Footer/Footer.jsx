@@ -6,7 +6,7 @@ const Footer = () => {
     return ( <footer className="footer">
           <div className="footer-container">
         <div>
-          <h2 className="footer-logo">EarthLens</h2>
+          <a href="/" className="footer-logo">EarthLens</a>
           <p className="footer-text">Seeing the world through a greener lens.</p>
         </div>
 
@@ -24,9 +24,9 @@ const Footer = () => {
           <p>Email: earthlens@gmail.com</p>
           <p>Phone: +254 700 000 000</p>
           <div className="footer-socials">
-            <img src="/assets/facebook.png" alt="Facebook" />
-            <img src="/assets/insta.png" alt="Instagram" />
-            <img src="/assets/twitter.png" alt="Twitter" />
+            <img src="/assets/facebook.jpeg" alt="Facebook" />
+            <img src="/insta.jpeg" alt="Instagram" />
+            <img src="/twitter.jpeg" alt="Twitter" />
           </div>
         </div>
       </div>
