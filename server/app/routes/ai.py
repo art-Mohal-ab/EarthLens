@@ -106,8 +106,7 @@ def analyze_report():
 
 
 @ai_bp.route("/green-advice", methods=["GET"])
-@auth_required
-def get_green_advice(current_user):
+def get_green_advice():
     """
     Retrieve personalized green actions and sustainability tips.
     - Optionally filtered by location or interests
