@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from 'react-router-dom';
 import Navbar from '../components/Navbar/Navbar';
 import Footer from '../components/Footer/Footer';
-import "./styles/About.css";
+import "../styles/About.css";
 
 const About = () => {
   return (
