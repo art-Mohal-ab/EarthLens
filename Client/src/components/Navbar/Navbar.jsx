@@ -55,7 +55,7 @@ const Navbar = () => {
                     <a href="/dashboard" className="profile-nav" style={{cursor: 'pointer'}}>Features</a>
                     <a href="/about" className="profile-nav" style={{cursor: 'pointer'}}>About Us</a>
                     <a href="/" className="profile-nav" style={{cursor: 'pointer'}}>Contact Us</a>
-                    <a href="/join" className="profile-nav" style={{cursor: 'pointer'}}>Join Now</a>
+                    <a href="/join" className="profile-nav sign-out-btn" style={{cursor: 'pointer'}}>Join Now</a>
                 </>
             ) : (
                 <>
