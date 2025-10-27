@@ -134,11 +134,16 @@ class AIService:
 
     def get_green_actions(self, user_location=None, interests=None):
         base_actions = [
-            {"title": "Reduce Plastic Use", "description": "Use reusable bags, bottles, and containers.", "impact": "Medium", "difficulty": "Easy"},
-            {"title": "Energy Conservation", "description": "Switch off lights and appliances when not in use.", "impact": "High", "difficulty": "Easy"},
-            {"title": "Public Transportation", "description": "Use public transport, carpool, or bike to work.", "impact": "High", "difficulty": "Medium"},
-            {"title": "Composting", "description": "Compost organic waste to create natural fertilizer.", "impact": "Medium", "difficulty": "Medium"},
-            {"title": "Plant Trees", "description": "Join or organize local tree-planting events.", "impact": "High", "difficulty": "Medium"},
+            {"title": "Switch to LED Bulbs", "category": "Energy", "difficulty": "Easy", "description": "Replace traditional bulbs with energy efficient LED lights throughout your home.", "impact": "Saves 75% energy, reduces 200kg CO₂/year"},
+            {"title": "Collect Rainwater", "category": "Water", "difficulty": "Medium", "description": "Set up rainwater harvesting system for watering plants and gardens.", "impact": "Saves 500+ litres per month"},
+            {"title": "Plant Native Trees", "category": "Nature", "difficulty": "Medium", "description": "Plant indigenous tree species in your community to restore ecosystem.", "impact": "Absorb 20kg carbon dioxide per tree"},
+            {"title": "Start Composting", "category": "Waste", "difficulty": "Medium", "description": "Turn food waste into nutrient-rich compost for gardening.", "impact": "Diverts 150kg waste from landfills per year"},
+            {"title": "Install Solar Panels", "category": "Energy", "difficulty": "Hard", "description": "Generate clean energy by installing solar panels on your roof.", "impact": "Saves 3,000kgs carbon dioxide per year"},
+            {"title": "Fix Water Leaks", "category": "Water", "difficulty": "Easy", "description": "Repair dripping taps and leaking pipes to conserve water.", "impact": "Saves 20 litres per day"},
+            {"title": "Use Public Transport", "category": "Lifestyle", "difficulty": "Easy", "description": "Choose buses, trains, or carpool instead of driving alone.", "impact": "Reduces 1,000kg carbon dioxide per year"},
+            {"title": "Create Wildlife Habitat", "category": "Nature", "difficulty": "Medium", "description": "Plant native flowers and shrubs to support local pollinators and birds.", "impact": "Supports 50+ species"},
+            {"title": "Reduce Plastic Use", "category": "Waste", "difficulty": "Easy", "description": "Use reusable bags, bottles, and containers to minimize plastic waste.", "impact": "Prevents 100kg plastic waste per year"},
+            {"title": "Bike to Work", "category": "Lifestyle", "difficulty": "Easy", "description": "Cycle for short trips instead of driving to reduce emissions.", "impact": "Saves 500kg CO₂ per year"}
         ]
 
         if interests:
