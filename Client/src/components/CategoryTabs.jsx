@@ -7,7 +7,7 @@ const CategoryTabs = ({ selectedCategory, onCategoryChange }) => {
     { id: 'energy', label: 'Energy' },
     { id: 'water', label: 'Water' },
     { id: 'waste', label: 'Waste' },
-    { id: 'transport', label: 'Transport' },
+    { id: 'lifestyle', label: 'Lifestyle' },
     { id: 'nature', label: 'Nature' }
   ];
 
