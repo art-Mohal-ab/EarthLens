@@ -52,7 +52,6 @@ const Navbar = () => {
                 </>
             ) : isAboutPage ? (
                 <>
-                    <a href="/" className="profile-nav" style={{cursor: 'pointer'}}>Home</a>
                     <a href="/dashboard" className="profile-nav" style={{cursor: 'pointer'}}>Features</a>
                     <a href="/about" className="profile-nav" style={{cursor: 'pointer'}}>About Us</a>
                     <a href="/" className="profile-nav" style={{cursor: 'pointer'}}>Contact Us</a>
