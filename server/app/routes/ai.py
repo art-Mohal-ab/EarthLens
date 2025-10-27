@@ -12,7 +12,6 @@ logger = logging.getLogger(__name__)
 
 @ai_bp.route('', methods=['GET'])
 def ai_info():
-    """Get AI service information"""
     return jsonify({
         'message': 'EarthLens AI Service',
         'endpoints': {
@@ -24,12 +23,6 @@ def ai_info():
 
 @ai_bp.route("/analyze", methods=["POST"])
 def analyze_report():
-    """
-    Analyze an environmental report using AI.
-    - Classifies the issue
-    - Generates tailored advice
-    - Optionally updates the corresponding report in the database
-    """
     try:
         json_data = request.get_json(silent=True)
         if not json_data:
@@ -50,14 +43,12 @@ def analyze_report():
                 "message": "Both 'title' and 'description' are required."
             }), 400
 
-        # AI Classification 
         classification = ai_service.classify_environmental_issue(
             title=title,
             description=description,
             image_url=image_url
         )
 
-        # AI Advice Generation 
         advice = ai_service.generate_advice(
             category=classification.get("category", "environmental-issue"),
             title=title,
@@ -65,7 +56,6 @@ def analyze_report():
             location=location
         )
 
-        # Save results to the database if report_id is provided 
         if report_id:
             report = Report.query.filter_by(id=report_id).first()
             if report:
@@ -78,7 +68,7 @@ def analyze_report():
             else:
                 logger.warning(f"Report with ID {report_id} not found")
 
-        # Return response 
+        
         return jsonify({
             "message": "Analysis completed successfully",
             "analysis": {
@@ -107,10 +97,6 @@ def analyze_report():
 
 @ai_bp.route("/green-advice", methods=["GET"])
 def get_green_advice():
-    """
-    Retrieve personalized green actions and sustainability tips.
-    - Optionally filtered by location or interests
-    """
     try:
         location = request.args.get("location")
         interests = request.args.getlist("interests")
@@ -135,9 +121,6 @@ def get_green_advice():
 
 @ai_bp.route("/categories", methods=["GET"])
 def get_categories():
-    """
-    Return a list of supported environmental categories.
-    """
     categories = [
         {"name": "pollution", "description": "Environmental pollution issues"},
         {"name": "climate-change", "description": "Climate change and global warming concerns"},
