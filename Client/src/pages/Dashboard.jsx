@@ -1,7 +1,7 @@
 // Dashboard.jsx
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import "./Dashboard.css";
+import "../styles/Dashboard.css";
 
 function Dashboard() {
   const navigate = useNavigate();

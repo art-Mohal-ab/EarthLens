@@ -2,7 +2,7 @@ import React from 'react';
 import Hero from '../components/Hero/Hero';
 import Cards from '../components/Cards/Cards';
 import IssueCards from '../components/IssueCards/IssueCards';
-import './LandingPage.css';
+import '../styles/LandingPage.css';
 
 const LandingPage = () => {
   return (
