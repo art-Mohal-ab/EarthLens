@@ -1,22 +1,37 @@
-// Cards.jsx
 import React from "react";
-import "./CardStyles.css";
+import "./Cards.css";
 
-const cards = [
-  { title: "Report Issues", body: "Report unauthorized waste disposal and keep our environment clean." },
-  { title: "Gain Insights", body: "Identify areas suffering from industrial or traffic pollution." },
-  { title: "Take Action", body: "Help track forest loss and report areas needing replanting." }
-];
+const Cards = () => {
+  const cardData = [
+    {
+      title: "Report Issue",
+      text: "Capture and report environmental issues around you.",
+      link: "/report",
+    },
+    {
+      title: "Gain Insight",
+      text: "Receive AI-generated insights and understand the impact of reported issues.",
+      link: "/projects",
+    },
+    {
+      title: "Take action",
+      text: "Get personalized recommendations for actions you can take to address environmental challenges.",
+      link: "/eco-tips",
+    },
+  ];
 
-export default function Cards() {
   return (
-    <section className="cards-grid">
-      {cards.map((c) => (
-        <article key={c.title} className="report-card" role="article" aria-label={c.title}>
-          <h3 className="card-title">{c.title}</h3>
-          <p className="card-body">{c.body}</p>
-        </article>
-      ))}
+    <section className="cards-section">
+      <div className="cards-container">
+        {cardData.map((card, index) => (
+          <a key={index} href={card.link} className="card">
+            <h3>{card.title}</h3>
+            <p>{card.text}</p>
+          </a>
+        ))}
+      </div>
     </section>
   );
-}
+};
+
+export default Cards;
