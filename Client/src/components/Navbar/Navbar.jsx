@@ -33,6 +33,7 @@ const Navbar = () => {
     }
 
     const isProfilePage = location.pathname === '/profile'
+    const isMyReportsPage = location.pathname === '/my-reports'
     const isAboutPage = location.pathname === '/about'
 
     return (
@@ -40,7 +41,7 @@ const Navbar = () => {
         <a href="/" className='logo'>Earth<br/>lens</a>
         <img src="/logo.png" alt="Earthlens Logo" className="logo-img" />
         <nav className='navbar'>
-            {isProfilePage ? (
+            {isProfilePage || isMyReportsPage ? (
                 <>
                     <a onClick={handleDashboard} className="profile-nav" style={{cursor: 'pointer'}}>Dashboard</a>
                     <a onClick={handleReport} className="profile-nav" style={{cursor: 'pointer'}}>Report</a>
