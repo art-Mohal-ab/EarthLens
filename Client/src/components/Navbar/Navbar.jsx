@@ -51,11 +51,11 @@ const Navbar = () => {
                 </>
             ) : isAboutPage ? (
                 <>
-                    <a href="/">Home</a>
-                    <a href="/dashboard">Features</a>
-                    <a href="/about">About Us</a>
-                    <a href="/">Contact Us</a>
-                    <a href="/join">Join Now</a>
+                    <a href="/" className="profile-nav" style={{cursor: 'pointer'}}>Home</a>
+                    <a href="/dashboard" className="profile-nav" style={{cursor: 'pointer'}}>Features</a>
+                    <a href="/about" className="profile-nav" style={{cursor: 'pointer'}}>About Us</a>
+                    <a href="/" className="profile-nav" style={{cursor: 'pointer'}}>Contact Us</a>
+                    <a href="/join" className="profile-nav" style={{cursor: 'pointer'}}>Join Now</a>
                 </>
             ) : (
                 <>
