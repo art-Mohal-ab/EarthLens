@@ -8,7 +8,7 @@
 
 /* Hero Section */
 .about-hero {
-  background: url("../../About.png.png") center/cover no-repeat;
+  background: url("/assets/About.png.png") center/cover no-repeat;
   color: white;
   padding: 100px 20px;
 }
