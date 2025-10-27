@@ -3,6 +3,8 @@ import Hero from '../components/Hero/Hero';
 import Cards from '../components/Cards/Cards';
 import IssueCards from '../components/IssueCards/IssueCards';
 import '../styles/LandingPage.css';
+import SupportCards from '../components/SupportCards/SupportCards';
+
 
 const LandingPage = () => {
   return (
@@ -18,6 +20,7 @@ const LandingPage = () => {
           <h1>Together, We Build Climate Resilience</h1>
         </div>
       </section>
+      <SupportCards/>
     </main>
   );
 };
