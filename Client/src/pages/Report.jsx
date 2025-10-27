@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import '../styles/Report.css';
+import AIAdviceModal from '../components/AIAdviceModal';
 
 const Report = () => {
   const [formData, setFormData] = useState({
@@ -10,6 +11,8 @@ const Report = () => {
   });
 
   const [isDragging, setIsDragging] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [aiResult, setAiResult] = useState(null);
 
   const handleInputChange = (e) => {
     const { id, value } = e.target;
@@ -52,7 +55,7 @@ const Report = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!formData.summary || !formData.description || !formData.location) {
@@ -60,15 +63,64 @@ const Report = () => {
       return;
     }
 
-    console.log('Form submitted:', formData);
-    alert('Thank you for your report! Your submission helps protect our environment.');
+    try {
+      const formDataToSend = new FormData();
+      formDataToSend.append('title', formData.summary);
+      formDataToSend.append('description', formData.description);
+      formDataToSend.append('location', formData.location);
+      
+      if (formData.file) {
+        formDataToSend.append('image', formData.file);
+      }
 
-    setFormData({
-      summary: '',
-      description: '',
-      location: '',
-      file: null
-    });
+      const response = await fetch('http://localhost:5001/api/reports', {
+        method: 'POST',
+        body: formDataToSend
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        
+        try {
+          const aiResponse = await fetch('http://localhost:5001/api/ai/analyze', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              title: formData.summary,
+              description: formData.description,
+              location: formData.location,
+              report_id: result.report.id
+            })
+          });
+          
+          if (aiResponse.ok) {
+            const result = await aiResponse.json();
+            setAiResult(result.analysis);
+            setShowModal(true);
+          } else {
+            alert('Report submitted successfully! (AI analysis unavailable)');
+          }
+        } catch (aiError) {
+          alert('Report submitted successfully! (AI analysis failed)');
+        }
+        
+        setFormData({
+          summary: '',
+          description: '',
+          location: '',
+          file: null
+        });
+      } else {
+        const error = await response.json();
+        alert(`Error: ${error.message || 'Failed to submit report'}`);
+      }
+    } catch (error) {
+      console.error('Error submitting report:', error);
+      console.error('Error details:', error.message);
+      alert(`Network error: ${error.message}. Please check if backend is running on port 5001.`);
+    }
   };
 
   const triggerFileInput = () => {
@@ -166,6 +218,13 @@ const Report = () => {
       <footer>
         <p>Together we can make a difference for our planet</p>
       </footer>
+      
+      <AIAdviceModal 
+        isOpen={showModal}
+        onClose={() => setShowModal(false)}
+        category={aiResult?.category}
+        advice={aiResult?.advice}
+      />
     </div>
   );
 };
