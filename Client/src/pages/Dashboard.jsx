@@ -28,7 +28,7 @@ function Dashboard() {
           location: "Nairobi, Kenya",
           ai_category: "Waste Management",
           created_at: "2025-10-10T00:00:00Z",
-          image_url: "/RIVER.png",
+          image_url: "/assets/RIVER.png",
           user: { username: "Sarah Mwangi" }
         },
         {
@@ -38,7 +38,7 @@ function Dashboard() {
           location: "Kisumu, Kenya",
           ai_category: "Air Pollution",
           created_at: "2025-10-14T00:00:00Z",
-          image_url: "/AIR.png",
+          image_url: "/assets/AIR.png",
           user: { username: "John Ouma" }
         },
         {
@@ -48,7 +48,7 @@ function Dashboard() {
           location: "Mombasa, Kenya",
           ai_category: "Flooding",
           created_at: "2025-10-13T00:00:00Z",
-          image_url: "/4.png",
+          image_url: "/assets/4.png",
           user: { username: "Grace Kimani" }
         },
         {
@@ -58,7 +58,7 @@ function Dashboard() {
           location: "Nairobi, Kenya",
           ai_category: "Poaching",
           created_at: "2025-10-10T00:00:00Z",
-          image_url: "/ANIMAL.png",
+          image_url: "/assets/ANIMAL.png",
           user: { username: "Mary Akinyi" }
         }
       ];
