@@ -23,8 +23,7 @@ def ai_info():
     }), 200
 
 @ai_bp.route("/analyze", methods=["POST"])
-@auth_required
-def analyze_report(current_user):
+def analyze_report():
     """
     Analyze an environmental report using AI.
     - Classifies the issue
@@ -68,7 +67,7 @@ def analyze_report(current_user):
 
         # Save results to the database if report_id is provided 
         if report_id:
-            report = Report.query.filter_by(id=report_id, user_id=current_user.id).first()
+            report = Report.query.filter_by(id=report_id).first()
             if report:
                 report.ai_category = classification.get("category")
                 report.ai_confidence = classification.get("confidence")
@@ -77,7 +76,7 @@ def analyze_report(current_user):
                 report.ai_processed_at = datetime.utcnow()
                 db.session.commit()
             else:
-                logger.warning(f"Report with ID {report_id} not found for user {current_user.id}")
+                logger.warning(f"Report with ID {report_id} not found")
 
         # Return response 
         return jsonify({
