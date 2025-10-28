@@ -1,13 +1,20 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "../styles/Login.css";
 
 const Login = () => {
+  const navigate = useNavigate();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    navigate('/dashboard');
+  };
+
   return (
     <div className="login-container">
       <div className="login-box">
         <h2>Welcome Back To EarthLens</h2>
-        <form>
+        <form onSubmit={handleSubmit}>
           <label htmlFor="email">Email</label>
           <input
             type="email"
@@ -28,7 +35,7 @@ const Login = () => {
         </form>
 
         <p className="signup-text">
-          New here? <Link to="/Signup" className="signup-link">Create an account</Link>
+          New here? <Link to="/join" className="signup-link">Create an account</Link>
         </p>
       </div>
     </div>

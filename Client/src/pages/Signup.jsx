@@ -1,8 +1,16 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "../styles/Signup.css";
 
 const Signup = () => {
+  const navigate = useNavigate();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Simulate signup success and redirect to dashboard
+    navigate('/dashboard');
+  };
+
   return (
     <div className="signup-container">
       <div className="signup-box">
@@ -12,7 +20,7 @@ const Signup = () => {
           Take the first step
         </h2>
 
-        <form>
+        <form onSubmit={handleSubmit}>
           <label htmlFor="username">Username</label>
           <input
             type="text"
