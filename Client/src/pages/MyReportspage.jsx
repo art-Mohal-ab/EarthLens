@@ -32,7 +32,7 @@ const ReportsPage = () => {
           ai_category: "Waste Management",
           ai_advice: "Contact county waste management. Organize community cleanup. Advocate for recycling bins.",
           created_at: "2025-10-10T00:00:00Z",
-          image_url: "/assets/RIVER.png",
+          image_url: "/assets/plastic.png",
           user_id: 1
         },
         {
@@ -43,7 +43,7 @@ const ReportsPage = () => {
           ai_category: "Air Pollution",
           ai_advice: "Report to NEAA. Document emission times. Gather community signatures for petition.",
           created_at: "2025-10-14T00:00:00Z",
-          image_url: "/assets/AIR.png",
+          image_url: "/assets/Air.png",
           user_id: 1
         },
         {
@@ -54,7 +54,7 @@ const ReportsPage = () => {
           ai_category: "Poaching",
           ai_advice: "Contact wildlife authorities. Report to local police. Document evidence with photos.",
           created_at: "2025-10-10T00:00:00Z",
-          image_url: "/assets/ANIMAL.png",
+          image_url: "/assets/Poaching.png",
           user_id: 1
         }
       ];
