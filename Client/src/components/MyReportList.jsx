@@ -40,9 +40,6 @@ const MyReportList = ({ reports, onEditReport, onDeleteReport, onViewDetails, lo
                 <button className="delete-btn" onClick={() => onDeleteReport(report.id)}>Delete</button>
               </div>
             )}
-            <div className="action-buttons">
-              <button className="details-btn" onClick={() => onViewDetails(report.id)}>View details →</button>
-            </div>
           </div>
         </article>
       ))}
