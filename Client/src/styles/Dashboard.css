@@ -37,20 +37,21 @@ body {
   font-size: 14px;
 }
 
-.sidebar button {
-  display: block;
-  width: 100%;
-  background: none;
-  border: none;
-  color: var(--green);
-  text-align: left;
-  padding: 10px 0;
+.sidebar .sidebar-btn {
+  font-size: 18px;
+  margin-bottom: 12px;
+  padding: 2px 4px;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  color: #000;
   cursor: pointer;
-  font-size: 15px;
+  width: 100%;
 }
 
-.sidebar button:hover {
-  text-decoration: underline;
+.sidebar .sign-out-btn {
+  background-color: #106111;
+  color: #fff;
 }
 
 .main {
