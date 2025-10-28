@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 
 const ViewReportModal = ({ report, isOpen, onClose }) => {
-  // Generate contextual comments based on report category
   const getContextualComments = (report) => {
     const baseComments = {
       "Waste Management": [
