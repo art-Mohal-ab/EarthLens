@@ -1,7 +1,7 @@
 import React from 'react';
 import ReportCard from './ReportCard';
 
-const ReportList = ({ reports, onViewDetails, loading, error }) => {
+const ReportList = ({ reports, onViewDetails, onEditReport, onDeleteReport, loading, error, showEditDelete = false }) => {
   if (loading) {
     return <div className="loading">Loading reports...</div>;
   }
@@ -21,6 +21,9 @@ const ReportList = ({ reports, onViewDetails, loading, error }) => {
           key={report.id}
           report={report}
           onViewDetails={onViewDetails}
+          onEditReport={onEditReport}
+          onDeleteReport={onDeleteReport}
+          showEditDelete={showEditDelete}
         />
       ))}
     </section>

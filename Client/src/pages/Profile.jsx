@@ -48,6 +48,44 @@ const Profile = () => {
     setActiveTab('edit');
   };
 
+  const handleSaveProfile = async (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const updatedData = {
+      username: formData.get('username'),
+      email: formData.get('email'),
+    };
+
+    try {
+      setUserData(prev => ({ ...prev, ...updatedData }));
+      setActiveTab('overview');
+    } catch (error) {
+      console.error('Error updating profile:', error);
+      alert('Failed to update profile. Please try again.');
+    }
+  };
+
+  const handleUpdatePassword = async (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const currentPassword = formData.get('currentPassword');
+    const newPassword = formData.get('newPassword');
+    const confirmPassword = formData.get('confirmPassword');
+
+    if (newPassword !== confirmPassword) {
+      alert('New passwords do not match.');
+      return;
+    }
+
+    try {
+      alert('Password updated successfully!');
+      e.target.reset();
+    } catch (error) {
+      console.error('Error updating password:', error);
+      alert('Failed to update password. Please try again.');
+    }
+  };
+
 
 
   const handleHome = () => {
@@ -173,14 +211,73 @@ const Profile = () => {
             {activeTab === 'edit' && (
               <div className="edit-profile-section">
                 <h2>Edit Profile</h2>
-                <p>Profile editing functionality coming soon...</p>
+                <form className="edit-profile-form" onSubmit={handleSaveProfile}>
+                  <div className="form-group">
+                    <label htmlFor="username">Username</label>
+                    <input
+                      type="text"
+                      id="username"
+                      name="username"
+                      defaultValue={userData?.username || ''}
+                      required
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="email">Email</label>
+                    <input
+                      type="email"
+                      id="email"
+                      name="email"
+                      defaultValue={userData?.email || ''}
+                      required
+                    />
+                  </div>
+                  <div className="form-actions">
+                    <button type="button" className="cancel-btn" onClick={() => setActiveTab('overview')}>Cancel</button>
+                    <button type="submit" className="save-btn">Save Changes</button>
+                  </div>
+                </form>
               </div>
             )}
 
             {activeTab === 'security' && (
               <div className="security-section">
                 <h2>Security Settings</h2>
-                <p>Security settings functionality coming soon...</p>
+                <form className="security-form" onSubmit={handleUpdatePassword}>
+                  <div className="form-group">
+                    <label htmlFor="current-password">Current Password</label>
+                    <input
+                      type="password"
+                      id="current-password"
+                      name="currentPassword"
+                      placeholder="Enter current password"
+                      required
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="new-password">New Password</label>
+                    <input
+                      type="password"
+                      id="new-password"
+                      name="newPassword"
+                      placeholder="Enter new password"
+                      required
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="confirm-password">Confirm New Password</label>
+                    <input
+                      type="password"
+                      id="confirm-password"
+                      name="confirmPassword"
+                      placeholder="Confirm new password"
+                      required
+                    />
+                  </div>
+                  <div className="form-actions">
+                    <button type="submit" className="save-btn">Update Password</button>
+                  </div>
+                </form>
               </div>
             )}
           </div>

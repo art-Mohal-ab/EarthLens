@@ -1,6 +1,6 @@
 import React from 'react';
 
-const MyReportList = ({ reports, onEditReport, onDeleteReport, onViewDetails, loading, error }) => {
+const MyReportList = ({ reports, onEditReport, onDeleteReport, onViewDetails, loading, error, showEditDelete = false }) => {
   if (loading) {
     return <div className="loading">Loading your reports...</div>;
   }
@@ -26,19 +26,22 @@ const MyReportList = ({ reports, onEditReport, onDeleteReport, onViewDetails, lo
               <button className="meta-btn">{report.ai_category || 'Uncategorized'}</button>
               <button className="meta-btn">{report.location}</button>
               <button className="meta-btn">{new Date(report.created_at).toLocaleDateString()}</button>
+              <button className="meta-btn">Reported by {report.reporter || 'Anonymous'}</button>
             </div>
             <p>{report.description}</p>
-            {report.ai_advice && (
+            {showEditDelete && report.ai_advice && (
               <div className="ai-recommendations">
                 <strong>AI Recommendations:</strong> {report.ai_advice}
               </div>
             )}
+            {showEditDelete && report.ai_advice && (
+              <div className="ai-action-buttons">
+                <button className="edit-btn" onClick={() => onEditReport(report)}>Edit</button>
+                <button className="delete-btn" onClick={() => onDeleteReport(report.id)}>Delete</button>
+              </div>
+            )}
             <div className="action-buttons">
-              <button className="edit-btn" onClick={() => onEditReport(report)}>Edit</button>
-              <button className="delete-btn" onClick={() => onDeleteReport(report.id)}>Delete</button>
-              <a className="details" href="#" onClick={(e) => { e.preventDefault(); onViewDetails(report.id); }}>
-                View details →
-              </a>
+              <button className="details-btn" onClick={() => onViewDetails(report.id)}>View details →</button>
             </div>
           </div>
         </article>

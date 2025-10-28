@@ -143,6 +143,7 @@ const ReportsPage = () => {
           onViewDetails={handleViewDetails}
           loading={loading}
           error={error}
+          showEditDelete={true}
         />
       </main>
 

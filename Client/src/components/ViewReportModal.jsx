@@ -97,7 +97,7 @@ const ViewReportModal = ({ report, isOpen, onClose }) => {
       ]
     };
 
-    return baseComments[report?.ai_category] || baseComments["Flooding"]; // Default to flooding comments
+    return baseComments[report?.ai_category] || baseComments["Flooding"];
   };
 
   const [comments, setComments] = useState(getContextualComments(report));

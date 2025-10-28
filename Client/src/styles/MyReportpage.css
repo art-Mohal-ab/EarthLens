@@ -72,14 +72,14 @@ body {
   overflow: hidden;
   display: flex;
   flex-direction: row;
-  height: 240px;
-  width: 85vw;
+  height: 280px;
+  width: 75vw;
   margin: 0 auto;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .image-section {
-  flex: 1;
+  flex: 0.8;
 }
 
 .image-section img {
@@ -108,15 +108,21 @@ body {
   margin-bottom: 10px;
 }
 
-.details {
-  color: var(--green);
-  text-decoration: none;
+.details-btn {
+  background-color: #e0e0e0;
+  border: none;
+  color: #333;
+  cursor: pointer;
   align-self: flex-end;
   font-weight: bold;
+  font-size: 14px;
+  padding: 6px 12px;
+  border-radius: 16px;
+  transition: background-color 0.2s;
 }
 
-.details:hover {
-  text-decoration: underline;
+.details-btn:hover {
+  background-color: #d0d0d0;
 }
 
 .metadata-buttons {
@@ -169,6 +175,43 @@ body {
 
 .ai-recommendations li:last-child {
   margin-bottom: 0;
+}
+
+.ai-action-buttons {
+  display: flex;
+  gap: 5px;
+  margin-top: 8px;
+  justify-content: flex-end;
+}
+
+.edit-btn {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 4px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: background-color 0.3s;
+}
+
+.edit-btn:hover {
+  background-color: #45a049;
+}
+
+.delete-btn {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  padding: 4px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: background-color 0.3s;
+}
+
+.delete-btn:hover {
+  background-color: #da190b;
 }
 
 @media (max-width: 900px) {

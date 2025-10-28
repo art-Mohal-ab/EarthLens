@@ -109,28 +109,99 @@ body {
   flex: 1;
   font-size: 14px;
   color: #333;
+  margin-bottom: 5px;
+}
+
+.reporter {
+  font-size: 12px;
+  color: #666;
   margin-bottom: 10px;
 }
 
-.details {
-  color: var(--green);
-  text-decoration: none;
+.details-btn {
+  background-color: #e0e0e0;
+  border: none;
+  color: #333;
+  cursor: pointer;
   align-self: flex-end;
   font-weight: bold;
+  font-size: 14px;
+  padding: 6px 12px;
+  border-radius: 16px;
+  transition: background-color 0.2s;
 }
 
-.details:hover {
-  text-decoration: underline;
+.details-btn:hover {
+  background-color: #d0d0d0;
 }
 
-.info-box {
-  background-color: white;
-  border: 1px solid #ccc;
-  padding: 2px 6px;
-  margin-right: 4px;
-  border-radius: 4px;
-  font-size: 12px;
+.metadata-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.meta-btn {
+  background-color: #e0e0e0;
+  border: none;
   color: #333;
+  cursor: pointer;
+  font-size: 12px;
+  padding: 4px 8px;
+  border-radius: 16px;
+  transition: background-color 0.2s;
+}
+
+.meta-btn:hover {
+  background-color: #d0d0d0;
+}
+
+.action-buttons {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.ai-recommendations {
+  font-size: 12px;
+  color: #555;
+  margin-bottom: 8px;
+  line-height: 1.4;
+}
+
+.ai-action-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 5px;
+  margin-bottom: 8px;
+}
+
+.edit-btn {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 4px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.edit-btn:hover {
+  background-color: #45a049;
+}
+
+.delete-btn {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  padding: 4px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.delete-btn:hover {
+  background-color: #da190b;
 }
 
 @media (max-width: 900px) {

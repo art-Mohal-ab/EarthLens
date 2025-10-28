@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import '../styles/EditReportModal.css';
 
 const EditReportModal = ({ report, isOpen, onClose, onSave }) => {
   const [formData, setFormData] = useState({
     title: '',
     description: '',
     location: '',
-    latitude: '',
-    longitude: '',
     is_public: true
   });
   const [loading, setLoading] = useState(false);
@@ -18,8 +17,6 @@ const EditReportModal = ({ report, isOpen, onClose, onSave }) => {
         title: report.title || '',
         description: report.description || '',
         location: report.location || '',
-        latitude: report.latitude || '',
-        longitude: report.longitude || '',
         is_public: report.is_public !== false
       });
     }
@@ -95,30 +92,7 @@ const EditReportModal = ({ report, isOpen, onClose, onSave }) => {
             />
           </div>
 
-          <div className="form-row">
-            <div className="form-group">
-              <label htmlFor="latitude">Latitude</label>
-              <input
-                type="number"
-                id="latitude"
-                name="latitude"
-                value={formData.latitude}
-                onChange={handleInputChange}
-                step="any"
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="longitude">Longitude</label>
-              <input
-                type="number"
-                id="longitude"
-                name="longitude"
-                value={formData.longitude}
-                onChange={handleInputChange}
-                step="any"
-              />
-            </div>
-          </div>
+
 
           <div className="form-group">
             <label className="checkbox-label">

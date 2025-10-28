@@ -36,7 +36,8 @@ function Dashboard() {
           ai_category: "Waste Management",
           created_at: "2025-10-10T00:00:00Z",
           image_url: "/assets/RIVER.png",
-          user: { username: "Sarah Mwangi" }
+          user: { username: "Sarah Mwangi" },
+          ai_advice: "Contact county waste management. Organize community cleanup. Advocate for recycling bins."
         },
         {
           id: 2,
@@ -46,7 +47,8 @@ function Dashboard() {
           ai_category: "Air Pollution",
           created_at: "2025-10-14T00:00:00Z",
           image_url: "/assets/AIR.png",
-          user: { username: "John Ouma" }
+          user: { username: "John Ouma" },
+          ai_advice: "Report to NEAA. Document emission times. Gather community signatures for petition."
         },
         {
           id: 3,
@@ -56,7 +58,8 @@ function Dashboard() {
           ai_category: "Flooding",
           created_at: "2025-10-13T00:00:00Z",
           image_url: "/assets/4.png",
-          user: { username: "Grace Kimani" }
+          user: { username: "Grace Kimani" },
+          ai_advice: "Contact local authorities. Document flood patterns. Join community drainage improvement initiatives."
         },
         {
           id: 4,
@@ -66,7 +69,8 @@ function Dashboard() {
           ai_category: "Poaching",
           created_at: "2025-10-10T00:00:00Z",
           image_url: "/assets/ANIMAL.png",
-          user: { username: "Mary Akinyi" }
+          user: { username: "Mary Akinyi" },
+          ai_advice: "Contact wildlife authorities. Report to local police. Document evidence with photos."
         }
       ];
 
@@ -111,6 +115,15 @@ function Dashboard() {
     const report = reports.find(r => r.id === reportId);
     setViewReport(report);
     setIsViewModalOpen(true);
+  };
+
+  const handleEditReport = (report) => {
+    setSelectedReport(report);
+    setIsModalOpen(true);
+  };
+
+  const handleDeleteReport = (reportId) => {
+    setReports(prev => prev.filter(r => r.id !== reportId));
   };
 
   const handleSaveReport = async (reportId, updatedData) => {
@@ -174,8 +187,11 @@ function Dashboard() {
         <ReportList
           reports={reports}
           onViewDetails={handleViewDetails}
+          onEditReport={handleEditReport}
+          onDeleteReport={handleDeleteReport}
           loading={loading}
           error={error}
+          showEditDelete={false}
         />
       </main>
 
