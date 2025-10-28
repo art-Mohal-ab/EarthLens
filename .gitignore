@@ -54,3 +54,7 @@ logs/
 # Temporary files
 *.tmp
 *.temp
+# Virtual Environment
+server/venv/
+venv/
+env/

@@ -20,9 +20,6 @@
   padding: 2rem 1rem;
   background: #ffffff;
   text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 }
 
 .how-earthlens-works h2 {

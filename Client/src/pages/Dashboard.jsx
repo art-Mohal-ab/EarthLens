@@ -146,7 +146,7 @@ function Dashboard() {
   };
 
   const handleReport = () => {
-    navigate("/dashboard");
+    navigate("/report");
   };
 
   const handleMyReports = () => {
@@ -154,7 +154,7 @@ function Dashboard() {
   };
 
   const handleGreenAction = () => {
-    navigate("/dashboard");
+    navigate("/green-actions");
   };
 
   const handleProfile = () => {
