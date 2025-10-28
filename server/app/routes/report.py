@@ -2,7 +2,6 @@ from flask import Blueprint, request, jsonify, send_from_directory
 from marshmallow import ValidationError
 from app.middleware.auth import auth_required
 from app.models.report import Report
-# from models.tag import Tag
 from app.schemas.report import report_create_schema, report_update_schema, report_schema, report_filter_schema
 from app.services.ai_service import ai_service
 from database import db
@@ -17,7 +16,6 @@ ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-# Serve uploaded files
 @reports_bp.route('/uploads/<path:filename>')
 def uploaded_file(filename):
     return send_from_directory('uploads', filename)
@@ -38,7 +36,6 @@ def get_reports():
 @auth_required
 def create_report(current_user):
     try:
-
         image_url = None
         if 'image' in request.files:
             file = request.files['image']
@@ -49,7 +46,6 @@ def create_report(current_user):
                 file.save(os.path.join(upload_folder, filename))
                 image_url = f"/uploads/{filename}"
 
-
         if request.content_type and request.content_type.startswith('multipart/form-data'):
             data = dict(request.form)
             if 'tags' in request.form:
@@ -57,11 +53,9 @@ def create_report(current_user):
         else:
             data = request.get_json() or {}
 
-
         validated_data = report_create_schema.load(data)
         if not isinstance(validated_data, dict):
             validated_data = {}
-
 
         report = Report(
             title=validated_data.get('title'),
@@ -72,17 +66,8 @@ def create_report(current_user):
             longitude=validated_data.get('longitude')
         )
         
-
         report.is_public = validated_data.get('is_public', True)
         report.image_url = image_url
-
-
-        # if 'tags' in validated_data:
-        #     from app.models.tag import Tag
-        #     for tag_name in validated_data.get('tags', []):
-        #         tag = Tag.get_or_create(tag_name)
-        #         report.tags.append(tag)
-
 
         try:
             classification = ai_service.classify_environmental_issue(
@@ -104,7 +89,7 @@ def create_report(current_user):
         except Exception as ai_error:
             print(f"AI processing failed: {ai_error}")
 
-        report.save()  # Save once at the end
+        report.save()
 
         return jsonify({
             'message': 'Report created successfully',
