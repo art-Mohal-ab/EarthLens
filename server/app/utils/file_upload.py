@@ -1,6 +1,6 @@
 import os
 import uuid
-from werkzeug.utils import secure_filename
+import re
 
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 MAX_FILE_SIZE = 5 * 1024 * 1024  # 5MB
@@ -28,7 +28,7 @@ def save_uploaded_file(file, upload_folder='uploads'):
 
         ext = file.filename.rsplit('.', 1)[1].lower()
         filename = f"{uuid.uuid4()}.{ext}"
-        safe_name = secure_filename(filename)
+        safe_name = re.sub(r'[^\w\s-]', '', filename).strip()[:255]
         file_path = os.path.join(upload_folder, safe_name)
 
         file.save(file_path)
