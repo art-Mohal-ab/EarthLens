@@ -24,7 +24,7 @@ const Cards = () => {
     <section className="cards-section">
       <div className="cards-container">
         {cardData.map((card, index) => (
-          <a key={index} href={card.link} className="card">
+          <a key={index} href={card.link} className="support-card">
             <h3>{card.title}</h3>
             <p>{card.text}</p>
           </a>
