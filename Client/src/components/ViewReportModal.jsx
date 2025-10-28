@@ -1,29 +1,107 @@
 import React, { useState } from 'react';
 
 const ViewReportModal = ({ report, isOpen, onClose }) => {
-  const [comments, setComments] = useState([
-    {
-      id: 1,
-      user: "Environmental Expert",
-      text: "This is a serious environmental concern that needs immediate attention. The local authorities should be notified.",
-      avatar: "E",
-      timestamp: "2023-10-15 10:30 AM"
-    },
-    {
-      id: 2,
-      user: "Community Member",
-      text: "I've noticed this issue too. The flooding has been getting worse over the past few months.",
-      avatar: "C",
-      timestamp: "2023-10-15 2:45 PM"
-    },
-    {
-      id: 3,
-      user: "Local Resident",
-      text: "Please help! My home was affected by the flooding last week. We need urgent action.",
-      avatar: "L",
-      timestamp: "2023-10-16 9:20 AM"
-    }
-  ]);
+  // Generate contextual comments based on report category
+  const getContextualComments = (report) => {
+    const baseComments = {
+      "Waste Management": [
+        {
+          id: 1,
+          user: "Waste Management Expert",
+          text: "This illegal dumping is a serious violation of environmental regulations. The plastic waste can contaminate waterways for years.",
+          avatar: "W",
+          timestamp: "2023-10-15 10:30 AM"
+        },
+        {
+          id: 2,
+          user: "Local Community Member",
+          text: "I've seen this dumping site growing for months. It's affecting the river ecosystem and fish populations.",
+          avatar: "C",
+          timestamp: "2023-10-15 2:45 PM"
+        },
+        {
+          id: 3,
+          user: "Environmental Activist",
+          text: "We need to organize a cleanup and report this to the National Environment Management Authority immediately.",
+          avatar: "A",
+          timestamp: "2023-10-16 9:20 AM"
+        }
+      ],
+      "Air Pollution": [
+        {
+          id: 1,
+          user: "Air Quality Specialist",
+          text: "These emissions likely exceed permitted levels. This could be causing respiratory issues in the surrounding community.",
+          avatar: "A",
+          timestamp: "2023-10-14 11:15 AM"
+        },
+        {
+          id: 2,
+          user: "Local Resident",
+          text: "The smoke from this factory has been getting worse. My children have been having breathing problems.",
+          avatar: "R",
+          timestamp: "2023-10-14 3:30 PM"
+        },
+        {
+          id: 3,
+          user: "Environmental Engineer",
+          text: "This requires immediate inspection by environmental authorities. The factory may need emission controls installed.",
+          avatar: "E",
+          timestamp: "2023-10-15 8:45 AM"
+        }
+      ],
+      "Flooding": [
+        {
+          id: 1,
+          user: "Environmental Expert",
+          text: "This is a serious environmental concern that needs immediate attention. The local authorities should be notified.",
+          avatar: "E",
+          timestamp: "2023-10-15 10:30 AM"
+        },
+        {
+          id: 2,
+          user: "Community Member",
+          text: "I've noticed this issue too. The flooding has been getting worse over the past few months.",
+          avatar: "C",
+          timestamp: "2023-10-15 2:45 PM"
+        },
+        {
+          id: 3,
+          user: "Local Resident",
+          text: "Please help! My home was affected by the flooding last week. We need urgent action.",
+          avatar: "L",
+          timestamp: "2023-10-16 9:20 AM"
+        }
+      ],
+      "Poaching": [
+        {
+          id: 1,
+          user: "Wildlife Conservationist",
+          text: "Poaching threatens endangered species and disrupts the entire ecosystem. This needs to be reported to wildlife authorities immediately.",
+          avatar: "W",
+          timestamp: "2023-10-10 9:00 AM"
+        },
+        {
+          id: 2,
+          user: "Local Guide",
+          text: "I've seen signs of poaching in this area before. The wildlife populations are declining rapidly.",
+          avatar: "G",
+          timestamp: "2023-10-10 1:20 PM"
+        },
+        {
+          id: 3,
+          user: "Conservation Volunteer",
+          text: "We need increased patrols and community education programs to combat poaching in this region.",
+          avatar: "V",
+          timestamp: "2023-10-11 10:30 AM"
+        }
+      ]
+    };
+
+    return baseComments[report?.ai_category] || baseComments["Flooding"]; // Default to flooding comments
+  };
+
+  const [comments, setComments] = useState(getContextualComments(report));
   const [isReplying, setIsReplying] = useState(false);
   const [replyText, setReplyText] = useState('');
 

@@ -187,6 +187,7 @@ function Dashboard() {
       />
 
       <ViewReportModal
+        key={viewReport?.id}
         report={viewReport}
         isOpen={isViewModalOpen}
         onClose={handleCloseViewModal}
