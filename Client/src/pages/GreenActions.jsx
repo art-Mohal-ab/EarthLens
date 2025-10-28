@@ -18,16 +18,11 @@ const GreenActions = () => {
       const response = await fetch('http://localhost:5001/api/ai/green-advice');
       if (response.ok) {
         const data = await response.json();
-        console.log('API Response:', data);
         setActions(data.actions);
       } else {
-        console.error('API Error:', response.status, response.statusText);
-        // Fallback to mock data
         setActions(mockActions);
       }
     } catch (error) {
-      console.error('Failed to fetch green actions:', error);
-      // Fallback to mock data
       setActions(mockActions);
     } finally {
       setLoading(false);
