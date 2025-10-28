@@ -1,6 +1,7 @@
 import React from 'react'
 import './Footer.css'
 
+
 const Footer = () => {
     return ( <footer className="footer">
           <div className="footer-container">
@@ -13,8 +14,8 @@ const Footer = () => {
           <h3 className="footer-heading">Quick Links</h3>
           <ul className="footer-links">
             <li><a href="/">Home</a></li>
-            <li><a href="/about">About</a></li>
-            <li><a href="/contact">Contact</a></li>
+            <li><a href="/About">About</a></li>
+            <li><a href="/Contact">Contact</a></li>
           </ul>
         </div>
 
@@ -23,15 +24,9 @@ const Footer = () => {
           <p>Email: earthlens@gmail.com</p>
           <p>Phone: +254 700 000 000</p>
           <div className="footer-socials">
-            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">
-              <img src="https://cdn-icons-png.flaticon.com/512/174/174855.png" alt="Instagram" />
-            </a>
-            <a href="https://twitter.com" target="_blank" rel="noopener noreferrer">
-              <img src="https://cdn-icons-png.flaticon.com/512/733/733579.png" alt="Twitter" />
-            </a>
-            <a href="https://github.com" target="_blank" rel="noopener noreferrer">
-              <img src="https://cdn-icons-png.flaticon.com/512/733/733553.png" alt="GitHub" />
-            </a>
+            <img src="/assets/facebook.jpeg" alt="Facebook" />
+            <img src="/insta.jpeg" alt="Instagram" />
+            <img src="/twitter.jpeg" alt="Twitter" />
           </div>
         </div>
       </div>
