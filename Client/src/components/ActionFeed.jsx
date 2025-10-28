@@ -2,8 +2,6 @@ import React from 'react';
 import './ActionFeed.css';
 
 const ActionFeed = ({ actions, loading, completedActions, onMarkDone }) => {
-  console.log('ActionFeed props:', { actions, loading, actionsLength: actions?.length });
-  
   if (loading) {
     return <div className="loading">Loading green actions...</div>;
   }
