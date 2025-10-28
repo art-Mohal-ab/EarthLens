@@ -29,37 +29,24 @@
 }
 
 .navbar a{
-    font-family: 'Jost', sans-serif;
+    font-family: jost;
     position: relative;
     font-size: 20px;
     color: rgb(0, 0, 0);
     font-weight: 500;
     margin-left: 40px;
-    
-}
-
-.navbar a.profile-nav{
-    font-size: 14px;
-    margin-left: 15px;
-    padding: 3px 8px;
-    background-color: #f0f0f0;
-    border: 1px solid #ccc;
-    border-radius: 4px;
     text-decoration: none;
-    color: #000;
-    transition: background-color 0.3s;
 }
 
-.navbar a.profile-nav:hover{
-    background-color: #e0e0e0;
+.navbar a:last-child {
+    background: #106111;
+    color: #FFFFFF;
+    padding: 6px 12px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+    font-size: 16px;
 }
 
-.navbar a.sign-out-btn{
-    background-color: #106111;
-    color: #fff;
+.navbar a:last-child:hover {
+    background: #0d4f0e;
 }
-
-.navbar a.sign-out-btn:hover{
-    background-color: #0d4f0e;
-}
-
