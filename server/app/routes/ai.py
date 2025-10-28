@@ -68,7 +68,6 @@ def analyze_report():
             else:
                 logger.warning(f"Report with ID {report_id} not found")
 
-        
         return jsonify({
             "message": "Analysis completed successfully",
             "analysis": {
@@ -94,7 +93,6 @@ def analyze_report():
             "message": "An error occurred during AI analysis. Please try again later."
         }), 500
 
-
 @ai_bp.route("/green-advice", methods=["GET"])
 def get_green_advice():
     try:
@@ -117,7 +115,6 @@ def get_green_advice():
             "error": "Failed to get green advice",
             "message": "An error occurred while generating recommendations."
         }), 500
-
 
 @ai_bp.route("/categories", methods=["GET"])
 def get_categories():
