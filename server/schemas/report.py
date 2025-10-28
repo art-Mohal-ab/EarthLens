@@ -1,34 +1,16 @@
 from marshmallow import Schema, fields, validate
 
 class ReportCreateSchema(Schema):
-    title = fields.Str(
-        required=True,
-        validate=validate.Length(min=5, max=200, error_messages={
-            "invalid": "Title must be between 5 and 200 characters."
-        })
-    )
-    description = fields.Str(
-        required=True,
-        validate=validate.Length(min=10, max=2000, error_messages={
-            "invalid": "Description must be between 10 and 2000 characters."
-        })
-    )
+    title = fields.Str(required=True, validate=validate.Length(min=5, max=200))
+    description = fields.Str(required=True, validate=validate.Length(min=10, max=2000))
     location = fields.Str(validate=validate.Length(max=200))
     latitude = fields.Float(validate=validate.Range(min=-90, max=90))
     longitude = fields.Float(validate=validate.Range(min=-180, max=180))
     is_public = fields.Bool(default=True)
 
 class ReportUpdateSchema(Schema):
-    title = fields.Str(
-        validate=validate.Length(min=5, max=200, error_messages={
-            "invalid": "Title must be between 5 and 200 characters."
-        })
-    )
-    description = fields.Str(
-        validate=validate.Length(min=10, max=2000, error_messages={
-            "invalid": "Description must be between 10 and 2000 characters."
-        })
-    )
+    title = fields.Str(validate=validate.Length(min=5, max=200))
+    description = fields.Str(validate=validate.Length(min=10, max=2000))
     location = fields.Str(validate=validate.Length(max=200))
     latitude = fields.Float(validate=validate.Range(min=-90, max=90))
     longitude = fields.Float(validate=validate.Range(min=-180, max=180))
@@ -55,7 +37,6 @@ class ReportSchema(Schema):
     comments_count = fields.Int(dump_only=True)
     tags = fields.List(fields.Dict(), dump_only=True)
 
-# Schema instances
 report_create_schema = ReportCreateSchema()
 report_update_schema = ReportUpdateSchema()
 report_schema = ReportSchema()

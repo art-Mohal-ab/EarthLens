@@ -1,4 +1,4 @@
-from database import db, BaseModel
+from database.db import db, BaseModel
 
 class Comment(BaseModel):
     __tablename__ = 'comments'

@@ -1,6 +1,5 @@
-from database import db, BaseModel
+from database.db import db, BaseModel
 
-# Association table for many-to-many relationship between reports and tags
 report_tags = db.Table(
     'report_tags',
     db.Column('report_id', db.Integer, db.ForeignKey('reports.id', ondelete='CASCADE'), primary_key=True),
@@ -28,9 +27,7 @@ class Tag(BaseModel):
         self.description = description
         self.color = color
 
-    # --- 🔹 Serialization ---
     def to_dict(self, include_reports_count=False):
-        """Convert tag data to a dictionary format."""
         data = {
             'id': self.id,
             'name': self.name,
@@ -40,20 +37,16 @@ class Tag(BaseModel):
         }
 
         if include_reports_count:
-            # Use .count() for dynamic relationship (performance-efficient)
             data['reports_count'] = self.reports.count()
 
         return data
 
-    # --- 🔹 Query Helpers ---
     @classmethod
     def find_by_name(cls, name):
-        """Find a tag by its name (case-insensitive)."""
         return cls.query.filter_by(name=name.lower().strip()).first()
 
     @classmethod
     def get_or_create(cls, name, description=None, color='#2d5016'):
-        """Return existing tag or create a new one if it doesn't exist."""
         tag = cls.find_by_name(name)
         if not tag:
             tag = cls(name=name, description=description, color=color)
@@ -62,7 +55,6 @@ class Tag(BaseModel):
 
     @classmethod
     def get_popular_tags(cls, limit=20):
-        """Get the most used tags by associated reports."""
         return (
             cls.query
             .join(report_tags)

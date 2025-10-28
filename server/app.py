@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, jsonify
 from flask_cors import CORS
 from database.db import db
 from config import Config
@@ -14,12 +14,15 @@ app.config.from_object(Config)
 CORS(app)
 db.init_app(app)
 
-# Register blueprints
 app.register_blueprint(auth_bp)
 app.register_blueprint(reports_bp)
 app.register_blueprint(comments_bp)
 app.register_blueprint(profile_bp)
 app.register_blueprint(tags_bp)
+
+@app.route('/')
+def home():
+    return jsonify({'message': 'EarthLens API is running!', 'status': 'success'})
 
 if __name__ == '__main__':
     with app.app_context():

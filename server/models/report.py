@@ -1,4 +1,4 @@
- database import db, BaseModel
+from database.db import db, BaseModel
 
 class Report(BaseModel):
     __tablename__ = 'reports'

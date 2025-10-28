@@ -1,14 +1,7 @@
 from marshmallow import Schema, fields, validate, validates, ValidationError
 
 class CommentCreateSchema(Schema):
-    content = fields.Str(
-        required=True,
-        validate=validate.Length(
-            min=1,
-            max=1000,
-            error_messages={"invalid": "Comment must be between 1 and 1000 characters."}
-        )
-    )
+    content = fields.Str(required=True, validate=validate.Length(min=1, max=1000))
     parent_id = fields.Int(allow_none=True)
     user_id = fields.Int(required=True)
     report_id = fields.Int(required=True)
@@ -19,14 +12,7 @@ class CommentCreateSchema(Schema):
             raise ValidationError("Comment cannot be empty or only whitespace.")
 
 class CommentUpdateSchema(Schema):
-    content = fields.Str(
-        required=True,
-        validate=validate.Length(
-            min=1,
-            max=1000,
-            error_messages={"invalid": "Updated comment must be between 1 and 1000 characters."}
-        )
-    )
+    content = fields.Str(required=True, validate=validate.Length(min=1, max=1000))
 
     @validates("content")
     def validate_content_not_blank(self, value):
@@ -43,7 +29,6 @@ class CommentSchema(Schema):
     replies_count = fields.Int(dump_only=True)
     replies = fields.List(fields.Dict(), dump_only=True)
 
-# Schema instances
 comment_create_schema = CommentCreateSchema()
 comment_update_schema = CommentUpdateSchema()
 comment_schema = CommentSchema()
