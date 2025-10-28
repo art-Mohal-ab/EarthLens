@@ -1,7 +1,4 @@
 #!/usr/bin/env python3
-"""
-Seed script for EarthLens database
-"""
 import sys
 from main import create_app
 from database import db
@@ -11,15 +8,12 @@ from app.models.tag import Tag
 from datetime import datetime
 
 def seed_database():
-    """Add sample data to database"""
     app = create_app()
     
     with app.app_context():
-        # Clear existing data
         db.drop_all()
         db.create_all()
         
-        # Create sample users
         user1 = User(username='john_doe', email='john@example.com')
         user1.set_password('password123')
         user1.save()
@@ -28,7 +22,6 @@ def seed_database():
         user2.set_password('password123')
         user2.save()
         
-        # Create sample tags
         tag1 = Tag(name='pollution')
         tag1.save()
         
@@ -38,7 +31,6 @@ def seed_database():
         tag3 = Tag(name='air-quality')
         tag3.save()
         
-        # Create sample reports
         report1 = Report(
             title='Plastic waste in local park',
             description='Large amounts of plastic bottles and bags scattered throughout Central Park. This is affecting local wildlife and water quality.',
