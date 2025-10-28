@@ -3,7 +3,9 @@ import { useNavigate } from "react-router-dom";
 import ReportList from "../components/ReportList";
 import FilterBar from "../components/FilterBar";
 import EditReportModal from "../components/EditReportModal";
+import ViewReportModal from "../components/ViewReportModal";
 import "../styles/Dashboard.css";
+import "../styles/ViewReportModal.css";
 
 function Dashboard() {
   const navigate = useNavigate();
@@ -13,6 +15,8 @@ function Dashboard() {
   const [filters, setFilters] = useState({});
   const [selectedReport, setSelectedReport] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isViewModalOpen, setIsViewModalOpen] = useState(false);
+  const [viewReport, setViewReport] = useState(null);
 
   useEffect(() => {
     fetchReports();
@@ -105,8 +109,8 @@ function Dashboard() {
 
   const handleViewDetails = (reportId) => {
     const report = reports.find(r => r.id === reportId);
-    setSelectedReport(report);
-    setIsModalOpen(true);
+    setViewReport(report);
+    setIsViewModalOpen(true);
   };
 
   const handleSaveReport = async (reportId, updatedData) => {
@@ -117,6 +121,11 @@ function Dashboard() {
   const handleCloseModal = () => {
     setIsModalOpen(false);
     setSelectedReport(null);
+  };
+
+  const handleCloseViewModal = () => {
+    setIsViewModalOpen(false);
+    setViewReport(null);
   };
 
   const handleDashboard = () => {
@@ -175,6 +184,12 @@ function Dashboard() {
         isOpen={isModalOpen}
         onClose={handleCloseModal}
         onSave={handleSaveReport}
+      />
+
+      <ViewReportModal
+        report={viewReport}
+        isOpen={isViewModalOpen}
+        onClose={handleCloseViewModal}
       />
     </div>
   );
