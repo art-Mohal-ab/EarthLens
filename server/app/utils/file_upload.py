@@ -7,12 +7,10 @@ MAX_FILE_SIZE = 5 * 1024 * 1024  # 5MB
 
 
 def allowed_file(filename):
-    """Check if the uploaded file has an allowed extension."""
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
 def save_uploaded_file(file, upload_folder='uploads'):
-    """Validate and save an uploaded file safely."""
     try:
         if not file or not file.filename:
             return None, "No file provided."
@@ -20,7 +18,6 @@ def save_uploaded_file(file, upload_folder='uploads'):
         if not allowed_file(file.filename):
             return None, "File type not allowed."
 
-        # Check file size if content_length is available
         file.seek(0, os.SEEK_END)
         file_size = file.tell()
         file.seek(0)
