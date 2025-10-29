@@ -1,11 +1,11 @@
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import jwt_required, get_jwt_identity, create_access_token, create_refresh_token
 from marshmallow import ValidationError
-
 from app.database import db
 from app.models.user import User
 from app.schemas.user import UserRegistrationSchema, UserLoginSchema, UserUpdateSchema
 from app.middleware.auth import auth_required
+from app.utils.security import SecurityUtils
 
 auth_bp = Blueprint('auth', __name__)
 
@@ -25,11 +25,11 @@ def register():
 
         # Validate input data
         data = user_registration_schema.load(json_data)
-        
+
         # Check if user already exists
         if User.find_by_email(data['email']):
             return jsonify({'error': 'Email already registered'}), 400
-        
+
         if User.find_by_username(data['username']):
             return jsonify({'error': 'Username already taken'}), 400
 
@@ -71,10 +71,10 @@ def login():
 
         # Validate input data
         data = user_login_schema.load(json_data)
-        
+
         # Find user by email or username
         user = User.find_by_email(data['email']) or User.find_by_username(data['email'])
-        
+
         if not user or not user.check_password(data['password']):
             return jsonify({'error': 'Invalid credentials'}), 401
 
@@ -121,7 +121,7 @@ def update_profile(current_user):
 
         # Validate input data
         data = user_update_schema.load(json_data)
-        
+
         # Check for username conflicts
         if 'username' in data and data['username'] != current_user.username:
             if User.find_by_username(data['username']):
@@ -136,7 +136,7 @@ def update_profile(current_user):
         for field in ['username', 'first_name', 'last_name', 'bio']:
             if field in data:
                 setattr(current_user, field, data[field])
-        
+
         if 'email' in data:
             current_user.email = data['email'].lower()
 
@@ -144,10 +144,10 @@ def update_profile(current_user):
         if 'new_password' in data:
             if not data.get('current_password'):
                 return jsonify({'error': 'Current password required'}), 400
-            
+
             if not current_user.check_password(data['current_password']):
                 return jsonify({'error': 'Current password is incorrect'}), 401
-            
+
             current_user.set_password(data['new_password'])
 
         current_user.save()
@@ -171,12 +171,12 @@ def refresh():
     try:
         current_user_id = get_jwt_identity()
         user = User.query.get(current_user_id)
-        
+
         if not user or not user.is_active:
             return jsonify({'error': 'Invalid refresh token'}), 401
 
         access_token = create_access_token(identity=user.id)
-        
+
         return jsonify({
             'message': 'Token refreshed successfully',
             'access_token': access_token
