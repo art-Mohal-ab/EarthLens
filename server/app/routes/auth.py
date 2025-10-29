@@ -1,48 +1,57 @@
 from flask import Blueprint, request, jsonify
-from flask_jwt_extended import jwt_required, get_jwt_identity, create_access_token
+from flask_jwt_extended import jwt_required, get_jwt_identity, create_access_token, create_refresh_token
 from marshmallow import ValidationError
-from database import db
-from models.user import User
-from schemas.user import (user_registration_schema, user_login_schema, user_profile_schema, user_update_schema)
-from middleware.auth import auth_required
-from utils.security import SecurityUtils
 
-auth_bp = Blueprint('auth', __name__, url_prefix='/api/auth')
+from app.database import db
+from app.models.user import User
+from app.schemas.user import UserRegistrationSchema, UserLoginSchema, UserUpdateSchema
+from app.middleware.auth import auth_required
+
+auth_bp = Blueprint('auth', __name__)
+
+# Initialize schemas
+user_registration_schema = UserRegistrationSchema()
+user_login_schema = UserLoginSchema()
+user_update_schema = UserUpdateSchema()
 
 
-@auth_bp.route('/signup', methods=['POST'])
-def signup():
+@auth_bp.route('/register', methods=['POST'])
+def register():
+    """Register a new user"""
     try:
         json_data = request.get_json()
         if not json_data:
             return jsonify({'error': 'No data provided'}), 400
 
-
+        # Validate input data
         data = user_registration_schema.load(json_data)
-        data['email'] = data['email'].lower()
-
-
+        
+        # Check if user already exists
         if User.find_by_email(data['email']):
             return jsonify({'error': 'Email already registered'}), 400
+        
         if User.find_by_username(data['username']):
             return jsonify({'error': 'Username already taken'}), 400
 
-
-        is_strong, password_message = SecurityUtils.validate_password_strength(data['password'])
-        if not is_strong:
-            return jsonify({'error': 'Weak password', 'message': password_message}), 400
-
-
-        user = User(**data)
+        # Create new user
+        user = User(
+            username=data['username'],
+            email=data['email'].lower(),
+            first_name=data.get('first_name'),
+            last_name=data.get('last_name')
+        )
+        user.set_password(data['password'])
         user.save()
 
-        tokens = user.generate_tokens()
+        # Generate tokens
+        access_token = create_access_token(identity=user.id)
+        refresh_token = create_refresh_token(identity=user.id)
 
         return jsonify({
             'message': 'User registered successfully',
-            'user': user_profile_schema.dump(user.to_dict(include_sensitive=True)),
-            'token': tokens['access_token'],
-            'refresh_token': tokens['refresh_token']
+            'user': user.to_dict(include_email=True),
+            'access_token': access_token,
+            'refresh_token': refresh_token
         }), 201
 
     except ValidationError as err:
@@ -54,28 +63,33 @@ def signup():
 
 @auth_bp.route('/login', methods=['POST'])
 def login():
+    """Login user"""
     try:
         json_data = request.get_json()
         if not json_data:
             return jsonify({'error': 'No data provided'}), 400
 
+        # Validate input data
         data = user_login_schema.load(json_data)
-        email = data['email'].lower()
-
-        user = User.find_by_email(email)
+        
+        # Find user by email or username
+        user = User.find_by_email(data['email']) or User.find_by_username(data['email'])
+        
         if not user or not user.check_password(data['password']):
-            return jsonify({'error': 'Invalid email or password'}), 401
+            return jsonify({'error': 'Invalid credentials'}), 401
 
         if not user.is_active:
-            return jsonify({'error': 'Account disabled'}), 403
+            return jsonify({'error': 'Account is disabled'}), 403
 
-        tokens = user.generate_tokens()
+        # Generate tokens
+        access_token = create_access_token(identity=user.id)
+        refresh_token = create_refresh_token(identity=user.id)
 
         return jsonify({
             'message': 'Login successful',
-            'user': user_profile_schema.dump(user.to_dict(include_sensitive=True)),
-            'token': tokens['access_token'],
-            'refresh_token': tokens['refresh_token']
+            'user': user.to_dict(include_email=True),
+            'access_token': access_token,
+            'refresh_token': refresh_token
         }), 200
 
     except ValidationError as err:
@@ -86,55 +100,61 @@ def login():
 
 @auth_bp.route('/me', methods=['GET'])
 @auth_required
-def get_current_user(current_user):
+def get_profile(current_user):
+    """Get current user profile"""
     try:
         return jsonify({
-            'user': user_profile_schema.dump(current_user.to_dict(include_sensitive=True))
+            'user': current_user.to_dict(include_email=True)
         }), 200
-    except Exception:
-        return jsonify({'error': 'Failed to retrieve user profile'}), 500
+    except Exception as e:
+        return jsonify({'error': 'Failed to get profile', 'message': str(e)}), 500
 
 
 @auth_bp.route('/me', methods=['PUT'])
 @auth_required
 def update_profile(current_user):
+    """Update current user profile"""
     try:
         json_data = request.get_json()
         if not json_data:
             return jsonify({'error': 'No data provided'}), 400
 
+        # Validate input data
         data = user_update_schema.load(json_data)
-
-
+        
+        # Check for username conflicts
         if 'username' in data and data['username'] != current_user.username:
             if User.find_by_username(data['username']):
                 return jsonify({'error': 'Username already taken'}), 400
-            current_user.username = data['username']
 
-
+        # Check for email conflicts
         if 'email' in data and data['email'].lower() != current_user.email:
-            if User.find_by_email(data['email'].lower()):
+            if User.find_by_email(data['email']):
                 return jsonify({'error': 'Email already registered'}), 400
+
+        # Update user fields
+        for field in ['username', 'first_name', 'last_name', 'bio']:
+            if field in data:
+                setattr(current_user, field, data[field])
+        
+        if 'email' in data:
             current_user.email = data['email'].lower()
 
-
+        # Handle password change
         if 'new_password' in data:
-            if 'current_password' not in data:
+            if not data.get('current_password'):
                 return jsonify({'error': 'Current password required'}), 400
+            
             if not current_user.check_password(data['current_password']):
-                return jsonify({'error': 'Current password incorrect'}), 400
-
-            is_strong, message = SecurityUtils.validate_password_strength(data['new_password'])
-            if not is_strong:
-                return jsonify({'error': 'Weak password', 'message': message}), 400
-
+                return jsonify({'error': 'Current password is incorrect'}), 401
+            
             current_user.set_password(data['new_password'])
 
         current_user.save()
 
         return jsonify({
             'message': 'Profile updated successfully',
-            'user': user_profile_schema.dump(current_user.to_dict(include_sensitive=True))
+            'user': current_user.to_dict(include_email=True)
         }), 200
 
     except ValidationError as err:
@@ -146,16 +166,21 @@ def update_profile(current_user):
 
 @auth_bp.route('/refresh', methods=['POST'])
 @jwt_required(refresh=True)
-def refresh_token():
+def refresh():
+    """Refresh access token"""
     try:
         current_user_id = get_jwt_identity()
-        user = User.find_by_id(current_user_id)
-
+        user = User.query.get(current_user_id)
+        
         if not user or not user.is_active:
             return jsonify({'error': 'Invalid refresh token'}), 401
 
-        new_token = create_access_token(identity=user.id)
-        return jsonify({'message': 'Token refreshed successfully', 'token': new_token}), 200
+        access_token = create_access_token(identity=user.id)
+        
+        return jsonify({
+            'message': 'Token refreshed successfully',
+            'access_token': access_token
+        }), 200
 
     except Exception as e:
         return jsonify({'error': 'Failed to refresh token', 'message': str(e)}), 500
@@ -164,13 +189,5 @@ def refresh_token():
 @auth_bp.route('/logout', methods=['POST'])
 @auth_required
 def logout(current_user):
+    """Logout user (client should discard tokens)"""
     return jsonify({'message': 'Logged out successfully'}), 200
-
-
-@auth_bp.route('/health', methods=['GET'])
-def health_check():
-    return jsonify({
-        'status': 'healthy',
-        'service': 'auth',
-        'message': 'Authentication service is running'
-    }), 200
