@@ -27,16 +27,20 @@ def create_app(config_name=None):
     try:
         from app.routes.report import reports_bp
         app.register_blueprint(reports_bp)
-        pass
     except ImportError as e:
-        pass
-    
+        app.logger.warning(f"Failed to load reports blueprint: {e}")
+
+    try:
+        from app.routes.auth import auth_bp
+        app.register_blueprint(auth_bp)
+    except ImportError as e:
+        app.logger.warning(f"Failed to load auth blueprint: {e}")
+
     try:
         from app.routes.ai import ai_bp
         app.register_blueprint(ai_bp)
-        pass
     except ImportError as e:
-        pass
+        app.logger.warning(f"Failed to load ai blueprint: {e}")
 
     @app.route("/api/health")
     def health_check():
@@ -63,7 +67,7 @@ def create_app(config_name=None):
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5001))
-    debug = os.environ.get("FLASK_ENV") == "development"
+    debug = True
 
     print(f"Starting EarthLens AI backend on port {port} (debug={debug})")
 
