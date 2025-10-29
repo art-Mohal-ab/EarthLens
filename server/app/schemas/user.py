@@ -1,16 +1,12 @@
 from marshmallow import Schema, fields, validate, validates, ValidationError
-from models.user import User
+from app.models.user import User
 
 
 class UserRegistrationSchema(Schema):
     username = fields.Str(
         required=True,
         validate=[
-            validate.Length(
-                min=3,
-                max=80,
-                error_messages={"invalid": "Username must be between 3 and 80 characters"}
-            ),
+            validate.Length(min=3, max=80),
             validate.Regexp(
                 r'^[a-zA-Z0-9_-]+$',
                 error="Username can only contain letters, numbers, underscores, and hyphens"
@@ -19,17 +15,11 @@ class UserRegistrationSchema(Schema):
     )
     email = fields.Email(
         required=True,
-        validate=validate.Length(
-            max=120,
-            error_messages={"invalid": "Email must be less than 120 characters"}
-        )
+        validate=validate.Length(max=120)
     )
     password = fields.Str(
         required=True,
-        validate=validate.Length(
-            min=6,
-            error_messages={"invalid": "Password must be at least 6 characters long"}
-        ),
+        validate=validate.Length(min=6),
         load_only=True
     )
 
@@ -63,11 +53,7 @@ class UserProfileSchema(Schema):
 class UserUpdateSchema(Schema):
     username = fields.Str(
         validate=[
-            validate.Length(
-                min=3,
-                max=80,
-                error_messages={"invalid": "Username must be between 3 and 80 characters"}
-            ),
+            validate.Length(min=3, max=80),
             validate.Regexp(
                 r'^[a-zA-Z0-9_-]+$',
                 error="Username can only contain letters, numbers, underscores, and hyphens"
@@ -75,17 +61,11 @@ class UserUpdateSchema(Schema):
         ]
     )
     email = fields.Email(
-        validate=validate.Length(
-            max=120,
-            error_messages={"invalid": "Email must be less than 120 characters"}
-        )
+        validate=validate.Length(max=120)
     )
     current_password = fields.Str(load_only=True)
     new_password = fields.Str(
-        validate=validate.Length(
-            min=6,
-            error_messages={"invalid": "Password must be at least 6 characters long"}
-        ),
+        validate=validate.Length(min=6),
         load_only=True
     )
 
@@ -98,10 +78,7 @@ class PasswordResetConfirmSchema(Schema):
     token = fields.Str(required=True)
     new_password = fields.Str(
         required=True,
-        validate=validate.Length(
-            min=6,
-            error_messages={"invalid": "Password must be at least 6 characters long"}
-        ),
+        validate=validate.Length(min=6),
         load_only=True
     )
 
