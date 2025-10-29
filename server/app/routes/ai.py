@@ -1,134 +1,108 @@
 from flask import Blueprint, request, jsonify
 from marshmallow import ValidationError
-from app.middleware.auth import auth_required
-from app.services.ai_service import ai_service
+
 from app.models.report import Report
-from database import db
-from datetime import datetime
-import logging
+from app.services.ai_service import AIService
+from app.middleware.auth import auth_required
 
-ai_bp = Blueprint("ai", __name__, url_prefix="/api/ai")
-logger = logging.getLogger(__name__)
+ai_bp = Blueprint('ai', __name__)
 
-@ai_bp.route('', methods=['GET'])
-def ai_info():
-    return jsonify({
-        'message': 'EarthLens AI Service',
-        'endpoints': {
-            'analyze': '/api/ai/analyze',
-            'green-advice': '/api/ai/green-advice',
-            'categories': '/api/ai/categories'
-        }
-    }), 200
 
-@ai_bp.route("/analyze", methods=["POST"])
-def analyze_report():
+@ai_bp.route('/analyze-report/<int:report_id>', methods=['POST'])
+@auth_required
+def analyze_report(report_id, current_user):
+    """Analyze a report with AI"""
     try:
-        json_data = request.get_json(silent=True)
-        if not json_data:
+        report = Report.query.get_or_404(report_id)
+        
+        # Check if user owns this report or if it's public
+        if not report.is_public and report.user_id != current_user.id:
+            return jsonify({'error': 'Permission denied'}), 403
+
+        ai_service = AIService()
+        result = ai_service.analyze_report(report)
+        
+        if result:
+            # Update report with AI analysis
+            report.mark_ai_processed(
+                category=result.get('category'),
+                confidence=result.get('confidence'),
+                advice=result.get('advice')
+            )
+            report.save()
+            
             return jsonify({
-                "error": "No data provided",
-                "message": "Request body must contain JSON data."
-            }), 400
-
-        title = json_data.get("title", "").strip()
-        description = json_data.get("description", "").strip()
-        location = json_data.get("location")
-        image_url = json_data.get("image_url")
-        report_id = json_data.get("report_id")
-
-        if not title or not description:
-            return jsonify({
-                "error": "Missing required fields",
-                "message": "Both 'title' and 'description' are required."
-            }), 400
-
-        classification = ai_service.classify_environmental_issue(
-            title=title,
-            description=description,
-            image_url=image_url
-        )
-
-        advice = ai_service.generate_advice(
-            category=classification.get("category", "environmental-issue"),
-            title=title,
-            description=description,
-            location=location
-        )
-
-        if report_id:
-            report = Report.query.filter_by(id=report_id).first()
-            if report:
-                report.ai_category = classification.get("category")
-                report.ai_confidence = classification.get("confidence")
-                report.ai_advice = advice
-                report.ai_processed = True
-                report.ai_processed_at = datetime.utcnow()
-                db.session.commit()
-            else:
-                logger.warning(f"Report with ID {report_id} not found")
-
-        return jsonify({
-            "message": "Analysis completed successfully",
-            "analysis": {
-                "category": classification.get("category"),
-                "confidence": classification.get("confidence"),
-                "advice": advice,
-                "processed_at": datetime.utcnow().isoformat(),
-                "saved_to_report": bool(report_id)
-            }
-        }), 200
-
-    except ValidationError as ve:
-        logger.warning(f"Validation error during AI analysis: {ve}")
-        return jsonify({
-            "error": "Validation error",
-            "message": str(ve)
-        }), 400
+                'message': 'Report analyzed successfully',
+                'analysis': result,
+                'report': report.to_dict()
+            }), 200
+        else:
+            return jsonify({'error': 'AI analysis failed'}), 500
 
     except Exception as e:
-        logger.error(f"AI analysis failed: {e}")
-        return jsonify({
-            "error": "Analysis failed",
-            "message": "An error occurred during AI analysis. Please try again later."
-        }), 500
+        return jsonify({'error': 'Failed to analyze report', 'message': str(e)}), 500
 
-@ai_bp.route("/green-advice", methods=["GET"])
+
+@ai_bp.route('/green-advice', methods=['GET'])
 def get_green_advice():
+    """Get AI-generated green advice and actions"""
     try:
-        location = request.args.get("location")
-        interests = request.args.getlist("interests")
-
-        actions = ai_service.get_green_actions(
-            user_location=location,
-            interests=interests
-        )
-
+        category = request.args.get('category', 'general')
+        location = request.args.get('location')
+        
+        ai_service = AIService()
+        advice = ai_service.generate_green_advice(category=category, location=location)
+        
         return jsonify({
-            "message": "Green actions retrieved successfully",
-            "actions": actions
+            'advice': advice,
+            'category': category,
+            'location': location
         }), 200
 
     except Exception as e:
-        logger.error(f"Failed to generate green advice: {e}")
+        return jsonify({'error': 'Failed to generate advice', 'message': str(e)}), 500
+
+
+@ai_bp.route('/categorize-text', methods=['POST'])
+@auth_required
+def categorize_text(current_user):
+    """Categorize environmental text using AI"""
+    try:
+        json_data = request.get_json()
+        if not json_data or 'text' not in json_data:
+            return jsonify({'error': 'Text is required'}), 400
+
+        text = json_data['text']
+        ai_service = AIService()
+        result = ai_service.categorize_environmental_issue(text)
+        
         return jsonify({
-            "error": "Failed to get green advice",
-            "message": "An error occurred while generating recommendations."
-        }), 500
+            'text': text,
+            'category': result.get('category'),
+            'confidence': result.get('confidence'),
+            'suggestions': result.get('suggestions', [])
+        }), 200
 
-@ai_bp.route("/categories", methods=["GET"])
-def get_categories():
-    categories = [
-        {"name": "pollution", "description": "Environmental pollution issues"},
-        {"name": "climate-change", "description": "Climate change and global warming concerns"},
-        {"name": "deforestation", "description": "Forest degradation and habitat loss"},
-        {"name": "water-issues", "description": "Water scarcity, flooding, and contamination"},
-        {"name": "air-quality", "description": "Air pollution and emissions concerns"},
-        {"name": "wildlife", "description": "Biodiversity and wildlife conservation"},
-        {"name": "environmental-issue", "description": "Other general environmental problems"}
-    ]
+    except Exception as e:
+        return jsonify({'error': 'Failed to categorize text', 'message': str(e)}), 500
 
-    return jsonify({
-        "message": "Categories retrieved successfully",
-        "categories": categories
-    }), 200
+
+@ai_bp.route('/health', methods=['GET'])
+def health_check():
+    """Health check for AI service"""
+    try:
+        ai_service = AIService()
+        is_healthy = ai_service.health_check()
+        
+        return jsonify({
+            'status': 'healthy' if is_healthy else 'unhealthy',
+            'service': 'ai',
+            'message': 'AI service is running' if is_healthy else 'AI service unavailable'
+        }), 200 if is_healthy else 503
+
+    except Exception as e:
+        return jsonify({
+            'status': 'unhealthy',
+            'service': 'ai',
+            'message': str(e)
+        }), 503
