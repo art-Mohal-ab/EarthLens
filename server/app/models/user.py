@@ -15,7 +15,6 @@ class User(BaseModel):
     is_active = db.Column(db.Boolean, default=True)
     is_verified = db.Column(db.Boolean, default=False)
     
-    # Relationships
     reports = db.relationship('Report', backref='author', lazy='dynamic', cascade='all, delete-orphan')
     comments = db.relationship('Comment', backref='author', lazy='dynamic', cascade='all, delete-orphan')
     
@@ -34,7 +33,7 @@ class User(BaseModel):
             return f"{self.first_name} {self.last_name}"
         return self.username
     
-    def to_dict(self, include_email=False):
+    def to_dict(self, include_email=False, include_sensitive=False):
         """Convert user to dictionary"""
         data = {
             'id': self.id,
@@ -49,10 +48,10 @@ class User(BaseModel):
             'reports_count': self.reports.count(),
             'comments_count': self.comments.count()
         }
-        
-        if include_email:
+
+        if include_email or include_sensitive:
             data['email'] = self.email
-            
+
         return data
     
     @classmethod

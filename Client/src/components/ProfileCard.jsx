@@ -9,11 +9,11 @@ const ProfileCard = ({ userData, onEdit }) => {
         </div>
       </div>
       <div className="user-details">
-        <h2 className="user-name">{userData?.username || 'User'}</h2>
+        <h2 className="user-name">{userData?.username || ''}</h2>
         <p className="user-email">{userData?.email || ''}</p>
         <div className="user-badge">
           <span className="badge-text">
-            Joined {userData?.created_at ? new Date(userData.created_at).toLocaleDateString() : 'Recently'}
+            Joined {userData?.created_at ? new Date(userData.created_at).toLocaleDateString() : ''}
           </span>
         </div>
       </div>

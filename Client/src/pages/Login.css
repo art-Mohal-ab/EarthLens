@@ -83,3 +83,10 @@
 .signup-link:hover {
   text-decoration: underline;
 }
+
+.error-message {
+  color: #ff6b6b;
+  font-size: 14px;
+  margin-top: 10px;
+  font-weight: 500;
+}

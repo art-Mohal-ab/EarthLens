@@ -33,79 +33,38 @@ function Dashboard() {
       setLoading(true);
       setError(null);
 
-      const mockReports = [
-        {
-          id: 1,
-          title: "Illegal Dumping Near River",
-          description: "Large amounts of plastic waste dumped near the riverbank affecting water quality and wildlife.",
-          location: "Nairobi, Kenya",
-          ai_category: "Waste Management",
-          created_at: "2025-10-10T00:00:00Z",
-          image_url: "/assets/plastic.png",
-          user: { username: "Sarah Mwangi" },
-          ai_advice: "Contact county waste management. Organize community cleanup. Advocate for recycling bins."
-        },
-        {
-          id: 2,
-          title: "Air Pollution from Factory",
-          description: "Visible smoke emissions from nearby factory affecting air quality in residential area.",
-          location: "Kisumu, Kenya",
-          ai_category: "Air Pollution",
-          created_at: "2025-10-14T00:00:00Z",
-          image_url: "/assets/Air.png",
-          user: { username: "John Ouma" },
-          ai_advice: "Report to NEAA. Document emission times. Gather community signatures for petition."
-        },
-        {
-          id: 3,
-          title: "Flooding in Residential Area",
-          description: "Poor drainage causing severe flooding during rainy season affecting multiple homes.",
-          location: "Mombasa, Kenya",
-          ai_category: "Flooding",
-          created_at: "2025-10-13T00:00:00Z",
-          image_url: "/assets/Floods.png",
-          user: { username: "Grace Kimani" },
-          ai_advice: "Contact local authorities. Document flood patterns. Join community drainage improvement initiatives."
-        },
-        {
-          id: 4,
-          title: "Illegal Poaching of Animals",
-          description: "Poaching harms wildlife, disrupts ecosystems, and endangers species survival.",
-          location: "Nairobi, Kenya",
-          ai_category: "Poaching",
-          created_at: "2025-10-10T00:00:00Z",
-          image_url: "/assets/Poaching.png",
-          user: { username: "Mary Akinyi" },
-          ai_advice: "Contact wildlife authorities. Report to local police. Document evidence with photos."
-        }
-      ];
-
-      let filteredReports = mockReports;
-      if (filters.location) {
-        filteredReports = filteredReports.filter(report =>
-          report.location.toLowerCase().includes(filters.location.toLowerCase())
-        );
-      }
-      if (filters.category) {
-        filteredReports = filteredReports.filter(report =>
-          report.ai_category === filters.category
-        );
-      }
-      if (filters.dateFrom) {
-        filteredReports = filteredReports.filter(report =>
-          new Date(report.created_at) >= new Date(filters.dateFrom)
-        );
-      }
-      if (filters.dateTo) {
-        filteredReports = filteredReports.filter(report =>
-          new Date(report.created_at) <= new Date(filters.dateTo)
-        );
+      const token = localStorage.getItem("token");
+      if (!token) {
+        navigate("/login");
+        return;
       }
 
-      setReports(filteredReports);
+      const queryParams = new URLSearchParams();
+      if (filters.location) queryParams.append('location', filters.location);
+      if (filters.category) queryParams.append('category', filters.category);
+      if (filters.dateFrom) queryParams.append('date_from', filters.dateFrom);
+      if (filters.dateTo) queryParams.append('date_to', filters.dateTo);
+
+      const response = await fetch(`http://localhost:5001/api/reports?${queryParams}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setReports(data.reports || []);
+      } else {
+        setReports([]);
+      }
     } catch (err) {
       console.error('Error fetching reports:', err);
-      setError('Failed to load reports');
+      if (err.response?.status === 401) {
+        localStorage.removeItem("token");
+        navigate("/login");
+      } else {
+        setError('Failed to load reports');
+      }
     } finally {
       setLoading(false);
     }

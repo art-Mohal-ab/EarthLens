@@ -25,61 +25,27 @@ const ReportsPage = () => {
       setLoading(true);
       setError(null);
 
-      const mockUserReports = [
-        {
-          id: 1,
-          title: "Plastic Waste Accumulation",
-          description:
-            "Large amount of plastic bottles and bags accumulating near the shopping center.",
-          location: "Kandoba Farm, Kenya",
-          ai_category: "Waste Management",
-          ai_advice:
-            "Contact county waste management. Organize community cleanup. Advocate for recycling bins.",
-          created_at: "2025-10-10T00:00:00Z",
-          image_url: "/assets/plastic.png",
-        },
-        {
-          id: 2,
-          title: "Air Pollution from Factory",
-          description:
-            "Visible smoke emissions from nearby factory affecting air quality in residential area.",
-          location: "Uranus, Kenya",
-          ai_category: "Air Pollution",
-          ai_advice:
-            "Report to NEAA. Document emission times. Gather community signatures for petition.",
-          created_at: "2025-10-14T00:00:00Z",
-          image_url: "/assets/Air.png",
-        },
-        {
-          id: 3,
-          title: "Illegal Poaching of Animals",
-          description:
-            "Poaching harms wildlife, disrupts ecosystems, and endangers species survival.",
-          location: "Nairobi, Kenya",
-          ai_category: "Poaching",
-          ai_advice:
-            "Contact wildlife authorities. Report to local police. Document evidence with photos.",
-          created_at: "2025-10-10T00:00:00Z",
-          image_url: "/assets/Poaching.png",
-        },
-        {
-          id: 4,
-          title: "Deforestation in Local Forest",
-          description:
-            "Tree cutting observed near the hill forest area for charcoal burning.",
-          location: "Murang’a, Kenya",
-          ai_category: "Deforestation",
-          ai_advice:
-            "Alert forest services. Mobilize community patrols. Replant trees.",
-          created_at: "2025-10-18T00:00:00Z",
-          image_url: "/assets/deforestation.png",
-        },
-      ];
+      const token = localStorage.getItem("token");
+      if (!token) {
+        navigate("/login");
+        return;
+      }
 
-      setReports(mockUserReports);
+      const response = await api.get("/reports/my-reports", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      setReports(response.data.reports || []);
     } catch (err) {
       console.error("Error fetching reports:", err);
-      setError("Failed to load reports");
+      if (err.response?.status === 401) {
+        localStorage.removeItem("token");
+        navigate("/login");
+      } else {
+        setError("Failed to load reports");
+      }
     } finally {
       setLoading(false);
     }
@@ -132,9 +98,9 @@ const ReportsPage = () => {
           <>
             <MyReportList
               reports={currentReports}
-              onEdit={handleEditReport}
-              onDelete={handleDeleteReport}
-              onView={handleViewDetails}
+              onEditReport={handleEditReport}
+              onDeleteReport={handleDeleteReport}
+              onViewDetails={handleViewDetails}
             />
 
             <div className="pagination">
@@ -165,6 +131,7 @@ const ReportsPage = () => {
       {showEditModal && (
         <EditReportModal
           report={editingReport}
+          isOpen={showEditModal}
           onSave={handleSaveReport}
           onClose={() => setShowEditModal(false)}
         />

@@ -1,13 +1,33 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import api from "../services/api";
 import "./Login.css";
 
 const Login = () => {
   const navigate = useNavigate();
+  const [error, setError] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    navigate('/dashboard');
+    setError("");
+
+    const email = e.target.email.value;
+    const password = e.target.password.value;
+
+    try {
+      const response = await api.post("/auth/login", {
+        email,
+        password,
+      });
+
+      const { access_token } = response.data;
+      localStorage.setItem("token", access_token);
+
+      navigate('/dashboard');
+    } catch (err) {
+      console.error("Login error:", err.response?.data);
+      setError(err.response?.data?.error || "Login failed");
+    }
   };
 
   return (
@@ -15,11 +35,12 @@ const Login = () => {
       <div className="login-box">
         <h2>Welcome Back To EarthLens</h2>
         <form onSubmit={handleSubmit}>
-          <label htmlFor="email">Email</label>
+          <label htmlFor="email">Email or Username</label>
           <input
-            type="email"
+            type="text"
             id="email"
-            placeholder="you@example.com"
+            name="email"
+            placeholder="you@example.com or username"
             required
           />
 
@@ -27,12 +48,15 @@ const Login = () => {
           <input
             type="password"
             id="password"
+            name="password"
             placeholder="Enter your password"
             required
           />
 
           <button type="submit" className="login-btn">Sign In</button>
         </form>
+
+        {error && <p className="error-message">{error}</p>}
 
         <p className="signup-text">
           New here? <Link to="/join" className="signup-link">Create an account</Link>

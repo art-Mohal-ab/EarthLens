@@ -1,8 +1,13 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import api from "../services/api";
 
 const ReportForm = () => {
+  const navigate = useNavigate();
   const [file, setFile] = useState(null);
   const [dragging, setDragging] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const handleFileChange = (e) => setFile(e.target.files[0]);
   const handleDragOver = (e) => {
@@ -16,6 +21,48 @@ const ReportForm = () => {
     setFile(e.dataTransfer.files[0]);
   };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError(null);
+
+    const token = localStorage.getItem("token");
+    if (!token) {
+      navigate("/login");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("title", e.target.title.value);
+    formData.append("description", e.target.description.value);
+    formData.append("location", e.target.location.value);
+    if (file) {
+      formData.append("image", file);
+    }
+
+    try {
+      const response = await api.post("/reports", formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      alert("Report submitted successfully!");
+      navigate("/my-reports");
+    } catch (err) {
+      console.error("Error submitting report:", err);
+      if (err.response?.status === 401) {
+        localStorage.removeItem("token");
+        navigate("/login");
+      } else {
+        setError("Failed to submit report. Please try again.");
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="container">
       <header>
@@ -25,7 +72,7 @@ const ReportForm = () => {
         </p>
       </header>
 
-      <form className="report-form">
+      <form className="report-form" onSubmit={handleSubmit}>
         <h2 className="section-title">Report Details</h2>
 
         <div className="form-group">
@@ -86,8 +133,9 @@ const ReportForm = () => {
           </div>
         </div>
 
-        <button type="submit" className="submit-btn">
-          Submit Report
+        {error && <p className="error-message">{error}</p>}
+        <button type="submit" className="submit-btn" disabled={loading}>
+          {loading ? "Submitting..." : "Submit Report"}
         </button>
       </form>
 

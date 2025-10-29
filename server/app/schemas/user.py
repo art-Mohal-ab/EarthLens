@@ -10,12 +10,12 @@ class UserRegistrationSchema(Schema):
     last_name = fields.Str(validate=validate.Length(max=50))
 
     @validates('username')
-    def validate_username(self, value):
+    def validate_username(self, value, **kwargs):
         if not re.match(r'^[a-zA-Z0-9_]+$', value):
             raise ValidationError('Username can only contain letters, numbers, and underscores')
 
     @validates('password')
-    def validate_password(self, value):
+    def validate_password(self, value, **kwargs):
         if not re.search(r'[A-Z]', value):
             raise ValidationError('Password must contain at least one uppercase letter')
         if not re.search(r'[a-z]', value):
@@ -39,12 +39,12 @@ class UserUpdateSchema(Schema):
     new_password = fields.Str(validate=validate.Length(min=8))
 
     @validates('username')
-    def validate_username(self, value):
+    def validate_username(self, value, **kwargs):
         if not re.match(r'^[a-zA-Z0-9_]+$', value):
             raise ValidationError('Username can only contain letters, numbers, and underscores')
 
     @validates('new_password')
-    def validate_new_password(self, value):
+    def validate_new_password(self, value, **kwargs):
         if not re.search(r'[A-Z]', value):
             raise ValidationError('Password must contain at least one uppercase letter')
         if not re.search(r'[a-z]', value):
@@ -62,7 +62,7 @@ class PasswordResetConfirmSchema(Schema):
     new_password = fields.Str(required=True, validate=validate.Length(min=8))
 
     @validates('new_password')
-    def validate_new_password(self, value):
+    def validate_new_password(self, value, **kwargs):
         if not re.search(r'[A-Z]', value):
             raise ValidationError('Password must contain at least one uppercase letter')
         if not re.search(r'[a-z]', value):

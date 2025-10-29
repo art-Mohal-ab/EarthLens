@@ -47,13 +47,43 @@ def get_reports(current_user=None):
 def create_report(current_user):
     """Create a new report"""
     try:
-        json_data = request.get_json()
-        if not json_data:
-            return jsonify({'error': 'No data provided'}), 400
+        # Handle multipart form data (for file uploads)
+        if request.content_type and 'multipart/form-data' in request.content_type:
+            # Handle multipart form data (for file uploads)
+            title = request.form.get('title')
+            description = request.form.get('description')
+            location = request.form.get('location')
+            latitude = request.form.get('latitude')
+            longitude = request.form.get('longitude')
+            is_public = request.form.get('is_public', 'true').lower() == 'true'
+            severity = request.form.get('severity', 'medium')
+            tags = request.form.get('tags', '').split(',') if request.form.get('tags') else []
 
-        # Validate input data
-        data = report_create_schema.load(json_data)
-        
+            # Handle file upload
+            image_url = None
+            if 'image' in request.files:
+                file = request.files['image']
+                if file and file.filename:
+                    from app.utils.file_upload import upload_file
+                    image_url = upload_file(file)
+
+            data = {
+                'title': title,
+                'description': description,
+                'location': location,
+                'latitude': latitude,
+                'longitude': longitude,
+                'is_public': is_public,
+                'severity': severity,
+                'tags': [tag.strip() for tag in tags if tag.strip()]
+            }
+        else:
+            # Handle JSON data
+            json_data = request.get_json()
+            if not json_data:
+                return jsonify({'error': 'No data provided'}), 400
+            data = report_create_schema.load(json_data)
+
         # Create new report
         report = Report(
             title=data['title'],
@@ -62,20 +92,20 @@ def create_report(current_user):
             location=data.get('location'),
             latitude=data.get('latitude'),
             longitude=data.get('longitude'),
-            image_url=data.get('image_url'),
+            image_url=image_url or data.get('image_url'),
             is_public=data.get('is_public', True),
             severity=data.get('severity', 'medium')
         )
-        
+
         report.save()
-        
+
         # Add tags if provided
-        if 'tags' in data:
+        if 'tags' in data and data['tags']:
             for tag_name in data['tags']:
                 tag = Tag.get_or_create(tag_name)
                 report.add_tag(tag)
             db.session.commit()
-        
+
         # Process with AI if enabled
         try:
             ai_service = AIService()
@@ -99,6 +129,9 @@ def create_report(current_user):
     except ValidationError as err:
         return jsonify({'error': 'Validation failed', 'details': err.messages}), 400
     except Exception as e:
+        print(f"Error creating report: {str(e)}")  # Debug logging
+        import traceback
+        traceback.print_exc()  # Print full traceback
         db.session.rollback()
         return jsonify({'error': 'Failed to create report', 'message': str(e)}), 500
 
@@ -196,9 +229,9 @@ def get_user_reports(user_id, current_user=None):
     try:
         page = request.args.get('page', 1, type=int)
         per_page = min(request.args.get('per_page', 20, type=int), 100)
-        
+
         offset = (page - 1) * per_page
-        
+
         # If viewing own reports, show all; otherwise show only public
         if current_user and current_user.id == user_id:
             reports = Report.get_by_user(user_id, limit=per_page, offset=offset)
@@ -220,6 +253,34 @@ def get_user_reports(user_id, current_user=None):
 
     except Exception as e:
         return jsonify({'error': 'Failed to get user reports', 'message': str(e)}), 500
+
+
+@reports_bp.route('/my-reports', methods=['GET'])
+@auth_required
+def get_my_reports(current_user):
+    """Get current user's reports"""
+    try:
+        page = request.args.get('page', 1, type=int)
+        per_page = min(request.args.get('per_page', 20, type=int), 100)
+
+        offset = (page - 1) * per_page
+
+        reports = Report.query.filter_by(user_id=current_user.id)\
+                              .order_by(Report.created_at.desc())\
+                              .limit(per_page).offset(offset).all()
+        total = Report.query.filter_by(user_id=current_user.id).count()
+
+        return jsonify({
+            'reports': [report.to_dict(include_author=True) for report in reports],
+            'pagination': {
+                'page': page,
+                'per_page': per_page,
+                'total': total
+            }
+        }), 200
+
+    except Exception as e:
+        return jsonify({'error': 'Failed to get my reports', 'message': str(e)}), 500
 
 
 @reports_bp.route('/nearby', methods=['GET'])

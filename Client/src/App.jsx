@@ -23,8 +23,11 @@ const AppContent = () => {
   const location = useLocation();
   const showFooterPages = ["/", "/about", "/contact"];
   const shouldShowFooter = showFooterPages.includes(location.pathname);
-  const hideNavbarPages = ["/dashboard", "/join", "/login"];
-  const shouldShowNavbar = !hideNavbarPages.includes(location.pathname);
+  const hideNavbarPages = ["/join", "/login"];
+  const authenticatedPages = ["/dashboard", "/report", "/my-reports", "/green-actions", "/profile"];
+  const token = localStorage.getItem("token");
+  const isAuthenticated = !!token;
+  const shouldShowNavbar = !hideNavbarPages.includes(location.pathname) && (!authenticatedPages.includes(location.pathname) || isAuthenticated);
 
   return (
     <div className="app-container">

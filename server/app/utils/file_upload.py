@@ -41,3 +41,12 @@ def save_uploaded_file(file, upload_folder='uploads'):
 
     except Exception as e:
         return None, f"Upload failed: {str(e)}"
+
+
+def upload_file(file, upload_folder='uploads'):
+    """Simple wrapper for save_uploaded_file that returns just the URL"""
+    result, message = save_uploaded_file(file, upload_folder)
+    if result:
+        return result['url']
+    else:
+        raise Exception(message)

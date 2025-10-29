@@ -24,10 +24,10 @@ const GreenActions = () => {
         const data = await response.json();
         setActions(data.actions);
       } else {
-        setActions(mockActions);
+        setActions([]);
       }
     } catch (error) {
-      setActions(mockActions);
+      setActions([]);
     } finally {
       setLoading(false);
     }
