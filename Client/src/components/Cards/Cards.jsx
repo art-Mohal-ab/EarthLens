@@ -6,17 +6,14 @@ const Cards = () => {
     {
       title: "Report Issue",
       text: "Capture and report environmental issues around you.",
-      link: "/report",
     },
     {
       title: "Gain Insight",
       text: "Receive AI-generated insights and understand the impact of reported issues.",
-      link: "/projects",
     },
     {
       title: "Take action",
       text: "Get personalized recommendations for actions you can take to address environmental challenges.",
-      link: "/eco-tips",
     },
   ];
 

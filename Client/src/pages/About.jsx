@@ -1,14 +1,10 @@
 import React from "react";
-import { Link } from 'react-router-dom';
-import Navbar from '../components/Navbar/Navbar';
-import Footer from '../components/Footer/Footer';
+import { Link } from "react-router-dom";
 import "../styles/About.css";
 
 const About = () => {
   return (
-    <div>
-      <Navbar />
-      <section className="about-page">
+    <section className="about-page">
       <div className="about-hero">
         <h1>About EarthLens</h1>
         <p>
@@ -64,7 +60,6 @@ const About = () => {
         </div>
       </div>
     </section>
-    </div>
   );
 };
 

@@ -11,17 +11,18 @@
   gap: 2rem;
   flex-wrap: wrap;
   justify-content: center;
-  max-width: 1000px;
   width: 100%;
+  max-width: 1000px;
 }
 
 .card {
-  background: #1f8a2e; 
+  background: #1f8a2e;
   color: white;
   text-decoration: none;
   padding: 2rem;
   border-radius: 12px;
-  width: 280px;
+  width: 100%;
+  max-width: 280px;
   text-align: center;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   outline: none;
@@ -49,5 +50,6 @@
 @media (max-width: 640px) {
   .card {
     width: 100%;
+    margin: 0 auto;
   }
 }

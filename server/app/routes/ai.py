@@ -49,10 +49,10 @@ def get_green_advice():
     try:
         category = request.args.get('category', 'general')
         location = request.args.get('location')
-        
+
         ai_service = AIService()
         advice = ai_service.generate_green_advice(category=category, location=location)
-        
+
         return jsonify({
             'advice': advice,
             'category': category,
@@ -61,6 +61,36 @@ def get_green_advice():
 
     except Exception as e:
         return jsonify({'error': 'Failed to generate advice', 'message': str(e)}), 500
+
+
+@ai_bp.route('/generate-task', methods=['GET', 'POST'])
+def generate_task():
+    """Generate a new AI-powered green task"""
+    try:
+        if request.method == 'GET':
+            # Handle GET requests gracefully by providing default parameters
+            category = request.args.get('category', 'general')
+            difficulty = request.args.get('difficulty')
+            location = request.args.get('location')
+        else:
+            # POST request handling
+            json_data = request.get_json() or {}
+            category = json_data.get('category', 'general')
+            difficulty = json_data.get('difficulty')  # Optional: 'easy', 'medium', 'hard'
+            location = json_data.get('location')
+
+        ai_service = AIService()
+        task = ai_service.generate_green_task(category=category, difficulty=difficulty, location=location)
+
+        return jsonify({
+            'task': task,
+            'category': category,
+            'difficulty': difficulty,
+            'location': location
+        }), 200
+
+    except Exception as e:
+        return jsonify({'error': 'Failed to generate task', 'message': str(e)}), 500
 
 
 @ai_bp.route('/categorize-text', methods=['POST'])

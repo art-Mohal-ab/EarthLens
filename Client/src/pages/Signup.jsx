@@ -1,13 +1,12 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import "../styles/Signup.css";
+import "./Signup.css";
 
 const Signup = () => {
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Simulate signup success and redirect to dashboard
     navigate('/dashboard');
   };
 

@@ -20,21 +20,21 @@ def get_tags():
         page = request.args.get('page', 1, type=int)
         per_page = min(request.args.get('per_page', 50, type=int), 100)
         search = request.args.get('search', '').strip()
-        
+
         query = Tag.query.filter(Tag.is_active == True)
-        
+
         if search:
             query = query.filter(Tag.name.contains(search.lower()))
-        
+
         tags = query.order_by(Tag.name)\
                    .paginate(page=page, per_page=per_page, error_out=False)
-        
+
         return jsonify({
             'tags': [tag.to_dict() for tag in tags.items],
             'pagination': {
                 'page': page,
                 'per_page': per_page,
-                'total': tags.total,
+                'total': Tag.query.filter(Tag.is_active == True).count(),
                 'pages': tags.pages
             }
         }), 200

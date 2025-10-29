@@ -25,7 +25,6 @@
   align-items: start;
 }
 
-/* Left Column Styles */
 .profile-left {
   display: flex;
   flex-direction: column;
@@ -71,7 +70,6 @@
   margin: 20px 0;
 }
 
-/* User Info Card */
 .user-info-card {
   background: #106111;
   border-radius: 8px;
@@ -109,7 +107,7 @@
 }
 
 .user-email {
-  color: white !important;
+  color: white;
   margin-bottom: 10px;
   font-size: 0.9rem;
 }
@@ -131,7 +129,7 @@
 
 .score-title {
   font-size: 1rem;
-  color: white !important;
+  color: white;
   margin-bottom: 10px;
   font-weight: 500;
 }
@@ -142,7 +140,6 @@
   color: white;
 }
 
-/* Right Column Styles */
 .profile-right {
   display: flex;
   flex-direction: column;
@@ -183,12 +180,12 @@
 .stat-number {
   font-size: 1.5rem;
   font-weight: bold;
-  color: white !important;
+  color: white;
   margin-bottom: 5px;
 }
 
 .stat-label {
-  color: white !important;
+  color: white;
   font-size: 0.8rem;
   font-weight: 500;
 }
@@ -212,7 +209,6 @@
   font-size: 0.8rem;
 }
 
-/* Recent Activity */
 .activity-list {
   display: flex;
   flex-direction: column;
@@ -256,7 +252,6 @@
   font-size: 0.8rem;
 }
 
-/* Quick Links */
 .links-title {
   font-size: 1.1rem;
   color: white;
@@ -273,7 +268,6 @@
   color: #666;
 }
 
-/* Edit Profile Form */
 .edit-profile-section,
 .security-section {
   background: #106111;
@@ -352,7 +346,6 @@
   background: #1e5a32;
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
   .profile-content {
     grid-template-columns: 1fr;
