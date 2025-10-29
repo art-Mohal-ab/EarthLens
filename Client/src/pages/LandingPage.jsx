@@ -1,4 +1,6 @@
 import React from 'react';
+import Navbar from '../components/Navbar/Navbar';
+import Footer from '../components/Footer/Footer';
 import Hero from '../components/Hero/Hero';
 import Cards from '../components/Cards/Cards';
 import IssueCards from '../components/IssueCards/IssueCards';
@@ -9,6 +11,7 @@ import SupportCards from '../components/SupportCards/SupportCards';
 const LandingPage = () => {
   return (
     <main className="landing-page">
+      <Navbar />
       <Hero />
       <section className="how-earthlens-works">
         <h2>How EarthLens Works</h2>
@@ -21,6 +24,7 @@ const LandingPage = () => {
         </div>
       </section>
       <SupportCards/>
+      <Footer />
     </main>
   );
 };
