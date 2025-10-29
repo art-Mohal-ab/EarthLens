@@ -1,8 +1,9 @@
 .support-section {
   background-color: #fff;
-  padding: 4rem 2rem;
+  padding: 4rem 1rem;
   display: flex;
   justify-content: center;
+  width: 100%;
 }
 
 .cards-container {
@@ -11,6 +12,7 @@
   justify-content: center;
   gap: 2rem;
   max-width: 1200px;
+  width: 100%;
 }
 
 .support-card {
@@ -18,15 +20,18 @@
   color: white;
   border-radius: 12px;
   padding: 2rem;
-  width: 300px;
+  width: 100%;
+  max-width: 300px;
   text-align: center;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .support-card h3 {
   margin-bottom: 1rem;
+  font-size: 1.5rem;
 }
 
 .support-card p {
   font-size: 0.95rem;
+  line-height: 1.4;
 }
