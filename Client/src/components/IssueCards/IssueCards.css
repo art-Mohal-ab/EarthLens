@@ -2,10 +2,11 @@
   padding: 4rem 1rem;
   text-align: center;
   background: #ffffff;
+  width: 100%;
 }
 
 .issuecards-title {
-  font-size: 2rem;
+  font-size: clamp(1.5rem, 4vw, 2rem);
   color: #0f3d0f;
   margin-bottom: 2rem;
 }
@@ -15,6 +16,8 @@
   flex-wrap: wrap;
   justify-content: center;
   gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .issue-card {
@@ -26,6 +29,7 @@
   padding: 1.5rem;
   text-align: center;
   cursor: pointer;
+  transition: transform 0.3s ease, background-color 0.3s ease;
 }
 
 .issue-card:hover {
