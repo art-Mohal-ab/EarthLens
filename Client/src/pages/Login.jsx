@@ -25,8 +25,25 @@ const Login = () => {
 
       navigate('/dashboard');
     } catch (err) {
-      console.error("Login error:", err.response?.data);
-      setError(err.response?.data?.error || "Login failed");
+      console.error("Login error:", err.response?.data || err.message);
+      
+      let errorMessage = "Login failed";
+      
+      if (err.response?.data) {
+        if (err.response.data.details) {
+          errorMessage = Object.values(err.response.data.details).flat().join(', ');
+        } else if (err.response.data.error) {
+          errorMessage = err.response.data.error;
+        } else if (err.response.data.message) {
+          errorMessage = err.response.data.message;
+        }
+      } else if (err.request) {
+        errorMessage = "Cannot connect to server. Please ensure the backend is running.";
+      } else {
+        errorMessage = err.message || "Login failed";
+      }
+      
+      setError(errorMessage);
     }
   };
 

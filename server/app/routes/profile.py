@@ -45,9 +45,35 @@ def get_profile(current_user):
             .all()
         )
 
-        # Combine into profile response
-        profile_data = current_user.to_dict(include_sensitive=True)
-        profile_data.update({
+        reports_list = []
+        for r in recent_reports:
+            reports_list.append({
+                'id': r.id,
+                'title': r.title,
+                'created_at': r.created_at.isoformat() if r.created_at else None
+            })
+        
+        comments_list = []
+        for c in recent_comments:
+            comments_list.append({
+                'id': c.id,
+                'content': c.content[:100] if c.content else '',
+                'created_at': c.created_at.isoformat() if c.created_at else None
+            })
+        
+        profile_data = {
+            'id': current_user.id,
+            'username': current_user.username,
+            'email': current_user.email,
+            'first_name': current_user.first_name,
+            'last_name': current_user.last_name,
+            'full_name': current_user.full_name if hasattr(current_user, 'full_name') else current_user.username,
+            'bio': current_user.bio,
+            'avatar_url': current_user.avatar_url,
+            'is_verified': current_user.is_verified,
+            'created_at': current_user.created_at.isoformat() if current_user.created_at else None,
+            'reports_count': reports_count,
+            'comments_count': comments_count,
             'impact': {
                 'reports_submitted': reports_count,
                 'comments_made': comments_count,
@@ -55,14 +81,17 @@ def get_profile(current_user):
             },
             'top_category': top_category_name,
             'recent_activity': {
-                'reports': [r.to_dict(include_comments=False, include_tags=False) for r in recent_reports],
-                'comments': [c.to_dict(include_replies=False) for c in recent_comments]
+                'reports': reports_list,
+                'comments': comments_list
             }
-        })
+        }
 
         return jsonify({'profile': profile_data}), 200
 
     except Exception as e:
+        import traceback
+        print(f"ERROR in get_profile: {str(e)}")
+        print(traceback.format_exc())
         return jsonify({'error': 'Failed to retrieve profile', 'message': str(e)}), 500
 
 
