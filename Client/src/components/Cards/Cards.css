@@ -18,7 +18,8 @@
   color: white;
   border-radius: 12px;
   padding: 2rem;
-  width: 300px;
+  width: 100%;
+  max-width: 300px;
   text-align: center;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }

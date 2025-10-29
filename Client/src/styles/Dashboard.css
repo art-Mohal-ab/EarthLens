@@ -19,7 +19,8 @@ body {
 }
 
 .sidebar {
-  width: 240px;
+  width: 100%;
+  max-width: 240px;
   padding: 28px 20px;
   border-right: 1px solid #e6e6e6;
   background: #fff;
@@ -207,5 +208,15 @@ body {
 @media (max-width: 900px) {
   .cards {
     grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    width: 100%;
+    max-width: 240px;
+  }
+
+  .main {
+    margin-left: 240px;
+    padding: 20px 30px;
   }
 }

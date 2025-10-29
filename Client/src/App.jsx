@@ -13,7 +13,7 @@ import Profile from "./pages/Profile.jsx"
 
 const AppContent = () => {
   const location = useLocation();
-  const hideFooter = location.pathname === '/green-actions' || location.pathname === '/report';
+  const hideFooter = location.pathname === '/green-actions' || location.pathname === '/report' || location.pathname === '/join' || location.pathname === '/login' || location.pathname === '/dashboard' || location.pathname === '/my-reports';
 
   return (
     <div>
