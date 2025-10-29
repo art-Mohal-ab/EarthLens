@@ -2,10 +2,10 @@ from flask import Blueprint, request, jsonify
 from flask_jwt_extended import jwt_required, get_jwt_identity, create_access_token
 from marshmallow import ValidationError
 from database import db
-from models.user import User
-from schemas.user import (user_registration_schema, user_login_schema, user_profile_schema, user_update_schema)
-from middleware.auth import auth_required
-from utils.security import SecurityUtils
+from app.models.user import User
+from app.schemas.user import (user_registration_schema, user_login_schema, user_profile_schema, user_update_schema)
+from app.middleware.auth import auth_required
+from app.utils.security import SecurityUtils
 
 auth_bp = Blueprint('auth', __name__, url_prefix='/api/auth')
 

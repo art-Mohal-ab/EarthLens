@@ -18,8 +18,8 @@ class ReportCreateSchema(Schema):
     longitude = fields.Float(
         validate=validate.Range(min=-180, max=180, error="Longitude must be between -180 and 180")
     )
-    is_public = fields.Bool(missing=True)
-    tags = fields.List(fields.Str(), missing=[])
+    is_public = fields.Bool()
+    tags = fields.List(fields.Str())
 
 class ReportUpdateSchema(Schema):
     title = fields.Str(
@@ -67,10 +67,10 @@ class ReportFilterSchema(Schema):
     tags = fields.List(fields.Str())
     status = fields.Str(validate=validate.OneOf(['active', 'archived', 'flagged']))
     is_public = fields.Bool()
-    limit = fields.Int(validate=validate.Range(min=1, max=100), missing=20)
-    offset = fields.Int(validate=validate.Range(min=0), missing=0)
-    sort_by = fields.Str(validate=validate.OneOf(['created_at', 'updated_at', 'title']), missing='created_at')
-    sort_order = fields.Str(validate=validate.OneOf(['asc', 'desc']), missing='desc')
+    limit = fields.Int(validate=validate.Range(min=1, max=100))
+    offset = fields.Int(validate=validate.Range(min=0))
+    sort_by = fields.Str(validate=validate.OneOf(['created_at', 'updated_at', 'title']))
+    sort_order = fields.Str(validate=validate.OneOf(['asc', 'desc']))
 
 # schema instances
 report_create_schema = ReportCreateSchema()
