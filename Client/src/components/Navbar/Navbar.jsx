@@ -5,7 +5,6 @@ import "./Navbar.css";
 const Navbar = () => {
   const location = useLocation();
 
-
   const authenticatedPages = [
     "/dashboard",
     "/report",
