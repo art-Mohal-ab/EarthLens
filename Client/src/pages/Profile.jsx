@@ -13,6 +13,12 @@ const Profile = () => {
   const [activeTab, setActiveTab] = useState('overview');
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+    setTimeout(() => {
+      window.scrollTo(0, 0);
+    }, 100);
     fetchProfileData();
   }, []);
 
