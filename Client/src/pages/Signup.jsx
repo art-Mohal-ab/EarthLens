@@ -1,13 +1,39 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import api from "../services/api";
 import "./Signup.css";
 
 const Signup = () => {
   const navigate = useNavigate();
+  const [error, setError] = useState("");
+  const [username, setUsername] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    navigate('/dashboard');
+    setError("");
+
+    const username = e.target.username.value;
+    const email = e.target.email.value;
+    const password = e.target.password.value;
+
+    try {
+      const response = await api.post("/auth/register", {
+        username,
+        email,
+        password,
+      });
+
+      const { access_token } = response.data;
+      localStorage.setItem("token", access_token);
+
+      navigate('/dashboard');
+    } catch (err) {
+      console.error("Signup error:", err.response?.data);
+      const errorMessage = err.response?.data?.details
+        ? Object.values(err.response.data.details).flat().join(', ')
+        : err.response?.data?.error || "Signup failed";
+      setError(errorMessage);
+    }
   };
 
   return (
@@ -24,7 +50,10 @@ const Signup = () => {
           <input
             type="text"
             id="username"
-            placeholder="Enter your username"
+            name="username"
+            placeholder="Enter your username (letters, numbers, underscores only)"
+            value={username}
+            onChange={(e) => setUsername(e.target.value.replace(/[^a-zA-Z0-9_]/g, ''))}
             required
           />
 
@@ -32,6 +61,7 @@ const Signup = () => {
           <input
             type="email"
             id="email"
+            name="email"
             placeholder="you@example.com"
             required
           />
@@ -40,7 +70,8 @@ const Signup = () => {
           <input
             type="password"
             id="password"
-            placeholder="Enter your password"
+            name="password"
+            placeholder="Enter your password (min 8 chars, uppercase, lowercase, number)"
             required
           />
 
@@ -48,6 +79,8 @@ const Signup = () => {
             Sign Up
           </button>
         </form>
+
+        {error && <p className="error-message">{error}</p>}
 
         <p className="signin-text">
           Already have an account?{" "}

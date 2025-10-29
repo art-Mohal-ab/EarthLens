@@ -13,6 +13,8 @@ const Navbar = () => {
     "/profile",
   ];
 
+  const token = localStorage.getItem("token");
+  const isAuthenticated = !!token;
   const isAuthenticatedPage = authenticatedPages.includes(location.pathname);
 
   const handleSignOut = () => {
@@ -20,7 +22,7 @@ const Navbar = () => {
     window.location.href = "/";
   };
 
-  if (isAuthenticatedPage) {
+  if (isAuthenticated && isAuthenticatedPage) {
     return (
       <header className="header">
         <Link to="/" className="logo">

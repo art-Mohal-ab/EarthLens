@@ -1,11 +1,11 @@
 from flask import Blueprint, request, jsonify
 from marshmallow import ValidationError
-from middleware.auth import auth_required
-from models.user import User
-from models.report import Report
-from models.comment import Comment
-from schemas.user import user_update_schema
-from database import db
+from app.middleware.auth import auth_required
+from app.models.user import User
+from app.models.report import Report
+from app.models.comment import Comment
+from app.schemas.user import user_update_schema
+from app.database import db
 from sqlalchemy import func
 
 profile_bp = Blueprint('profile', __name__, url_prefix='/api/profile')

@@ -32,7 +32,7 @@ def create_app(config_name=None):
     jwt = JWTManager(app)
     
     # Setup CORS
-    CORS(app, origins=app.config.get('CORS_ORIGINS', ['*']))
+    CORS(app, origins=app.config.get('CORS_ORIGINS', ['*']), supports_credentials=True)
     
     # Register blueprints
     register_blueprints(app)
@@ -75,6 +75,7 @@ def register_blueprints(app):
     from app.routes.users import users_bp
     from app.routes.comments import comments_bp
     from app.routes.tags import tags_bp
+    from app.routes.profile import profile_bp
 
     app.register_blueprint(auth_bp, url_prefix='/api/auth')
     app.register_blueprint(reports_bp, url_prefix='/api/reports')
@@ -82,6 +83,7 @@ def register_blueprints(app):
     app.register_blueprint(users_bp, url_prefix='/api/users')
     app.register_blueprint(comments_bp, url_prefix='/api/comments')
     app.register_blueprint(tags_bp, url_prefix='/api/tags')
+    app.register_blueprint(profile_bp)
 
 
 def register_error_handlers(app):

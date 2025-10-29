@@ -8,12 +8,12 @@ class ReportCreateSchema(Schema):
     latitude = fields.Float(validate=validate.Range(min=-90, max=90))
     longitude = fields.Float(validate=validate.Range(min=-180, max=180))
     image_url = fields.Url()
-    is_public = fields.Bool(missing=True)
-    severity = fields.Str(validate=validate.OneOf(['low', 'medium', 'high', 'critical']), missing='medium')
+    is_public = fields.Bool(load_default=True)
+    severity = fields.Str(validate=validate.OneOf(['low', 'medium', 'high', 'critical']), load_default='medium')
     tags = fields.List(fields.Str(validate=validate.Length(min=1, max=50)))
 
     @validates('tags')
-    def validate_tags(self, value):
+    def validate_tags(self, value, **kwargs):
         if len(value) > 10:
             raise ValidationError('Maximum 10 tags allowed')
 
@@ -31,7 +31,7 @@ class ReportUpdateSchema(Schema):
     tags = fields.List(fields.Str(validate=validate.Length(min=1, max=50)))
 
     @validates('tags')
-    def validate_tags(self, value):
+    def validate_tags(self, value, **kwargs):
         if len(value) > 10:
             raise ValidationError('Maximum 10 tags allowed')
 

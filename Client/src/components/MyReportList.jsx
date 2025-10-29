@@ -34,12 +34,10 @@ const MyReportList = ({ reports, onEditReport, onDeleteReport, onViewDetails, lo
                 <strong>AI Recommendations:</strong> {report.ai_advice}
               </div>
             )}
-            {showEditDelete && report.ai_advice && (
-              <div className="ai-action-buttons">
-                <button className="edit-btn" onClick={() => onEditReport(report)}>Edit</button>
-                <button className="delete-btn" onClick={() => onDeleteReport(report.id)}>Delete</button>
-              </div>
-            )}
+            <div className="ai-action-buttons">
+              <button className="edit-btn" onClick={() => onEditReport(report)}>Edit</button>
+              <button className="delete-btn" onClick={() => onDeleteReport(report.id)}>Delete</button>
+            </div>
           </div>
         </article>
       ))}

@@ -26,32 +26,52 @@ const Profile = () => {
       setLoading(true);
       setError(null);
 
-      const mockUserData = {
-        username: "Karani Lau",
-        email: "karanilau@gmail.com",
-        created_at: "2025-10-01T00:00:00Z",
-        impact_score: 12,
-        reports_submitted: 12,
-        comments_made: 16,
-        top_category: "Pollution",
+      const token = localStorage.getItem("token");
+      if (!token) {
+        navigate("/login");
+        return;
+      }
+
+      const response = await api.get("/profile", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const profileData = response.data.profile;
+
+      // Transform the data to match the expected format
+      const transformedData = {
+        username: profileData.username,
+        email: profileData.email,
+        created_at: profileData.created_at,
+        impact_score: profileData.impact.reports_submitted + profileData.impact.comments_made,
+        reports_submitted: profileData.impact.reports_submitted,
+        comments_made: profileData.impact.comments_made,
+        top_category: profileData.top_category,
         recent_activities: [
-          {
+          ...profileData.recent_activity.reports.map(report => ({
             type: "report",
-            text: "Submitted report on plastic waste",
-            time: "3 days ago",
-          },
-          {
+            text: `Submitted report: ${report.title}`,
+            time: new Date(report.created_at).toLocaleDateString(),
+          })),
+          ...profileData.recent_activity.comments.map(comment => ({
             type: "comment",
-            text: "Commented on deforestation report",
-            time: "7 days ago",
-          },
-        ],
+            text: `Commented: ${comment.content}`,
+            time: new Date(comment.created_at).toLocaleDateString(),
+          })),
+        ].slice(0, 5), // Limit to 5 recent activities
       };
 
-      setUserData(mockUserData);
+      setUserData(transformedData);
     } catch (err) {
       console.error("Error fetching profile:", err);
-      setError("Failed to load profile");
+      if (err.response?.status === 401) {
+        localStorage.removeItem("token");
+        navigate("/login");
+      } else {
+        setError("Failed to load profile");
+      }
     } finally {
       setLoading(false);
     }
@@ -70,11 +90,44 @@ const Profile = () => {
     };
 
     try {
-      setUserData((prev) => ({ ...prev, ...updatedData }));
+      const token = localStorage.getItem("token");
+      if (!token) {
+        navigate("/login");
+        return;
+      }
+
+      const response = await api.put("/auth/me", updatedData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      // Update local state with the response data
+      const updatedUser = response.data.user;
+      setUserData((prev) => ({
+        ...prev,
+        username: updatedUser.username,
+        email: updatedUser.email,
+      }));
       setActiveTab("overview");
+      alert("Profile updated successfully!");
     } catch (error) {
       console.error("Error updating profile:", error);
-      alert("Failed to update profile. Please try again.");
+      if (error.response?.status === 401) {
+        localStorage.removeItem("token");
+        navigate("/login");
+      } else if (error.response?.data?.error) {
+        alert(error.response.data.error);
+      } else if (error.response?.data?.details) {
+      
+        const details = error.response.data.details;
+        const errorMessages = Object.entries(details).map(([field, messages]) =>
+          `${field}: ${messages.join(', ')}`
+        ).join('\n');
+        alert(`Validation failed:\n${errorMessages}`);
+      } else {
+        alert("Failed to update profile. Please try again.");
+      }
     }
   };
 
@@ -91,11 +144,31 @@ const Profile = () => {
     }
 
     try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        navigate("/login");
+        return;
+      }
+
+      await api.put("/auth/me", {
+        current_password: currentPassword,
+        new_password: newPassword,
+      }, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
       alert("Password updated successfully!");
       e.target.reset();
     } catch (error) {
       console.error("Error updating password:", error);
-      alert("Failed to update password. Please try again.");
+      if (error.response?.status === 401) {
+        localStorage.removeItem("token");
+        navigate("/login");
+      } else {
+        alert("Failed to update password. Please try again.");
+      }
     }
   };
 
