@@ -28,15 +28,14 @@ const Profile = () => {
 
       const token = localStorage.getItem("token");
       if (!token) {
+        console.log("No token found, redirecting to login");
         navigate("/login");
         return;
       }
 
-      const response = await api.get("/profile", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      console.log("Fetching profile from /profile endpoint");
+      const response = await api.get("/profile");
+      console.log("Profile response:", response.data);
 
       const profileData = response.data.profile;
 
@@ -66,11 +65,17 @@ const Profile = () => {
       setUserData(transformedData);
     } catch (err) {
       console.error("Error fetching profile:", err);
+      console.error("Error response:", err.response?.data);
+      console.error("Error status:", err.response?.status);
+      
       if (err.response?.status === 401) {
+        console.log("Unauthorized, clearing token and redirecting");
         localStorage.removeItem("token");
         navigate("/login");
       } else {
-        setError("Failed to load profile");
+        const errorMsg = err.response?.data?.error || err.response?.data?.message || "Failed to load profile";
+        console.error("Setting error:", errorMsg);
+        setError(errorMsg);
       }
     } finally {
       setLoading(false);
@@ -96,18 +101,13 @@ const Profile = () => {
         return;
       }
 
-      const response = await api.put("/auth/me", updatedData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await api.put("/profile", updatedData);
 
-      // Update local state with the response data
-      const updatedUser = response.data.user;
+      const updatedProfile = response.data.profile;
       setUserData((prev) => ({
         ...prev,
-        username: updatedUser.username,
-        email: updatedUser.email,
+        username: updatedProfile.username,
+        email: updatedProfile.email,
       }));
       setActiveTab("overview");
       alert("Profile updated successfully!");
@@ -150,13 +150,9 @@ const Profile = () => {
         return;
       }
 
-      await api.put("/auth/me", {
+      await api.put("/profile", {
         current_password: currentPassword,
         new_password: newPassword,
-      }, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
       });
 
       alert("Password updated successfully!");

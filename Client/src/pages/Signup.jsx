@@ -8,6 +8,14 @@ const Signup = () => {
   const [error, setError] = useState("");
   const [username, setUsername] = useState("");
 
+  const validatePassword = (password) => {
+    if (password.length < 8) return "Password must be at least 8 characters long";
+    if (!/[A-Z]/.test(password)) return "Password must contain at least one uppercase letter";
+    if (!/[a-z]/.test(password)) return "Password must contain at least one lowercase letter";
+    if (!/\d/.test(password)) return "Password must contain at least one number";
+    return null;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
@@ -15,6 +23,17 @@ const Signup = () => {
     const username = e.target.username.value;
     const email = e.target.email.value;
     const password = e.target.password.value;
+
+    const passwordError = validatePassword(password);
+    if (passwordError) {
+      setError(passwordError);
+      return;
+    }
+
+    if (username.length < 3) {
+      setError("Username must be at least 3 characters long");
+      return;
+    }
 
     try {
       const response = await api.post("/auth/register", {
@@ -28,10 +47,24 @@ const Signup = () => {
 
       navigate('/dashboard');
     } catch (err) {
-      console.error("Signup error:", err.response?.data);
-      const errorMessage = err.response?.data?.details
-        ? Object.values(err.response.data.details).flat().join(', ')
-        : err.response?.data?.error || "Signup failed";
+      console.error("Signup error:", err.response?.data || err.message);
+      
+      let errorMessage = "Signup failed";
+      
+      if (err.response?.data) {
+        if (err.response.data.details) {
+          errorMessage = Object.values(err.response.data.details).flat().join(', ');
+        } else if (err.response.data.error) {
+          errorMessage = err.response.data.error;
+        } else if (err.response.data.message) {
+          errorMessage = err.response.data.message;
+        }
+      } else if (err.request) {
+        errorMessage = "Cannot connect to server. Please ensure the backend is running.";
+      } else {
+        errorMessage = err.message || "Signup failed";
+      }
+      
       setError(errorMessage);
     }
   };
