@@ -163,44 +163,144 @@ class AIService:
     def generate_green_advice(self, category='general', location=None):
         """Generate green actions and advice"""
         actions = [
-            {"title": "Switch to LED Bulbs", "category": "Energy", "difficulty": "Easy", 
-             "description": "Replace traditional bulbs with energy efficient LED lights throughout your home.", 
+            {"title": "Switch to LED Bulbs", "category": "Energy", "difficulty": "Easy",
+             "description": "Replace traditional bulbs with energy efficient LED lights throughout your home.",
              "impact": "Saves 75% energy, reduces 200kg CO₂/year"},
-            {"title": "Collect Rainwater", "category": "Water", "difficulty": "Medium", 
-             "description": "Set up rainwater harvesting system for watering plants and gardens.", 
+            {"title": "Collect Rainwater", "category": "Water", "difficulty": "Medium",
+             "description": "Set up rainwater harvesting system for watering plants and gardens.",
              "impact": "Saves 500+ litres per month"},
-            {"title": "Plant Native Trees", "category": "Nature", "difficulty": "Medium", 
-             "description": "Plant indigenous tree species in your community to restore ecosystem.", 
+            {"title": "Plant Native Trees", "category": "Nature", "difficulty": "Medium",
+             "description": "Plant indigenous tree species in your community to restore ecosystem.",
              "impact": "Absorb 20kg carbon dioxide per tree"},
-            {"title": "Start Composting", "category": "Waste", "difficulty": "Medium", 
-             "description": "Turn food waste into nutrient-rich compost for gardening.", 
+            {"title": "Start Composting", "category": "Waste", "difficulty": "Medium",
+             "description": "Turn food waste into nutrient-rich compost for gardening.",
              "impact": "Diverts 150kg waste from landfills per year"},
-            {"title": "Install Solar Panels", "category": "Energy", "difficulty": "Hard", 
-             "description": "Generate clean energy by installing solar panels on your roof.", 
+            {"title": "Install Solar Panels", "category": "Energy", "difficulty": "Hard",
+             "description": "Generate clean energy by installing solar panels on your roof.",
              "impact": "Saves 3,000kg carbon dioxide per year"},
-            {"title": "Fix Water Leaks", "category": "Water", "difficulty": "Easy", 
-             "description": "Repair dripping taps and leaking pipes to conserve water.", 
+            {"title": "Fix Water Leaks", "category": "Water", "difficulty": "Easy",
+             "description": "Repair dripping taps and leaking pipes to conserve water.",
              "impact": "Saves 20 litres per day"},
-            {"title": "Use Public Transport", "category": "Lifestyle", "difficulty": "Easy", 
-             "description": "Choose buses, trains, or carpool instead of driving alone.", 
+            {"title": "Use Public Transport", "category": "Lifestyle", "difficulty": "Easy",
+             "description": "Choose buses, trains, or carpool instead of driving alone.",
              "impact": "Reduces 1,000kg carbon dioxide per year"},
-            {"title": "Create Wildlife Habitat", "category": "Nature", "difficulty": "Medium", 
-             "description": "Plant native flowers and shrubs to support local pollinators and birds.", 
+            {"title": "Create Wildlife Habitat", "category": "Nature", "difficulty": "Medium",
+             "description": "Plant native flowers and shrubs to support local pollinators and birds.",
              "impact": "Supports 50+ species"},
-            {"title": "Reduce Plastic Use", "category": "Waste", "difficulty": "Easy", 
-             "description": "Use reusable bags, bottles, and containers to minimize plastic waste.", 
+            {"title": "Reduce Plastic Use", "category": "Waste", "difficulty": "Easy",
+             "description": "Use reusable bags, bottles, and containers to minimize plastic waste.",
              "impact": "Prevents 100kg plastic waste per year"},
-            {"title": "Bike to Work", "category": "Lifestyle", "difficulty": "Easy", 
-             "description": "Cycle for short trips instead of driving to reduce emissions.", 
+            {"title": "Bike to Work", "category": "Lifestyle", "difficulty": "Easy",
+             "description": "Cycle for short trips instead of driving to reduce emissions.",
              "impact": "Saves 500kg CO₂ per year"}
         ]
-        
+
         # Filter by category if specified
         if category != 'general' and category != 'all':
-            actions = [action for action in actions 
+            actions = [action for action in actions
                       if action['category'].lower() == category.lower()]
-        
+
         return {"actions": actions, "total": len(actions)}
+
+    def generate_green_task(self, category='general', difficulty=None, location=None):
+        """Generate a single AI-powered green task"""
+        try:
+            if not self.client:
+                return self._generate_fallback_task(category, difficulty)
+
+            # Build prompt for AI task generation
+            prompt = f"""
+            Generate a unique, actionable green environmental task for someone to complete.
+
+            Requirements:
+            - Category: {category}
+            - Difficulty: {difficulty if difficulty else 'any level (easy, medium, or hard)'}
+            - Location context: {location if location else 'general location'}
+
+            The task should be:
+            - Specific and actionable
+            - Realistic and achievable
+            - Environmentally beneficial
+            - Include measurable impact where possible
+
+            Respond with valid JSON in this exact format:
+            {{
+              "title": "Task Title",
+              "category": "{category}",
+              "difficulty": "Easy|Medium|Hard",
+              "description": "Detailed description of what to do",
+              "impact": "Environmental impact or benefit",
+              "time_estimate": "Estimated time to complete",
+              "materials_needed": ["item1", "item2"] or null
+            }}
+            """
+
+            response = self.client.chat.completions.create(
+                model=self.model,
+                messages=[{"role": "user", "content": prompt.strip()}],
+                temperature=self.temperature,
+                max_tokens=self.max_tokens
+            )
+
+            content = response.choices[0].message.content
+            if not content:
+                raise ValueError("Empty AI response")
+
+            task = json.loads(content.strip())
+            return task
+
+        except Exception as e:
+            logger.warning(f"AI task generation failed: {e}")
+            return self._generate_fallback_task(category, difficulty)
+
+    def _generate_fallback_task(self, category, difficulty=None):
+        """Fallback task generation when AI is unavailable"""
+        fallback_tasks = {
+            "energy": [
+                {"title": "Audit Home Energy Use", "difficulty": "Easy", "description": "Go through your home and identify energy-wasting appliances and habits.", "impact": "Identify 10-20% energy savings opportunities", "time_estimate": "30 minutes", "materials_needed": None},
+                {"title": "Install Smart Thermostat", "difficulty": "Medium", "description": "Replace your traditional thermostat with a smart, programmable one.", "impact": "Reduce heating/cooling costs by 10%", "time_estimate": "1 hour", "materials_needed": ["Smart thermostat device"]},
+                {"title": "Home Solar Assessment", "difficulty": "Hard", "description": "Research and get quotes for solar panel installation on your property.", "impact": "Potential for 100% renewable energy", "time_estimate": "2-3 hours", "materials_needed": None}
+            ],
+            "water": [
+                {"title": "Check for Leaks", "difficulty": "Easy", "description": "Inspect all faucets, toilets, and pipes for water leaks.", "impact": "Save up to 10 gallons per day", "time_estimate": "15 minutes", "materials_needed": None},
+                {"title": "Install Low-Flow Fixtures", "difficulty": "Medium", "description": "Replace showerheads and faucets with water-efficient models.", "impact": "Reduce water usage by 40%", "time_estimate": "45 minutes", "materials_needed": ["Low-flow showerhead", "Low-flow faucet aerators"]},
+                {"title": "Create Rain Garden", "difficulty": "Hard", "description": "Design and install a rain garden to manage stormwater runoff.", "impact": "Prevent 1,000+ gallons of runoff annually", "time_estimate": "4-6 hours", "materials_needed": ["Native plants", "Mulch", "Shovel"]}
+            ],
+            "waste": [
+                {"title": "Zero Waste Week Challenge", "difficulty": "Easy", "description": "Try to produce no trash for one week by composting and reusing.", "impact": "Reduce landfill waste by 5-10 lbs", "time_estimate": "7 days", "materials_needed": None},
+                {"title": "Upcycle Old Furniture", "difficulty": "Medium", "description": "Transform old furniture or items into something new and useful.", "impact": "Keep items out of landfill", "time_estimate": "2-4 hours", "materials_needed": ["Paint", "Sandpaper", "Basic tools"]},
+                {"title": "Community Clean-up Event", "difficulty": "Hard", "description": "Organize a neighborhood or park cleanup event.", "impact": "Remove hundreds of pounds of litter", "time_estimate": "4-6 hours", "materials_needed": ["Trash bags", "Gloves", "Safety vests"]}
+            ],
+            "general": [
+                {"title": "Plant a Vegetable Garden", "difficulty": "Easy", "description": "Start a small vegetable garden in containers or a plot.", "impact": "Grow your own food sustainably", "time_estimate": "30 minutes setup", "materials_needed": ["Seeds or seedlings", "Containers or soil"]},
+                {"title": "Conduct Energy Audit", "difficulty": "Medium", "description": "Use an energy audit app or checklist to assess your home's efficiency.", "impact": "Identify energy savings of 15-25%", "time_estimate": "1 hour", "materials_needed": ["Energy audit app or checklist"]},
+                {"title": "Install Home Wind Turbine", "difficulty": "Hard", "description": "Research and install a small residential wind turbine.", "impact": "Generate clean energy for your home", "time_estimate": "Full day + installation", "materials_needed": ["Wind turbine kit", "Installation tools"]}
+            ]
+        }
+
+        # Get tasks for category or fallback to general
+        tasks = fallback_tasks.get(category.lower(), fallback_tasks["general"])
+
+        # Filter by difficulty if specified
+        if difficulty:
+            tasks = [task for task in tasks if task["difficulty"].lower() == difficulty.lower()]
+
+        # Return random task or first one
+        import random
+        selected_task = random.choice(tasks) if tasks else tasks[0]
+
+        # Ensure it has the required fields
+        task_data = {
+            "title": selected_task["title"],
+            "category": category.title(),
+            "difficulty": selected_task["difficulty"],
+            "description": selected_task["description"],
+            "impact": selected_task["impact"],
+            "time_estimate": selected_task.get("time_estimate", "1 hour"),
+            "materials_needed": selected_task.get("materials_needed")
+        }
+
+        return task_data
     
     def categorize_environmental_issue(self, text):
         """Categorize environmental text and provide suggestions"""

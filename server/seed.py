@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import sys
-from main import create_app
-from database import db
+from app import create_app
+from app.database import db
 from app.models.user import User
 from app.models.report import Report
 from app.models.tag import Tag
@@ -14,11 +14,11 @@ def seed_database():
         db.drop_all()
         db.create_all()
         
-        user1 = User(username='john_doe', email='john@example.com')
+        user1 = User(username='john_doe', email='john@example.com', first_name='John', last_name='Doe')
         user1.set_password('password123')
         user1.save()
-        
-        user2 = User(username='jane_smith', email='jane@example.com')
+
+        user2 = User(username='jane_smith', email='jane@example.com', first_name='Jane', last_name='Smith')
         user2.set_password('password123')
         user2.save()
         

@@ -33,7 +33,8 @@ def get_reports(current_user=None):
             'pagination': {
                 'page': page,
                 'per_page': per_page,
-                'total': Report.query.filter_by(is_public=True, status=status).count()
+                'total': Report.query.filter_by(is_public=True, status=status).count(),
+                'pages': (Report.query.filter_by(is_public=True, status=status).count() + per_page - 1) // per_page
             }
         }), 200
 

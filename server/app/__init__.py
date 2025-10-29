@@ -75,7 +75,7 @@ def register_blueprints(app):
     from app.routes.users import users_bp
     from app.routes.comments import comments_bp
     from app.routes.tags import tags_bp
-    
+
     app.register_blueprint(auth_bp, url_prefix='/api/auth')
     app.register_blueprint(reports_bp, url_prefix='/api/reports')
     app.register_blueprint(ai_bp, url_prefix='/api/ai')

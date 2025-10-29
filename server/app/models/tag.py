@@ -22,7 +22,7 @@ class Tag(BaseModel):
             'description': self.description,
             'color': self.color,
             'is_active': self.is_active,
-            'reports_count': len(self.reports),
+            'reports_count': self.reports.count(),
             'created_at': self.created_at.isoformat() if self.created_at else None
         }
     

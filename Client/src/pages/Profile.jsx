@@ -1,16 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import Navbar from '../components/Navbar/Navbar';
-import ProfileCard from '../components/ProfileCard';
-import api from '../services/api';
-import '../styles/Profile.css';
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import ProfileCard from "../components/ProfileCard";
+import api from "../services/api";
+import "../styles/Profile.css";
 
 const Profile = () => {
   const navigate = useNavigate();
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [activeTab, setActiveTab] = useState('overview');
+  const [activeTab, setActiveTab] = useState("overview");
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -36,63 +35,69 @@ const Profile = () => {
         comments_made: 16,
         top_category: "Pollution",
         recent_activities: [
-          { type: "report", text: "Submitted report on plastic waste", time: "3 days ago" },
-          { type: "comment", text: "Commented on deforestation report", time: "7 days ago" }
-        ]
+          {
+            type: "report",
+            text: "Submitted report on plastic waste",
+            time: "3 days ago",
+          },
+          {
+            type: "comment",
+            text: "Commented on deforestation report",
+            time: "7 days ago",
+          },
+        ],
       };
 
       setUserData(mockUserData);
     } catch (err) {
-      console.error('Error fetching profile:', err);
-      setError('Failed to load profile');
+      console.error("Error fetching profile:", err);
+      setError("Failed to load profile");
     } finally {
       setLoading(false);
     }
   };
 
   const handleEditProfile = () => {
-    setActiveTab('edit');
+    setActiveTab("edit");
   };
 
   const handleSaveProfile = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
     const updatedData = {
-      username: formData.get('username'),
-      email: formData.get('email'),
+      username: formData.get("username"),
+      email: formData.get("email"),
     };
 
     try {
-      setUserData(prev => ({ ...prev, ...updatedData }));
-      setActiveTab('overview');
+      setUserData((prev) => ({ ...prev, ...updatedData }));
+      setActiveTab("overview");
     } catch (error) {
-      console.error('Error updating profile:', error);
-      alert('Failed to update profile. Please try again.');
+      console.error("Error updating profile:", error);
+      alert("Failed to update profile. Please try again.");
     }
   };
 
   const handleUpdatePassword = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
-    const currentPassword = formData.get('currentPassword');
-    const newPassword = formData.get('newPassword');
-    const confirmPassword = formData.get('confirmPassword');
+    const currentPassword = formData.get("currentPassword");
+    const newPassword = formData.get("newPassword");
+    const confirmPassword = formData.get("confirmPassword");
 
     if (newPassword !== confirmPassword) {
-      alert('New passwords do not match.');
+      alert("New passwords do not match.");
       return;
     }
 
     try {
-      alert('Password updated successfully!');
+      alert("Password updated successfully!");
       e.target.reset();
     } catch (error) {
-      console.error('Error updating password:', error);
-      alert('Failed to update password. Please try again.');
+      console.error("Error updating password:", error);
+      alert("Failed to update password. Please try again.");
     }
   };
-
-
 
   const handleHome = () => {
     navigate("/");
@@ -119,7 +124,7 @@ const Profile = () => {
   };
 
   const handleSignOut = () => {
-    localStorage.removeItem('token');
+    localStorage.removeItem("token");
     navigate("/");
   };
 
@@ -133,69 +138,77 @@ const Profile = () => {
 
   return (
     <div className="profile-container">
-      <Navbar />
-      <main className="main" style={{ width: '100%', marginLeft: 0 }}>
+      <main className="main" style={{ width: "100%", marginLeft: 0 }}>
         <h1>Profile</h1>
 
         <div className="profile-content">
-          {/* Left Column */}
           <div className="profile-left">
             <ProfileCard userData={userData} onEdit={handleEditProfile} />
           </div>
 
-          {/* Right Column */}
           <div className="profile-right">
-            {/* Overview Section */}
             <div className="overview-section">
               <div className="overview-actions">
                 <button
-                  className={`action-btn ${activeTab === 'overview' ? 'active' : ''}`}
-                  onClick={() => setActiveTab('overview')}
+                  className={`action-btn ${
+                    activeTab === "overview" ? "active" : ""
+                  }`}
+                  onClick={() => setActiveTab("overview")}
                 >
                   Overview
                 </button>
                 <button
-                  className={`action-btn ${activeTab === 'edit' ? 'active' : ''}`}
-                  onClick={() => setActiveTab('edit')}
+                  className={`action-btn ${
+                    activeTab === "edit" ? "active" : ""
+                  }`}
+                  onClick={() => setActiveTab("edit")}
                 >
                   Edit Profile
                 </button>
                 <button
-                  className={`action-btn ${activeTab === 'security' ? 'active' : ''}`}
-                  onClick={() => setActiveTab('security')}
+                  className={`action-btn ${
+                    activeTab === "security" ? "active" : ""
+                  }`}
+                  onClick={() => setActiveTab("security")}
                 >
                   Security
                 </button>
               </div>
             </div>
 
-            {activeTab === 'overview' && (
+            {activeTab === "overview" && (
               <>
-                {/* Activity Summary */}
                 <div className="activity-summary-card">
                   <h2 className="section-subtitle">Activity Summary</h2>
-                  <p className="summary-description">Your environmental impact and contributions</p>
+                  <p className="summary-description">
+                    Your environmental impact and contributions
+                  </p>
 
                   <div className="stats-container">
                     <div className="stat-item">
-                      <div className="stat-number">{userData?.reports_submitted || 0}</div>
+                      <div className="stat-number">
+                        {userData?.reports_submitted || 0}
+                      </div>
                       <div className="stat-label">Reports Submitted</div>
                     </div>
                     <div className="stat-item">
-                      <div className="stat-number">{userData?.comments_made || 0}</div>
+                      <div className="stat-number">
+                        {userData?.comments_made || 0}
+                      </div>
                       <div className="stat-label">Comments Made</div>
                     </div>
                   </div>
                 </div>
 
-                {/* Recent Activity */}
                 <div className="recent-activity-card">
                   <h2 className="section-subtitle">Recent Activity</h2>
 
                   <div className="activity-list">
                     <div className="activity-item">
                       <div className="activity-content">
-                        <p className="activity-text">{userData?.top_category || 'No category'}</p>
+                        <p className="activity-text">
+                          {userData?.top_category || "No category"}
+                        </p>
                         <span className="activity-time">Top Category</span>
                       </div>
                     </div>
@@ -209,22 +222,23 @@ const Profile = () => {
                     ))}
                   </div>
                 </div>
-
-
               </>
             )}
 
-            {activeTab === 'edit' && (
+            {activeTab === "edit" && (
               <div className="edit-profile-section">
                 <h2>Edit Profile</h2>
-                <form className="edit-profile-form" onSubmit={handleSaveProfile}>
+                <form
+                  className="edit-profile-form"
+                  onSubmit={handleSaveProfile}
+                >
                   <div className="form-group">
                     <label htmlFor="username">Username</label>
                     <input
                       type="text"
                       id="username"
                       name="username"
-                      defaultValue={userData?.username || ''}
+                      defaultValue={userData?.username || ""}
                       required
                     />
                   </div>
@@ -234,19 +248,27 @@ const Profile = () => {
                       type="email"
                       id="email"
                       name="email"
-                      defaultValue={userData?.email || ''}
+                      defaultValue={userData?.email || ""}
                       required
                     />
                   </div>
                   <div className="form-actions">
-                    <button type="button" className="cancel-btn" onClick={() => setActiveTab('overview')}>Cancel</button>
-                    <button type="submit" className="save-btn">Save Changes</button>
+                    <button
+                      type="button"
+                      className="cancel-btn"
+                      onClick={() => setActiveTab("overview")}
+                    >
+                      Cancel
+                    </button>
+                    <button type="submit" className="save-btn">
+                      Save Changes
+                    </button>
                   </div>
                 </form>
               </div>
             )}
 
-            {activeTab === 'security' && (
+            {activeTab === "security" && (
               <div className="security-section">
                 <h2>Security Settings</h2>
                 <form className="security-form" onSubmit={handleUpdatePassword}>
@@ -271,7 +293,9 @@ const Profile = () => {
                     />
                   </div>
                   <div className="form-group">
-                    <label htmlFor="confirm-password">Confirm New Password</label>
+                    <label htmlFor="confirm-password">
+                      Confirm New Password
+                    </label>
                     <input
                       type="password"
                       id="confirm-password"
@@ -281,7 +305,9 @@ const Profile = () => {
                     />
                   </div>
                   <div className="form-actions">
-                    <button type="submit" className="save-btn">Update Password</button>
+                    <button type="submit" className="save-btn">
+                      Update Password
+                    </button>
                   </div>
                 </form>
               </div>

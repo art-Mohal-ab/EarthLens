@@ -12,15 +12,27 @@ const Contact = () => {
       <div className="contact-content">
         <form className="contact-form">
           <label htmlFor="email">Your Email:</label>
-          <input type="email" id="email" placeholder="you@example.com" required />
+          <input
+            type="email"
+            id="email"
+            placeholder="you@example.com"
+            required
+          />
 
           <label htmlFor="category">Category:</label>
-          <input type="text" id="category" placeholder="Select a category" required />
+          <input
+            type="text"
+            id="category"
+            placeholder="Select a category"
+            required
+          />
 
           <label htmlFor="message">Message:</label>
           <textarea id="message" placeholder="Write your message..." required />
 
-          <button type="submit" className="send-btn">Send Message</button>
+          <button type="submit" className="send-btn">
+            Send Message
+          </button>
         </form>
 
         <div className="contact-info">
