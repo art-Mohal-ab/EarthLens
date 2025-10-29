@@ -1,6 +1,6 @@
 import React from "react"
 import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom"
-import Footer from "./components/Footer/Footer"
+
 import Report from "./pages/Report.jsx"
 import GreenActions from "./pages/GreenActions.jsx"
 import Dashboard from "./pages/Dashboard.jsx"
@@ -12,9 +12,6 @@ import MyReportspage from "./pages/MyReportspage.jsx"
 import Profile from "./pages/Profile.jsx"
 
 const AppContent = () => {
-  const location = useLocation();
-  const hideFooter = location.pathname === '/green-actions' || location.pathname === '/report' || location.pathname === '/join' || location.pathname === '/login' || location.pathname === '/dashboard' || location.pathname === '/my-reports';
-
   return (
     <div>
       <Routes>
@@ -28,7 +25,6 @@ const AppContent = () => {
         <Route path="/my-reports" element={<MyReportspage />} />
         <Route path="/profile" element={<Profile />} />
       </Routes>
-      {!hideFooter && <Footer/>}
     </div>
   );
 };
