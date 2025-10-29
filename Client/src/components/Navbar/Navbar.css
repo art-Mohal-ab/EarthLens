@@ -35,18 +35,5 @@
     color: rgb(0, 0, 0);
     font-weight: 500;
     margin-left: 40px;
-    text-decoration: none;
-}
-
-.navbar a:last-child {
-    background: #106111;
-    color: #FFFFFF;
-    padding: 6px 12px;
-    border-radius: 4px;
-    transition: background-color 0.3s ease;
-    font-size: 16px;
-}
-
-.navbar a:last-child:hover {
-    background: #0d4f0e;
+    
 }
