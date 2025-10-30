@@ -40,6 +40,13 @@ def create_app(config_name=None):
     # Register error handlers
     register_error_handlers(app)
     
+    # Serve uploaded files
+    @app.route('/uploads/<path:filename>')
+    def serve_upload(filename):
+        from flask import send_from_directory
+        upload_folder = app.config.get('UPLOAD_FOLDER', os.path.join(os.path.dirname(__file__), '..', 'uploads'))
+        return send_from_directory(upload_folder, filename)
+    
     # Health check endpoint
     @app.route('/api/health')
     def health_check():
