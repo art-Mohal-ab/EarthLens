@@ -29,7 +29,7 @@ def optional_auth(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
         try:
-            # Try to verify JWT token
+            
             verify_jwt_in_request(optional=True)
             current_user_id = get_jwt_identity()
 
@@ -42,7 +42,7 @@ def optional_auth(f):
             return f(current_user=current_user, *args, **kwargs)
         
         except Exception:
-            # If JWT verification fails, continue without authentication
+           
             return f(current_user=None, *args, **kwargs)
     
     return decorated_function
