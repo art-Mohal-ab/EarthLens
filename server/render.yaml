@@ -1,0 +1,31 @@
+services:
+  - type: web
+    name: earthlens-api
+    env: python
+    region: oregon
+    plan: free
+    branch: main
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn run:app
+    envVars:
+      - key: FLASK_ENV
+        value: production
+      - key: SECRET_KEY
+        generateValue: true
+      - key: JWT_SECRET_KEY
+        generateValue: true
+      - key: DATABASE_URL
+        fromDatabase:
+          name: earthlens-db
+          property: connectionString
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: FRONTEND_URL
+        value: https://your-frontend-app.vercel.app
+    healthCheckPath: /api/health
+
+databases:
+  - name: earthlens-db
+    plan: free
+    databaseName: earthlens
+    user: earthlens

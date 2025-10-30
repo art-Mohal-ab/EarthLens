@@ -25,7 +25,7 @@ class Config:
     
     # CORS Configuration
     FRONTEND_URL = os.environ.get('FRONTEND_URL', 'http://localhost:3000')
-    CORS_ORIGINS = [FRONTEND_URL, 'http://localhost:5173', 'http://127.0.0.1:5173']
+    CORS_ORIGINS = [FRONTEND_URL, 'http://localhost:5173', 'http://127.0.0.1:5173', 'http://localhost:5174', 'http://localhost:5175', 'http://127.0.0.1:5175']
     
     # Logging
     LOG_LEVEL = os.environ.get('LOG_LEVEL', 'INFO')
@@ -45,7 +45,11 @@ class DevelopmentConfig(Config):
 class ProductionConfig(Config):
     """Production configuration"""
     DEBUG = False
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or 'sqlite:///earthlens.db'
+    # Handle Render's postgres:// vs postgresql:// URL format
+    database_url = os.environ.get('DATABASE_URL', 'sqlite:///earthlens.db')
+    if database_url.startswith('postgres://'):
+        database_url = database_url.replace('postgres://', 'postgresql://', 1)
+    SQLALCHEMY_DATABASE_URI = database_url
     LOG_LEVEL = 'WARNING'
 
 

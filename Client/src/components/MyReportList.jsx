@@ -1,4 +1,5 @@
 import React from 'react';
+import { API_BASE_URL } from '../services/api';
 
 const MyReportList = ({ reports, onEditReport, onDeleteReport, onViewDetails, loading, error, showEditDelete = false }) => {
   if (loading) {
@@ -18,7 +19,11 @@ const MyReportList = ({ reports, onEditReport, onDeleteReport, onViewDetails, lo
       {reports.map((report) => (
         <article key={report.id} className="card">
           <div className="image-section">
-            <img src={report.image_url || '/placeholder.png'} alt={report.title} />
+            <img 
+              src={report.image_url ? `${API_BASE_URL.replace('/api', '')}${report.image_url}` : '/placeholder.png'} 
+              alt={report.title}
+              onError={(e) => { e.target.src = '/placeholder.png'; }}
+            />
           </div>
           <div className="text-section">
             <h3>{report.title}</h3>

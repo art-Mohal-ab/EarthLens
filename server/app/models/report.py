@@ -125,7 +125,9 @@ class Report(BaseModel):
         """Get reports within a radius of given coordinates"""
         # Simple bounding box calculation (for more accuracy, use PostGIS)
         lat_range = radius_km / 111.0  # Rough conversion
-        lng_range = radius_km / (111.0 * abs(latitude))
+        import math
+        lat_radians = math.radians(latitude)
+        lng_range = radius_km / (111.0 * max(abs(math.cos(lat_radians)), 0.01))
         
         return cls.query.filter(
             cls.latitude.between(latitude - lat_range, latitude + lat_range),
