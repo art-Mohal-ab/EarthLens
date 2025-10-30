@@ -258,4 +258,18 @@ For support, email support@earthlens.com or join our community forum.
 
 ---
 
+https://earthlens-2.onrender.com
+##  Acknowledgments
+
+- OpenAI for AI analysis capabilities
+- React and Flask communities
+- Environmental organizations worldwide
+- All contributors and users
+
+##  Support
+
+For support, email support@earthlens.com or join our community forum.
+
+---
+
 

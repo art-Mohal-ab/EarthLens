@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../services/api";
 import { API_BASE_URL } from "../services/api";
+import "../styles/Report.css";
 
 const ReportForm = () => {
   const navigate = useNavigate();

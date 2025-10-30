@@ -19,7 +19,7 @@ const GreenActions = () => {
 
   const fetchGreenActions = async () => {
     try {
-      const response = await fetch("http://localhost:5001/api/ai/green-advice");
+      const response = await fetch("https://earthlens-2.onrender.com/api/ai/green-advice");
       if (response.ok) {
         const data = await response.json();
         setActions(data.actions);
@@ -36,7 +36,7 @@ const GreenActions = () => {
   const generateNewTask = async () => {
     try {
       const response = await fetch(
-        "http://localhost:5001/api/ai/generate-task",
+        "https://earthlens-2.onrender.com/api/ai/generate-task",
         {
           method: "POST",
           headers: {

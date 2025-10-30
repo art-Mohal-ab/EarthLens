@@ -45,7 +45,7 @@ function Dashboard() {
       if (filters.dateFrom) queryParams.append('date_from', filters.dateFrom);
       if (filters.dateTo) queryParams.append('date_to', filters.dateTo);
 
-      const response = await fetch(`http://localhost:5001/api/reports?${queryParams}`, {
+      const response = await fetch(`https://earthlens-2.onrender.com/api/reports?${queryParams}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
