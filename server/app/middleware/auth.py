@@ -10,7 +10,7 @@ def auth_required(f):
     @jwt_required()
     def decorated_function(*args, **kwargs):
         try:
-            current_user_id = get_jwt_identity()
+            current_user_id = int(get_jwt_identity())
             current_user = User.query.get(current_user_id)
             
             if not current_user or not current_user.is_active:
@@ -32,10 +32,10 @@ def optional_auth(f):
             # Try to verify JWT token
             verify_jwt_in_request(optional=True)
             current_user_id = get_jwt_identity()
-            
+
             current_user = None
             if current_user_id:
-                current_user = User.query.get(current_user_id)
+                current_user = User.query.get(int(current_user_id))
                 if not current_user or not current_user.is_active:
                     current_user = None
             
