@@ -77,7 +77,7 @@ EarthLens/
 └── README.md               # This file
 ```
 
-## 🛠️ Installation & Setup
+## Installation & Setup
 
 ### Prerequisites
 - **Node.js** (v18 or higher)
@@ -155,7 +155,7 @@ EarthLens/
 
    The application will be available at `http://localhost:5173`
 
-## 🚀 Usage
+##  Usage
 
 ### For Users
 1. **Sign Up/Login**: Create an account or log in
@@ -169,7 +169,7 @@ EarthLens/
 - **Testing**: Run `npm test` (frontend) and `python -m pytest` (backend)
 - **Linting**: Run `npm run lint` (frontend)
 
-## 🔧 API Endpoints
+##  API Endpoints
 
 ### Authentication
 - `POST /api/auth/register` - User registration
