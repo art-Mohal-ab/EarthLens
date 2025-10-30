@@ -1,9 +1,9 @@
-import React from 'react'
 import './Footer.css'
 
-const Footer = () => {
-    return ( <footer className="footer">
-          <div className="footer-container">
+function Footer() {
+  return (
+    <footer className="footer">
+      <div className="footer-container">
         <div>
           <h2 className="footer-logo">EarthLens</h2>
           <p className="footer-text">Seeing the world through a greener lens.</p>
@@ -23,7 +23,7 @@ const Footer = () => {
           <p>Email: earthlens@gmail.com</p>
           <p>Phone: +254 700 000 000</p>
           <div className="footer-socials">
-            <img src="/assets/facebook.jpeg" alt="Facebook" />
+            <img src="/facebook.jpeg" alt="Facebook" />
             <img src="/insta.jpeg" alt="Instagram" />
             <img src="/twitter.jpeg" alt="Twitter" />
           </div>
@@ -34,7 +34,7 @@ const Footer = () => {
         &copy; 2025 EarthLens. All rights reserved.
       </div>
     </footer>
-    )
+  )
 }
 
 export default Footer
