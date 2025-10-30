@@ -45,7 +45,11 @@ class DevelopmentConfig(Config):
 class ProductionConfig(Config):
     """Production configuration"""
     DEBUG = False
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or 'sqlite:///earthlens.db'
+    # Handle Render's postgres:// vs postgresql:// URL format
+    database_url = os.environ.get('DATABASE_URL', 'sqlite:///earthlens.db')
+    if database_url.startswith('postgres://'):
+        database_url = database_url.replace('postgres://', 'postgresql://', 1)
+    SQLALCHEMY_DATABASE_URI = database_url
     LOG_LEVEL = 'WARNING'
 
 
