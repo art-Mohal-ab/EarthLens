@@ -13,7 +13,7 @@ describe('API Service', () => {
   it('creates axios instance with correct base URL', () => {
     expect(axios.create).toHaveBeenCalledWith(
       expect.objectContaining({
-        baseURL: 'https://earthlens-2.onrender.com/api'
+        baseURL: 'http://localhost:5003/api'
       })
     );
   });

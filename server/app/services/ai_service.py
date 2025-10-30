@@ -11,7 +11,13 @@ class AIService:
     
     def __init__(self):
         self.api_key = os.environ.get('OPENAI_API_KEY')
-        self.client = OpenAI(api_key=self.api_key) if self.api_key else None
+        self.client = None
+        if self.api_key and self.api_key not in ['your-openai-api-key-here', 'your-ope************here', '']:
+            try:
+                self.client = OpenAI(api_key=self.api_key)
+            except Exception as e:
+                logger.warning(f"Failed to initialize OpenAI client: {e}")
+                self.client = None
         self.model = os.environ.get('GPT_MODEL', 'gpt-4o-mini')
         self.temperature = float(os.environ.get('GPT_TEMPERATURE', '0.7'))
         self.max_tokens = int(os.environ.get('GPT_MAX_TOKENS', '500'))
@@ -23,7 +29,6 @@ class AIService:
     def analyze_report(self, report):
         """Analyze an environmental report"""
         try:
-            # Classify the issue
             classification = self.classify_environmental_issue(
                 report.title, 
                 report.description, 

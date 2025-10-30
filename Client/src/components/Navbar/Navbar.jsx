@@ -32,6 +32,7 @@ const Navbar = () => {
         </Link>
         <img src="/logo.png" alt="Earthlens Logo" className="logo-img" />
         <nav className="navbar">
+          <Link to="/dashboard">Dashboard</Link>
           <Link to="/report">Report</Link>
           <Link to="/my-reports">My Reports</Link>
           <Link to="/green-actions">Green Actions</Link>

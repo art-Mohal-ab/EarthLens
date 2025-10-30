@@ -258,7 +258,6 @@ For support, email support@earthlens.com or join our community forum.
 
 ---
 
-https://earthlens-2.onrender.com
 ##  Acknowledgments
 
 - OpenAI for AI analysis capabilities
