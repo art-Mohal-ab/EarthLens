@@ -25,7 +25,7 @@ class Config:
     
     # CORS Configuration
     FRONTEND_URL = os.environ.get('FRONTEND_URL', 'http://localhost:3000')
-    CORS_ORIGINS = [FRONTEND_URL, 'http://localhost:5173', 'http://127.0.0.1:5173', 'http://localhost:5174', 'http://localhost:5175', 'http://127.0.0.1:5175', 'https://earth-lens-9mgz-git-main-art-mohal-abs-projects.vercel.app']
+    CORS_ORIGINS = [FRONTEND_URL, 'http://localhost:5173', 'http://127.0.0.1:5173', 'http://localhost:5174', 'http://localhost:5175', 'http://127.0.0.1:5175']
     
     # Logging
     LOG_LEVEL = os.environ.get('LOG_LEVEL', 'INFO')

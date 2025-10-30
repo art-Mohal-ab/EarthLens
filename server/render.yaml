@@ -21,7 +21,7 @@ services:
       - key: OPENAI_API_KEY
         sync: false
       - key: FRONTEND_URL
-        value: https://earth-lens-9mgz-git-main-art-mohal-abs-projects.vercel.app
+        value: https://your-frontend-app.vercel.app
     healthCheckPath: /api/health
 
 databases:
