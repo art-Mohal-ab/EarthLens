@@ -32,7 +32,7 @@ def create_app(config_name=None):
     jwt = JWTManager(app)
     
     # Setup CORS
-    CORS(app, origins=app.config.get('CORS_ORIGINS', ['*']), supports_credentials=True)
+    CORS(app, resources={r"/api/*": {"origins": "*"}}, allow_headers=["Content-Type", "Authorization"], methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"], supports_credentials=True)
     
     # Register blueprints
     register_blueprints(app)
