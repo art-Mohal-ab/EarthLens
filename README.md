@@ -74,7 +74,7 @@ EarthLens/
 │   ├── migrations/          # Database migrations
 │   ├── requirements.txt     # Python dependencies
 │   └── run.py              # Application entry point
-└── README.md               # This file
+└── README.md               
 ```
 
 ## Installation & Setup
@@ -106,7 +106,7 @@ EarthLens/
 
 4. **Environment configuration**
    ```bash
-   cp .env.example .env  # Create your .env file
+   cp .env.example .env
    ```
 
    Configure the following environment variables:
