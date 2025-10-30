@@ -2,6 +2,13 @@
 
 An AI-powered platform for environmental awareness and community-driven climate action. EarthLens empowers citizens to report environmental issues, analyze them with AI, and take meaningful action for a healthier planet.
 
+**Aligned with UN SDG 13 (Climate Action)** - EarthLens combines user engagement, environmental education, and technology to drive real-world sustainability awareness.
+
+## 🌐 Live Demo
+
+**Frontend**: [https://earth-lens-9mgz-git-main-art-mohal-abs-projects.vercel.app](https://earth-lens-9mgz-git-main-art-mohal-abs-projects.vercel.app)  
+**Backend API**: [https://earthlens-2.onrender.com](https://earthlens-2.onrender.com)
+
 ## Features
 
 ### Core Functionality
