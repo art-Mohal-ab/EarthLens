@@ -31,8 +31,16 @@ def create_app(config_name=None):
     migrate = Migrate(app, db)
     jwt = JWTManager(app)
     
-    # Setup CORS
-    CORS(app, resources={r"/api/*": {"origins": "*"}}, allow_headers=["Content-Type", "Authorization"], methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"], supports_credentials=True)
+    # Setup CORS with environment-based origins
+    cors_origins = app.config.get('CORS_ORIGINS', ['*'])
+    CORS(
+        app, 
+        resources={r"/api/*": {"origins": cors_origins}},
+        allow_headers=["Content-Type", "Authorization"],
+        methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+        supports_credentials=True,
+        expose_headers=["Content-Type", "Authorization"]
+    )
     
     # Register blueprints
     register_blueprints(app)

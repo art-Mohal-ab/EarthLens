@@ -1,7 +1,7 @@
 import os
 import json
 import logging
-from openai import OpenAI
+from groq import Groq
 
 logger = logging.getLogger(__name__)
 
@@ -10,17 +10,17 @@ class AIService:
     """Service for AI-powered environmental analysis"""
     
     def __init__(self):
-        self.api_key = os.environ.get('OPENAI_API_KEY')
+        self.api_key = os.environ.get('GROQ_API_KEY')
         self.client = None
-        if self.api_key and self.api_key not in ['your-openai-api-key-here', 'your-ope************here', '']:
+        if self.api_key and self.api_key not in ['your-groq-api-key-here', 'your-gro************here', '']:
             try:
-                self.client = OpenAI(api_key=self.api_key)
+                self.client = Groq(api_key=self.api_key)
             except Exception as e:
-                logger.warning(f"Failed to initialize OpenAI client: {e}")
+                logger.warning(f"Failed to initialize Groq client: {e}")
                 self.client = None
-        self.model = os.environ.get('GPT_MODEL', 'gpt-4o-mini')
-        self.temperature = float(os.environ.get('GPT_TEMPERATURE', '0.7'))
-        self.max_tokens = int(os.environ.get('GPT_MAX_TOKENS', '500'))
+        self.model = os.environ.get('GROQ_MODEL', 'llama-3.1-70b-versatile')
+        self.temperature = float(os.environ.get('GROQ_TEMPERATURE', '0.7'))
+        self.max_tokens = int(os.environ.get('GROQ_MAX_TOKENS', '500'))
     
     def health_check(self):
         """Check if AI service is available"""

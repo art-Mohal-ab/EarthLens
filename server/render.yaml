@@ -18,8 +18,14 @@ services:
         fromDatabase:
           name: earthlens-db
           property: connectionString
-      - key: OPENAI_API_KEY
+      - key: GROQ_API_KEY
         sync: false
+      - key: GROQ_MODEL
+        value: llama-3.1-70b-versatile
+      - key: GROQ_TEMPERATURE
+        value: 0.7
+      - key: GROQ_MAX_TOKENS
+        value: 500
       - key: FRONTEND_URL
         value: https://your-frontend-app.vercel.app
     healthCheckPath: /api/health

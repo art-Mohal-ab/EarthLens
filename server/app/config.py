@@ -14,10 +14,10 @@ class Config:
     MAX_CONTENT_LENGTH = 16 * 1024 * 1024
     ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
     
-    OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY')
-    GPT_MODEL = os.environ.get('GPT_MODEL', 'gpt-4-turbo')
-    GPT_TEMPERATURE = float(os.environ.get('GPT_TEMPERATURE', '0.7'))
-    GPT_MAX_TOKENS = int(os.environ.get('GPT_MAX_TOKENS', '500'))
+    GROQ_API_KEY = os.environ.get('GROQ_API_KEY')
+    GROQ_MODEL = os.environ.get('GROQ_MODEL', 'llama-3.1-70b-versatile')
+    GROQ_TEMPERATURE = float(os.environ.get('GROQ_TEMPERATURE', '0.7'))
+    GROQ_MAX_TOKENS = int(os.environ.get('GROQ_MAX_TOKENS', '500'))
     
     FRONTEND_URL = os.environ.get('FRONTEND_URL', 'http://localhost:3000')
     CORS_ORIGINS = [FRONTEND_URL, 'http://localhost:5173', 'http://127.0.0.1:5173', 'http://localhost:5174', 'http://localhost:5175', 'http://127.0.0.1:5175']
@@ -38,6 +38,10 @@ class ProductionConfig(Config):
     DEBUG = False
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')
     LOG_LEVEL = 'WARNING'
+    
+    # Production CORS - only allow frontend URL
+    FRONTEND_URL = os.environ.get('FRONTEND_URL')
+    CORS_ORIGINS = [FRONTEND_URL] if FRONTEND_URL else ['*']
 
 
 class TestingConfig(Config):
