@@ -12,4 +12,4 @@
   NODE_VERSION = "20"
 
 [context.production.environment]
-  VITE_API_URL = "https://your-backend-url.onrender.com/api"
+  VITE_API_URL = "https://earthlens-3.onrender.com/api"

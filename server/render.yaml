@@ -25,6 +25,6 @@ services:
       - key: GROQ_MAX_TOKENS
         value: 500
       - key: FRONTEND_URL
-        value: https://your-frontend-app.vercel.app
+        value: https://earthlenss.netlify.app
     healthCheckPath: /api/health
 
