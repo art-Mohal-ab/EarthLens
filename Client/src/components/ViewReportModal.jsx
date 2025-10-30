@@ -1,135 +1,76 @@
-import React, { useState } from 'react';
-import { API_BASE_URL } from '../services/api';
+import React, { useState, useEffect } from 'react';
+import api, { API_BASE_URL } from '../services/api';
 
 const ViewReportModal = ({ report, isOpen, onClose }) => {
-  const getContextualComments = (report) => {
-    const baseComments = {
-      "Waste Management": [
-        {
-          id: 1,
-          user: "Waste Management Expert",
-          text: "This illegal dumping is a serious violation of environmental regulations. The plastic waste can contaminate waterways for years.",
-          avatar: "W",
-          timestamp: "2023-10-15 10:30 AM"
-        },
-        {
-          id: 2,
-          user: "Local Community Member",
-          text: "I've seen this dumping site growing for months. It's affecting the river ecosystem and fish populations.",
-          avatar: "C",
-          timestamp: "2023-10-15 2:45 PM"
-        },
-        {
-          id: 3,
-          user: "Environmental Activist",
-          text: "We need to organize a cleanup and report this to the National Environment Management Authority immediately.",
-          avatar: "A",
-          timestamp: "2023-10-16 9:20 AM"
-        }
-      ],
-      "Air Pollution": [
-        {
-          id: 1,
-          user: "Air Quality Specialist",
-          text: "These emissions likely exceed permitted levels. This could be causing respiratory issues in the surrounding community.",
-          avatar: "A",
-          timestamp: "2023-10-14 11:15 AM"
-        },
-        {
-          id: 2,
-          user: "Local Resident",
-          text: "The smoke from this factory has been getting worse. My children have been having breathing problems.",
-          avatar: "R",
-          timestamp: "2023-10-14 3:30 PM"
-        },
-        {
-          id: 3,
-          user: "Environmental Engineer",
-          text: "This requires immediate inspection by environmental authorities. The factory may need emission controls installed.",
-          avatar: "E",
-          timestamp: "2023-10-15 8:45 AM"
-        }
-      ],
-      "Flooding": [
-        {
-          id: 1,
-          user: "Environmental Expert",
-          text: "This is a serious environmental concern that needs immediate attention. The local authorities should be notified.",
-          avatar: "E",
-          timestamp: "2023-10-15 10:30 AM"
-        },
-        {
-          id: 2,
-          user: "Community Member",
-          text: "I've noticed this issue too. The flooding has been getting worse over the past few months.",
-          avatar: "C",
-          timestamp: "2023-10-15 2:45 PM"
-        },
-        {
-          id: 3,
-          user: "Local Resident",
-          text: "Please help! My home was affected by the flooding last week. We need urgent action.",
-          avatar: "L",
-          timestamp: "2023-10-16 9:20 AM"
-        }
-      ],
-      "Poaching": [
-        {
-          id: 1,
-          user: "Wildlife Conservationist",
-          text: "Poaching threatens endangered species and disrupts the entire ecosystem. This needs to be reported to wildlife authorities immediately.",
-          avatar: "W",
-          timestamp: "2023-10-10 9:00 AM"
-        },
-        {
-          id: 2,
-          user: "Local Guide",
-          text: "I've seen signs of poaching in this area before. The wildlife populations are declining rapidly.",
-          avatar: "G",
-          timestamp: "2023-10-10 1:20 PM"
-        },
-        {
-          id: 3,
-          user: "Conservation Volunteer",
-          text: "We need increased patrols and community education programs to combat poaching in this region.",
-          avatar: "V",
-          timestamp: "2023-10-11 10:30 AM"
-        }
-      ]
-    };
-
-    return baseComments[report?.ai_category] || baseComments["Flooding"];
-  };
-
-  const [comments, setComments] = useState(getContextualComments(report));
+  const [comments, setComments] = useState([]);
   const [isReplying, setIsReplying] = useState(false);
   const [replyText, setReplyText] = useState('');
+  const [loadingComments, setLoadingComments] = useState(false);
+  const [submittingComment, setSubmittingComment] = useState(false);
+  const [aiRecommendations, setAiRecommendations] = useState([]);
+
+  useEffect(() => {
+    if (isOpen && report) {
+      fetchComments();
+      parseAiRecommendations();
+    }
+  }, [isOpen, report]);
+
+  const fetchComments = async () => {
+    try {
+      setLoadingComments(true);
+      const response = await api.get(`/comments/report/${report.id}`);
+      setComments(response.data.comments || []);
+    } catch (error) {
+      console.error('Error fetching comments:', error);
+      setComments([]);
+    } finally {
+      setLoadingComments(false);
+    }
+  };
+
+  const parseAiRecommendations = () => {
+    if (report.ai_advice) {
+      const lines = report.ai_advice.split('\n').filter(line => line.trim());
+      const recommendations = lines
+        .filter(line => line.match(/^[-•*]|^\d+\./))
+        .map(line => line.replace(/^[-•*]|^\d+\./, '').trim())
+        .filter(line => line.length > 0);
+      
+      if (recommendations.length > 0) {
+        setAiRecommendations(recommendations);
+      } else {
+        setAiRecommendations([report.ai_advice]);
+      }
+    } else {
+      setAiRecommendations(['AI analysis is being processed. Check back later for recommendations.']);
+    }
+  };
 
   if (!isOpen || !report) return null;
-
-  const aiRecommendations = [
-    "Contact local environmental authorities to report the issue",
-    "Document the location with GPS coordinates for accurate reporting",
-    "Take additional photos to show the extent of the problem",
-    "Join local community groups focused on environmental protection"
-  ];
 
   const handleReplyClick = () => {
     setIsReplying(!isReplying);
   };
 
-  const handleReplySubmit = () => {
+  const handleReplySubmit = async () => {
     if (replyText.trim()) {
-      const newComment = {
-        id: comments.length + 1,
-        user: "You",
-        text: replyText,
-        avatar: "Y",
-        timestamp: new Date().toLocaleString()
-      };
-      setComments([...comments, newComment]);
-      setReplyText('');
-      setIsReplying(false);
+      try {
+        setSubmittingComment(true);
+        const response = await api.post('/comments', {
+          content: replyText,
+          report_id: report.id
+        });
+        
+        await fetchComments();
+        setReplyText('');
+        setIsReplying(false);
+      } catch (error) {
+        console.error('Error submitting comment:', error);
+        alert('Failed to post comment. Please try again.');
+      } finally {
+        setSubmittingComment(false);
+      }
     }
   };
 
@@ -169,27 +110,53 @@ const ViewReportModal = ({ report, isOpen, onClose }) => {
 
           <div className="view-comments-section">
             <h3>Comments</h3>
-            {comments.map(comment => (
-              <div key={comment.id} className="comment">
-                <div className="comment-avatar">{comment.avatar}</div>
-                <div className="comment-content">
-                  <div className="comment-user">{comment.user}</div>
-                  <div className="comment-text">{comment.text}</div>
-                  <small>{comment.timestamp}</small>
-                  <a href="#" className="comment-reply" onClick={handleReplyClick}>Reply</a>
+            {loadingComments ? (
+              <p>Loading comments...</p>
+            ) : comments.length === 0 ? (
+              <p>No comments yet. Be the first to comment!</p>
+            ) : (
+              comments.map(comment => (
+                <div key={comment.id} className="comment">
+                  <div className="comment-avatar">
+                    {comment.author?.username?.charAt(0).toUpperCase() || 'U'}
+                  </div>
+                  <div className="comment-content">
+                    <div className="comment-user">{comment.author?.username || 'Anonymous'}</div>
+                    <div className="comment-text">{comment.content}</div>
+                    <small>{new Date(comment.created_at).toLocaleString()}</small>
+                    {comment.is_edited && <small className="edited-badge"> (edited)</small>}
+                  </div>
                 </div>
-              </div>
-            ))}
-            {isReplying && (
+              ))
+            )}
+            {!isReplying ? (
+              <button onClick={handleReplyClick} className="add-comment-btn">Add Comment</button>
+            ) : (
               <div className="reply-section">
                 <textarea
                   value={replyText}
                   onChange={(e) => setReplyText(e.target.value)}
-                  placeholder="Write your reply..."
+                  placeholder="Write your comment..."
                   rows="3"
+                  disabled={submittingComment}
                 />
-                <button onClick={handleReplySubmit} className="submit-reply-btn">Submit Reply</button>
-                <button onClick={() => setIsReplying(false)} className="cancel-reply-btn">Cancel</button>
+                <button 
+                  onClick={handleReplySubmit} 
+                  className="submit-reply-btn"
+                  disabled={submittingComment || !replyText.trim()}
+                >
+                  {submittingComment ? 'Posting...' : 'Post Comment'}
+                </button>
+                <button 
+                  onClick={() => {
+                    setIsReplying(false);
+                    setReplyText('');
+                  }} 
+                  className="cancel-reply-btn"
+                  disabled={submittingComment}
+                >
+                  Cancel
+                </button>
               </div>
             )}
           </div>

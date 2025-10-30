@@ -182,13 +182,30 @@
   resize: vertical;
 }
 
+.add-comment-btn {
+  background: #106111;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  margin-top: 15px;
+  width: 100%;
+}
+
+.add-comment-btn:hover {
+  background: #0d4d0d;
+}
+
 .submit-reply-btn,
 .cancel-reply-btn {
-  padding: 6px 12px;
+  padding: 8px 16px;
   border: none;
   border-radius: 4px;
   cursor: pointer;
   margin-right: 8px;
+  font-size: 14px;
 }
 
 .submit-reply-btn {
@@ -196,9 +213,38 @@
   color: white;
 }
 
+.submit-reply-btn:hover:not(:disabled) {
+  background: #1b5e20;
+}
+
+.submit-reply-btn:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
 .cancel-reply-btn {
   background: #f44336;
   color: white;
+}
+
+.cancel-reply-btn:hover:not(:disabled) {
+  background: #d32f2f;
+}
+
+.cancel-reply-btn:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.edited-badge {
+  color: #888;
+  font-style: italic;
+}
+
+.comment + .comment {
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid #e0e0e0;
 }
 
 @media (max-width: 768px) {
