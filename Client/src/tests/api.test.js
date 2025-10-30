@@ -13,7 +13,7 @@ describe('API Service', () => {
   it('creates axios instance with correct base URL', () => {
     expect(axios.create).toHaveBeenCalledWith(
       expect.objectContaining({
-        baseURL: 'http://localhost:5001/api'
+        baseURL: 'http://localhost:5003/api'
       })
     );
   });

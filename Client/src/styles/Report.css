@@ -1,10 +1,9 @@
-:root {
-  --primary-color: #106111;
+ :root {
+  --primary-color: rgb(16, 97, 17);
   --primary-dark: #0b480c;
-  --background-light: #f9fafb;
-  --border-light: #e0e0e0;
-  --text-dark: #333;
-  --shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  --background-light: #f9f9f9;
+  --border-light: #ccc;
+  --text-dark: #0b480c;
 }
 
 /* Reset + Base Styles */

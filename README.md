@@ -81,10 +81,10 @@ EarthLens/
 │   ├── migrations/          # Database migrations
 │   ├── requirements.txt     # Python dependencies
 │   └── run.py              # Application entry point
-└── README.md               # This file
+└── README.md               
 ```
 
-## 🛠️ Installation & Setup
+## Installation & Setup
 
 ### Prerequisites
 - **Node.js** (v18 or higher)
@@ -113,7 +113,7 @@ EarthLens/
 
 4. **Environment configuration**
    ```bash
-   cp .env.example .env  # Create your .env file
+   cp .env.example .env
    ```
 
    Configure the following environment variables:
@@ -162,7 +162,7 @@ EarthLens/
 
    The application will be available at `http://localhost:5173`
 
-## 🚀 Usage
+##  Usage
 
 ### For Users
 1. **Sign Up/Login**: Create an account or log in
@@ -176,7 +176,7 @@ EarthLens/
 - **Testing**: Run `npm test` (frontend) and `python -m pytest` (backend)
 - **Linting**: Run `npm run lint` (frontend)
 
-## 🔧 API Endpoints
+##  API Endpoints
 
 ### Authentication
 - `POST /api/auth/register` - User registration
@@ -251,6 +251,19 @@ python -m pytest
 - CORS configuration for cross-origin requests
 - Secure file upload handling
 - Environment variable management
+
+##  Acknowledgments
+
+- OpenAI for AI analysis capabilities
+- React and Flask communities
+- Environmental organizations worldwide
+- All contributors and users
+
+##  Support
+
+For support, email support@earthlens.com or join our community forum.
+
+---
 
 ##  Acknowledgments
 
