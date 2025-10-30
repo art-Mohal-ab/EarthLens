@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../services/api";
+import { API_BASE_URL } from "../services/api";
 
 const ReportForm = () => {
   const navigate = useNavigate();

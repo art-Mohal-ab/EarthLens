@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import ProfileCard from "../components/ProfileCard";
 import api from "../services/api";
+import { API_BASE_URL } from "../services/api";
 import "../styles/Profile.css";
 
 const Profile = () => {

@@ -1,11 +1,16 @@
 import React from 'react';
 import '../styles/Dashboard.css';
+import { API_BASE_URL } from '../services/api';
 
 const ReportCard = ({ report, onViewDetails, onEditReport, onDeleteReport, showEditDelete = false }) => {
   return (
     <article className="card">
       <div className="image-section">
-        <img src={report.image_url || '/placeholder.png'} alt={report.title} />
+        <img 
+          src={report.image_url ? `${API_BASE_URL.replace('/api', '')}${report.image_url}` : '/placeholder.png'} 
+          alt={report.title} 
+          onError={(e) => { e.target.src = '/placeholder.png'; }}
+        />
       </div>
       <div className="text-section">
         <h3>{report.title}</h3>
@@ -21,7 +26,7 @@ const ReportCard = ({ report, onViewDetails, onEditReport, onDeleteReport, showE
             <strong>AI Recommendations:</strong> {report.ai_advice}
           </div>
         )}
-        {showEditDelete && report.ai_advice && (
+        {showEditDelete && (
           <div className="ai-action-buttons">
             <button className="edit-btn" onClick={() => onEditReport(report)}>Edit</button>
             <button className="delete-btn" onClick={() => onDeleteReport(report.id)}>Delete</button>
