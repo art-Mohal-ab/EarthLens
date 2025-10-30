@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "../styles/GreenActions.css";
 import ActionFeed from "../components/ActionFeed";
 import CategoryTabs from "../components/CategoryTabs";
+import { API_BASE_URL } from "../services/api";
 
 const GreenActions = () => {
   const [actions, setActions] = useState([]);
@@ -19,7 +20,7 @@ const GreenActions = () => {
 
   const fetchGreenActions = async () => {
     try {
-      const response = await fetch("http://localhost:5003/api/ai/green-advice");
+      const response = await fetch(`${API_BASE_URL}/ai/green-advice`);
       if (response.ok) {
         const data = await response.json();
         setActions(data.actions);
@@ -36,7 +37,7 @@ const GreenActions = () => {
   const generateNewTask = async () => {
     try {
       const response = await fetch(
-        "http://localhost:5003/api/ai/generate-task",
+        `${API_BASE_URL}/ai/generate-task`,
         {
           method: "POST",
           headers: {

@@ -4,6 +4,7 @@ import ReportList from "../components/ReportList";
 import FilterBar from "../components/FilterBar";
 import EditReportModal from "../components/EditReportModal";
 import ViewReportModal from "../components/ViewReportModal";
+import { API_BASE_URL } from "../services/api";
 import "../styles/Dashboard.css";
 import "../styles/ViewReportModal.css";
 
@@ -45,7 +46,7 @@ function Dashboard() {
       if (filters.dateFrom) queryParams.append('date_from', filters.dateFrom);
       if (filters.dateTo) queryParams.append('date_to', filters.dateTo);
 
-      const response = await fetch(`http://localhost:5003/api/reports?${queryParams}`, {
+      const response = await fetch(`${API_BASE_URL}/reports?${queryParams}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
