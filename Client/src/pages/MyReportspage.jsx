@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import MyReportList from "../components/MyReportList";
 import EditReportModal from "../components/EditReportModal";
 import api from "../services/api";
+import { API_BASE_URL } from "../services/api";
 import "../styles/MyReportpage.css";
 
 const ReportsPage = () => {
