@@ -6,8 +6,8 @@ An AI-powered platform for environmental awareness and community-driven climate 
 
 ## 🌐 Live Demo
 
-**Frontend**: [https://earth-lens-9mgz-git-main-art-mohal-abs-projects.vercel.app](https://earth-lens-9mgz-git-main-art-mohal-abs-projects.vercel.app)  
-**Backend API**: [https://earthlens-2.onrender.com](https://earthlens-2.onrender.com)
+**Frontend**: [earthlenss.netlify.app](https://earthlenss.netlify.app/) 
+**Backend API**: https://earthlens-3.onrender.com
 
 ## Features
 
