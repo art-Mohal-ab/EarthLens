@@ -1,6 +1,7 @@
 .hero {
     background: url("../../assets/Hero.png") center/cover no-repeat;
-    min-height: 100vh;
+    min-height: 0vh;
+    padding-top: 0px;
     display: flex;
     align-items: center;
     justify-content: center;
