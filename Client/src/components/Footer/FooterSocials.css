@@ -1,0 +1,19 @@
+.footer-socials {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.footer-socials a {
+  display: inline-block;
+  transition: transform 0.2s ease;
+}
+
+.footer-socials a:hover {
+  transform: scale(1.1);
+}
+
+.footer-socials img {
+  width: 25px;
+  height: 25px;
+}

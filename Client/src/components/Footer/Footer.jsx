@@ -1,4 +1,8 @@
 import './Footer.css'
+import './FooterSocials.css'
+import facebookLogo from '../../assets/Facebook.jpg'
+import instagramLogo from '../../assets/Icon.png'
+import twitterLogo from '../../assets/Twitter.png'
 
 function Footer() {
   return (
@@ -23,9 +27,15 @@ function Footer() {
           <p>Email: earthlens@gmail.com</p>
           <p>Phone: +254 700 000 000</p>
           <div className="footer-socials">
-            <img src="/facebook.jpeg" alt="Facebook" />
-            <img src="/insta.jpeg" alt="Instagram" />
-            <img src="/twitter.jpeg" alt="Twitter" />
+            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">
+              <img src={facebookLogo} alt="Facebook" />
+            </a>
+            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">
+              <img src={instagramLogo} alt="Instagram" />
+            </a>
+            <a href="https://twitter.com" target="_blank" rel="noopener noreferrer">
+              <img src={twitterLogo} alt="Twitter" />
+            </a>
           </div>
         </div>
       </div>
