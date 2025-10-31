@@ -6,6 +6,13 @@
   width: 100%;
 }
 
+.cards-section {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding: 2rem 1rem;
+}
+
 .cards-container {
   display: flex;
   flex-wrap: wrap;
@@ -13,6 +20,7 @@
   gap: 2rem;
   max-width: 1200px;
   width: 100%;
+  margin: 0 auto;
 }
 
 .support-card {

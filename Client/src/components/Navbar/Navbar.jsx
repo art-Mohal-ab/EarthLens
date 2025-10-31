@@ -25,12 +25,14 @@ const Navbar = () => {
   if (isAuthenticated && isAuthenticatedPage) {
     return (
       <header className="header">
-        <Link to="/" className="logo">
-          Earth
-          <br />
-          lens
-        </Link>
-        <img src="/logo.png" alt="Earthlens Logo" className="logo-img" />
+        <div className="logo-container">
+          <img src="/logo.png" alt="Earthlens Logo" className="logo-img" />
+          <Link to="/" className="logo">
+            Earth
+            <br />
+            lens
+          </Link>
+        </div>
         <nav className="navbar">
           <Link to="/dashboard">Dashboard</Link>
           <Link to="/report">Report</Link>
@@ -47,12 +49,14 @@ const Navbar = () => {
 
   return (
     <header className="header">
-      <Link to="/" className="logo">
-        Earth
-        <br />
-        lens
-      </Link>
-      <img src="/logo.png" alt="Earthlens Logo" className="logo-img" />
+      <div className="logo-container">
+        <img src="/logo.png" alt="Earthlens Logo" className="logo-img" />
+        <Link to="/" className="logo">
+          Earth
+          <br />
+          lens
+        </Link>
+      </div>
       <nav className="navbar">
         <Link to="/">Home</Link>
         <Link to="/about">About</Link>
